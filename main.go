@@ -20,7 +20,7 @@ func main() {
 	}
 
 	// Create router
-	publicRouter := mux.NewRouter().PathPrefix("/api").Subrouter()
+	publicRouter := mux.NewRouter().PathPrefix("/api/v1").Subrouter()
 	publicRouter.Use(middleware.CORSMiddleware)
 
 	privateRouter := publicRouter.PathPrefix("").Subrouter()
