@@ -7,7 +7,8 @@
     "key": "Ramen"
   },
   "grpc": {
-    "hermes": "localhost:5001"
+    "hermes": "localhost:5001",
+    "mercury": "localhost:5002"
   },
   "jwt": {
     "secret": "sushi",

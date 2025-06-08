@@ -1,55 +1,13 @@
 package middleware
 
 import (
-	"encoding/json"
 	"janus/internal/context"
+	"janus/internal/dependencies/config"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 )
-
-type Config struct {
-	App struct {
-		Address string `json:"address"`
-		Port    int    `json:"port"`
-		Name    string `json:"name"`
-		Debug   bool   `json:"debug"`
-		Key     string `json:"key"`
-	} `json:"app"`
-
-	Grpc struct {
-		Hermes string `json:"hermes"`
-	} `json:"grpc"`
-
-	JWT struct {
-		Secret    string `json:"secret"`
-		ExpiresIn int    `json:"expires_in"`
-	} `json:"jwt"`
-	CORS struct {
-		Enabled bool     `json:"enabled"`
-		Origins []string `json:"origins"`
-		Domain  string   `json:"domain"`
-	} `json:"cors"`
-}
-
-var config Config
-
-func init() {
-	file, err := os.ReadFile("config.json")
-	if err != nil {
-		panic(err)
-	}
-
-	if err := json.Unmarshal(file, &config); err != nil {
-		panic(err)
-	}
-}
-
-func GetConfig() *Config {
-	return &config
-}
 
 type Claims struct {
 	Username string `json:"username"`
@@ -66,7 +24,7 @@ func GenerateToken(username string) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString([]byte(config.JWT.Secret))
+	return token.SignedString([]byte(config.Config.JWT.Secret))
 }
 
 func AuthMiddleware(next http.Handler) http.Handler {
@@ -86,7 +44,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 		claims := &Claims{}
 
 		token, err := jwt.ParseWithClaims(tokenStr, claims, func(token *jwt.Token) (interface{}, error) {
-			return []byte(config.JWT.Secret), nil
+			return []byte(config.Config.JWT.Secret), nil
 		})
 
 		if err != nil || !token.Valid {
@@ -106,14 +64,14 @@ func AuthMiddleware(next http.Handler) http.Handler {
 
 func CORSMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if !config.CORS.Enabled {
+		if !config.Config.CORS.Enabled {
 			next.ServeHTTP(w, r)
 			return
 		}
 
 		origin := r.Header.Get("Origin")
 		if origin != "" {
-			for _, allowedOrigin := range config.CORS.Origins {
+			for _, allowedOrigin := range config.Config.CORS.Origins {
 				if origin == allowedOrigin {
 					w.Header().Set("Access-Control-Allow-Origin", origin)
 					break

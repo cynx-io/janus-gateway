@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"janus/internal/context"
+	"janus/internal/dependencies/config"
 	"net/http"
 
 	"google.golang.org/grpc"
@@ -15,15 +16,14 @@ type UserHandler struct {
 	client pb.HermesUserServiceClient
 }
 
-func NewUserHandler() (*UserHandler, error) {
-	config := middleware.GetConfig()
-	conn, err := grpc.Dial(config.Grpc.Hermes, grpc.WithTransportCredentials(insecure.NewCredentials()))
+func NewUserHandler() *UserHandler {
+	conn, err := grpc.Dial(config.Config.Grpc.Hermes, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		return nil, err
+		panic("Failed to connect to Hermes gRPC server: " + err.Error())
 	}
 
 	client := pb.NewHermesUserServiceClient(conn)
-	return &UserHandler{client: client}, nil
+	return &UserHandler{client: client}
 }
 
 func (h *UserHandler) CheckUsername(w http.ResponseWriter, r *http.Request) {
@@ -45,9 +45,11 @@ func (h *UserHandler) CheckUsername(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(resp)
+	err = handleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
@@ -67,9 +69,11 @@ func (h *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(resp)
+	err = handleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
@@ -117,9 +121,11 @@ func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		SameSite: http.SameSiteLaxMode,
 	})
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(resp)
+	err = handleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *UserHandler) PaginateUsers(w http.ResponseWriter, r *http.Request) {
@@ -147,9 +153,11 @@ func (h *UserHandler) PaginateUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(resp)
+	err = handleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *UserHandler) ValidatePassword(w http.ResponseWriter, r *http.Request) {
@@ -192,7 +200,9 @@ func (h *UserHandler) ValidatePassword(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(resp)
+	err = handleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }

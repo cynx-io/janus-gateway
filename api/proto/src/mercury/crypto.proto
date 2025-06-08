@@ -1,0 +1,137 @@
+syntax = "proto3";
+
+package crypto;
+
+option go_package = "mercury/api/proto/crypto";
+
+service MercuryCryptoService {
+
+  rpc SearchCoin(SearchCoinRequest) returns (SearchCoinResponse) {}
+  rpc GetCoinRisk(GetCoinRiskRequest) returns (GetCoinRiskResponse) {}
+
+}
+
+message BaseResponse {
+  string code = 1;
+  string desc = 2;
+}
+
+message SearchCoinRequest {
+  string query = 1;
+}
+
+message SearchCoinResponse {
+  BaseResponse base = 1;
+  repeated CoinSearchData coins = 2;
+}
+
+message CoinSearchData {
+  string id = 1;
+  string name = 2;
+  string symbol = 3;
+  string thumb = 4;
+  string large = 5;
+}
+
+message GetCoinRiskRequest {
+  string coin_id = 1;
+}
+
+message GetCoinRiskResponse {
+  BaseResponse base = 1;
+
+  TokenInfo token_info = 2;
+  RiskFlags risk_flags = 3;
+  HolderInfo holder_info = 4;
+  SocialInfo social_info = 5;
+  MarketInfo market_info = 6;
+
+  RiskScore risk_score = 7;
+}
+
+message RiskScore {
+  uint32 score = 1; // out of 100
+  string description = 2; // e.g., "Low Risk", "Medium Risk", "High Risk"
+}
+
+message TokenInfo {
+  string name = 1;
+  string symbol = 2;
+  string contract_address = 3;
+  string logo_url = 4;
+  string chain = 5; // "ethereum", "binance-smart-chain", etc.
+  double total_supply = 6;
+  uint32 decimals = 7;
+}
+
+message RiskFlags {
+  RiskFlagFunctions functions = 1;
+  RiskFlag ownership_renounced = 2;
+  RiskFlag verified_contract = 3;
+  RiskFlag is_honeypot = 4;
+  RiskFlag liquidity_locked = 5;
+  RiskFlag recent_deployment = 6;
+  RiskFlag is_proxy           = 7;
+  RiskFlag is_open_source     = 8;
+  RiskFlag is_anti_whale    = 9;
+  RiskFlag is_gas_abuser   = 10;
+
+  string notes = 50; // optional: summary or human-readable risks
+}
+
+message RiskFlagFunctions {
+  RiskFlag mint              = 1;
+  RiskFlag owner             = 2;
+  RiskFlag pause             = 3;
+  RiskFlag unpause           = 4;
+  RiskFlag set_fee_percent     = 5;
+  RiskFlag transfer_ownership = 6;
+  RiskFlag renounce_ownership = 7;
+  RiskFlag disable_transfer = 8;
+  RiskFlag blacklist         = 9;
+  RiskFlag whitelist         = 10;
+  RiskFlag max_tx_amount     = 11;
+}
+
+message RiskFlag {
+  bool value = 1; // true or false
+  uint32 severity = 2; // 0: None, 1: Low, 2: Medium, 3: High
+  string reason = 3; // optional: reason for the risk flag
+}
+
+message HolderInfo {
+  double top_ten_holder_percentage = 1;
+  repeated Holder holders = 2;
+
+  double top_ten_lp_holder_percentage = 3;
+  repeated Holder lp_holders = 4;
+  double lp_locked_percentage = 5;
+  double lp_locked_balance = 6;
+  double lp_total_balance = 7;
+}
+
+message Holder {
+  string address = 1;
+  double percentage = 2;
+  double balance = 3;
+  bool  is_locked = 4;
+}
+
+message SocialInfo {
+  string website = 1;
+  string github = 2;
+  string twitter = 3;
+  string reddit = 4;
+  string description = 5;
+}
+
+message MarketInfo {
+  double market_cap = 1;
+  double volume_24h = 2;
+  double price = 3;
+  double price_change_24h = 4;
+  double price_change_percentage_24h = 5;
+  double circulating_supply = 6;
+  double total_supply = 7;
+  double max_supply = 8;
+}

@@ -3,6 +3,8 @@ package main
 import (
 	"errors"
 	"github.com/gorilla/mux"
+	"janus/internal/dependencies/config"
+	"janus/internal/dependencies/logger"
 	"janus/internal/gateway/handlers"
 	"janus/internal/gateway/middleware"
 	"log"
@@ -13,11 +15,13 @@ import (
 func main() {
 	log.Println("Starting Janus API Gateway")
 
+	// Load configuration
+	logger.Init()
+	config.Init()
+
 	// Create user handler
-	userHandler, err := handlers.NewUserHandler()
-	if err != nil {
-		log.Fatalf("Failed to create user handler: %v", err)
-	}
+	userHandler := handlers.NewUserHandler()
+	cryptoHandler := handlers.NewCryptoHandler()
 
 	// Create router
 	publicRouter := mux.NewRouter().PathPrefix("/api/v1").Subrouter()
@@ -26,14 +30,11 @@ func main() {
 	privateRouter := publicRouter.PathPrefix("").Subrouter()
 	privateRouter.Use(middleware.AuthMiddleware)
 
-	// Register routes
-	publicRouter.HandleFunc("/user/check_username", userHandler.CheckUsername)
-	publicRouter.HandleFunc("/user/register", userHandler.CreateUser)
-	publicRouter.HandleFunc("/user/login", userHandler.ValidatePassword)
+	// Inject routes
+	userHandler.InjectRoutes(publicRouter, privateRouter)
+	cryptoHandler.InjectRoutes(publicRouter, privateRouter)
 
-	privateRouter.HandleFunc("/user/profile", userHandler.GetUser)
-
-	address := ":" + strconv.Itoa(middleware.GetConfig().App.Port)
+	address := ":" + strconv.Itoa(config.Config.App.Port)
 
 	// Create server with middleware
 	server := &http.Server{
@@ -42,8 +43,8 @@ func main() {
 	}
 
 	// Start server
-	log.Printf("HTTP server listening on %s", address)
+	logger.Info("HTTP server listening on ", address)
 	if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
-		log.Fatalf("Failed to start server: %v", err)
+		panic("Failed to start server: " + err.Error())
 	}
 }
