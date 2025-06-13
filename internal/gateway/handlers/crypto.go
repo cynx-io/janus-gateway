@@ -14,7 +14,7 @@ type CryptoHandler struct {
 }
 
 func NewCryptoHandler() *CryptoHandler {
-	conn, err := grpc.Dial(config.Config.Grpc.Mercury, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial(config.Config.Mercury.Url, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		panic("Failed to connect to Mercury gRPC server: " + err.Error())
 	}

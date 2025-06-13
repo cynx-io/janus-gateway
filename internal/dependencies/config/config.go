@@ -19,10 +19,13 @@ type AppConfig struct {
 		Key     string `json:"key"`
 	} `json:"app"`
 
-	Grpc struct {
-		Hermes  string `json:"hermes"`
-		Mercury string `json:"mercury"`
-	} `json:"grpc"`
+	Hermes struct {
+		Url string `json:"url"`
+	} `json:"hermes"`
+
+	Mercury struct {
+		Url string `json:"url"`
+	} `json:"mercury"`
 
 	JWT struct {
 		Secret    string `json:"secret"`

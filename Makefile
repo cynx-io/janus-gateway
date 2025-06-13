@@ -80,4 +80,7 @@ help:
 	@echo ""
 	@echo "Microservices found: $(MICROSERVICES)"
 
-
+build_docker_dev:
+	docker build -t janus-gateway-dev:latest .
+	docker tag janus-gateway-dev:latest derwin334/janus-gateway-dev:latest
+	docker push derwin334/janus-gateway-dev:latest

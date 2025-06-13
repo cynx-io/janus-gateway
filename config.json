@@ -6,9 +6,11 @@
     "debug": true,
     "key": "Ramen"
   },
-  "grpc": {
-    "hermes": "localhost:5001",
-    "mercury": "localhost:5002"
+  "hermes": {
+    "url": "localhost:5001"
+  },
+  "mercury": {
+    "url": "localhost:5002"
   },
   "jwt": {
     "secret": "sushi",

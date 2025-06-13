@@ -1,8 +1,10 @@
 package middleware
 
 import (
+	"errors"
 	"janus/internal/context"
 	"janus/internal/dependencies/config"
+	"janus/internal/dependencies/logger"
 	"net/http"
 	"time"
 
@@ -31,7 +33,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		cookie, err := r.Cookie("token")
 		if err != nil {
-			if err == http.ErrNoCookie {
+			if errors.Is(err, http.ErrNoCookie) {
 				// No token, proceed without auth
 				next.ServeHTTP(w, r)
 				return
@@ -64,30 +66,37 @@ func AuthMiddleware(next http.Handler) http.Handler {
 
 func CORSMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		logger.Debug("CORS Middleware: Processing request")
+
 		if !config.Config.CORS.Enabled {
 			next.ServeHTTP(w, r)
 			return
 		}
 
 		origin := r.Header.Get("Origin")
+		logger.Debug("CORS Middleware: Origin: " + origin)
+
 		if origin != "" {
 			for _, allowedOrigin := range config.Config.CORS.Origins {
+				logger.Debug("CORS Middleware: Checking allowed origin: " + allowedOrigin)
 				if origin == allowedOrigin {
+					logger.Debug("CORS Middleware: Origin allowed: " + origin)
 					w.Header().Set("Access-Control-Allow-Origin", origin)
+					w.Header().Add("Vary", "Origin")
+					w.Header().Set("Access-Control-Allow-Credentials", "true")
 					break
 				}
 			}
 		}
 
-		w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
-		w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
 			return
 		}
-
 		next.ServeHTTP(w, r)
 	})
 }

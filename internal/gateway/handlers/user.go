@@ -17,7 +17,7 @@ type UserHandler struct {
 }
 
 func NewUserHandler() *UserHandler {
-	conn, err := grpc.Dial(config.Config.Grpc.Hermes, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial(config.Config.Hermes.Url, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		panic("Failed to connect to Hermes gRPC server: " + err.Error())
 	}
