@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+import "core/core.proto";
+import "plato/generic.proto";
+import "plato/object.proto";
+import "validate/validate.proto";
+
+package plato;
+
+option go_package = "plato/api/proto";
+
+service PlatoTopicService {
+  rpc InsertTopic(InsertTopicRequest) returns (TopicResponse) {}
+  rpc UpdateTopic(UpdateTopicRequest) returns (TopicResponse) {}
+  rpc DeleteTopic(TopicIdRequest) returns (GenericResponse) {}
+
+  rpc PaginateTopic(PaginateRequest) returns (PaginateTopicResponse) {} // Public
+  rpc GetTopicById(TopicIdRequest) returns (TopicResponse) {} // Public
+  rpc GetTopicBySlug(SlugRequest) returns (TopicResponse) {} // Player Entrypoint
+}
+
+message PaginateTopicResponse {
+  BaseResponse   base = 1;
+  repeated Topic topics = 2;
+}
+
+message TopicResponse {
+  BaseResponse base = 1;
+  Topic topic = 2;
+}
+
+message InsertTopicRequest{
+  BaseRequest base = 1 [(validate.rules).message.required = true];
+  string title = 2;
+  string description = 3;
+  string icon_url = 4;
+  string banner_url = 5;
+  string slug = 6;
+}
+
+
+message UpdateTopicRequest{
+  BaseRequest base = 1 [(validate.rules).message.required = true];
+  uint64 id = 2;
+  optional string title = 3;
+  optional string description = 4;
+  optional string icon_url = 5;
+  optional string banner_url = 6;
+}

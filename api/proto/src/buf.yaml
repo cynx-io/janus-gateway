@@ -1,0 +1,4 @@
+version: v1
+name: github.com/cynxees/janus-gateway
+deps:
+  - buf.build/envoyproxy/protoc-gen-validate

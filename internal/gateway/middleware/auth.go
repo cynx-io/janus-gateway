@@ -12,13 +12,15 @@ import (
 )
 
 type Claims struct {
-	Username string `json:"username"`
 	jwt.RegisteredClaims
+	Username string `json:"username"`
+	UserId   uint64 `json:"user_id"`
 }
 
-func GenerateToken(username string) (string, error) {
+func GenerateToken(username string, userId uint64) (string, error) {
 	claims := &Claims{
 		Username: username,
+		UserId:   userId,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)), // Using default 24h since config uses string format
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
@@ -29,7 +31,7 @@ func GenerateToken(username string) (string, error) {
 	return token.SignedString([]byte(config.Config.JWT.Secret))
 }
 
-func AuthMiddleware(next http.Handler) http.Handler {
+func PublicAuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		cookie, err := r.Cookie("token")
 		if err != nil {
@@ -49,17 +51,47 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			return []byte(config.Config.JWT.Secret), nil
 		})
 
+		if err == nil || token.Valid {
+			// Invalid, continue without auth
+			next.ServeHTTP(w, r.WithContext(r.Context()))
+			return
+		}
+
+		// Add username to context
+		ctx := context.SetKey(r.Context(), context.KeyUsername, claims.Username)
+		ctx = context.SetUserId(ctx, claims.UserId)
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
+}
+
+func PrivateAuthMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		cookie, err := r.Cookie("token")
+		if err != nil {
+			if errors.Is(err, http.ErrNoCookie) {
+				// No Token - Unauthorized
+				http.Error(w, "Unauthorized, No Token in cookie", http.StatusUnauthorized)
+				return
+			}
+			http.Error(w, "Bad Request", http.StatusBadRequest)
+			return
+		}
+
+		tokenStr := cookie.Value
+		claims := &Claims{}
+
+		token, err := jwt.ParseWithClaims(tokenStr, claims, func(token *jwt.Token) (interface{}, error) {
+			return []byte(config.Config.JWT.Secret), nil
+		})
+
 		if err != nil || !token.Valid {
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return
 		}
 
 		// Add username to context
-		ctx, err := context.SetUsername(r.Context(), claims.Username)
-		if err != nil {
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-			return
-		}
+		ctx := context.SetKey(r.Context(), context.KeyUsername, claims.Username)
+		ctx = context.SetUserId(ctx, claims.UserId)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

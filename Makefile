@@ -1,11 +1,20 @@
 tidy:
 	go mod tidy
-	go fmt ./...
-	fieldalignment -fix ./...
-	go vet ./...
-	golangci-lint run --fix ./...
+	go fmt ./internal/...
+	fieldalignment -fix ./internal/...
+	go vet ./internal/...
+	golangci-lint run --fix ./internal/...
+	staticcheck ./internal/...
+
+	go fmt ./main.go
+	fieldalignment -fix ./main.go
+	go vet ./main.go
+	golangci-lint run --fix ./main.go
+	staticcheck ./main.go
 
 run:
+	make clean
+	make proto
 	make tidy
 	go run main.go
 
@@ -18,11 +27,11 @@ install_deps:
 	# apt install build-essential -y
     # curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.1.6
 	go install golang.org/x/tools/go/analysis/passes/fieldalignment/cmd/fieldalignment@latest
+	go install github.com/envoyproxy/protoc-gen-validate@latest
+	go install honnef.co/go/tools/cmd/staticcheck@latest
 	go install github.com/google/wire/cmd/wire@latest
 	go get -u gorm.io/gorm
 	go get -u gorm.io/driver/sqlite
-
-.PHONY: proto proto-clean proto-gen build run deps
 
 # Configuration
 PROTO_SRC_DIR := api/proto/src
@@ -34,53 +43,48 @@ proto-clean:
 	@echo "Cleaning generated proto files..."
 	rm -rf $(PROTO_GEN_DIR)/*
 
+
+
 proto-gen:
 	@echo "Generating proto files..."
 	@for service in $(MICROSERVICES); do \
 		echo "Processing $$service..."; \
 		mkdir -p $(PROTO_GEN_DIR)/$$service; \
-		cd $(PROTO_SRC_DIR)/$$service && \
 		protoc \
-			--go_out=../../gen/$$service \
+			-I=$(PROTO_SRC_DIR) \
+			--go_out=$(PROTO_GEN_DIR)/$$service \
 			--go_opt=paths=source_relative \
-			--go-grpc_out=../../gen/$$service \
+			--go-grpc_out=$(PROTO_GEN_DIR)/$$service \
 			--go-grpc_opt=paths=source_relative \
-			*.proto; \
-		cd - > /dev/null; \
+			--validate_out=lang=go:$(PROTO_GEN_DIR)/$$service \
+			--validate_opt=paths=source_relative \
+			--experimental_allow_proto3_optional \
+			$(PROTO_SRC_DIR)/$$service/*.proto; \
 	done
 
-proto: proto-clean proto-gen
+proto-gen-ts:
+	@echo "Generating proto files..."
+	cd $(PROTO_SRC_DIR) && buf generate
 
-# Build and run
+proto: proto-clean proto-gen proto-gen-ts
+
+
+.PHONY: build
 build: proto
 	@echo "Building application..."
-	go build -o bin/gateway main.go
+	go build -o bin/janus main.go
 
-run: build
-	@echo "Running application..."
-	./bin/gateway
+.PHONY: clean
+clean:
+	@echo "Cleaning generated files..."
+	rm -f api/proto/gen/janus/janus/*.pb.go
+	rm -f bin/janus
 
-# Dependencies
-deps:
-	@echo "Installing dependencies..."
-	go mod tidy
-	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-
-# Help
-help:
-	@echo "Available targets:"
-	@echo "  proto-clean  - Clean generated proto files"
-	@echo "  proto-gen    - Generate proto files"
-	@echo "  proto        - Clean and generate proto files"
-	@echo "  build        - Build the application"
-	@echo "  run          - Run the application"
-	@echo "  deps         - Install dependencies"
-	@echo "  help         - Show this help message"
-	@echo ""
-	@echo "Microservices found: $(MICROSERVICES)"
+.PHONY: all
+all: clean proto build
 
 build_docker_dev:
 	docker build -t janus-gateway-dev:latest .
 	docker tag janus-gateway-dev:latest derwin334/janus-gateway-dev:latest
 	docker push derwin334/janus-gateway-dev:latest
+

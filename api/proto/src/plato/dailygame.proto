@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+import "core/core.proto";
+import "plato/generic.proto";
+import "plato/object.proto";
+import "validate/validate.proto";
+
+package plato;
+
+option go_package = "plato/api/proto";
+
+service PlatoDailyGameService {
+  rpc GetDetailDailyGameById(DailyGameIdRequest) returns (DetailDailyGameResponse) {}
+
+  rpc GetModeDailyGameById(ModeIdRequest) returns (ModeDailyGameResponse) {} // Player
+  rpc GetPublicDailyGame(ModeIdRequest) returns (PublicDailyGameResponse) {} // Player
+  rpc AttemptAnswer(AttemptAnswerRequest) returns (AttemptAnswerResponse) {} // Player
+}
+
+message ModeDailyGameResponse {
+  BaseResponse base = 1;
+  Mode mode = 2;
+  uint64 daily_game_id = 3;
+}
+
+message PublicDailyGameResponse {
+  BaseResponse base = 1;
+  PublicDailyGame public_daily_game = 2;
+}
+
+message DetailDailyGameResponse {
+  BaseResponse base = 1;
+  DetailDailyGame detail_daily_game = 2;
+}
+
+message AttemptAnswerRequest {
+  BaseRequest base = 1 [(validate.rules).message.required = true];
+  uint64 daily_game_id = 2 [(validate.rules).uint64.gt = 0];
+  uint64 answer_id = 4;
+}
+
+message AttemptAnswerResponse {
+  BaseResponse base = 1;
+  bool is_correct = 2;
+  AttemptDetailAnswer attempt_detail_answer = 3;
+  DailyGameAnswerStats daily_game_answer_stats = 4;
+}

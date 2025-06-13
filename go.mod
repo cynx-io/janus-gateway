@@ -1,12 +1,15 @@
-module janus
+module github.com/cynxees/janus-gateway
 
 go 1.21.0
 
 toolchain go1.24.3
 
 require (
+	github.com/elastic/go-elasticsearch v0.0.0
+	github.com/envoyproxy/protoc-gen-validate v1.1.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
-	github.com/golang/protobuf v1.5.3
+	github.com/golang/protobuf v1.5.0
+	github.com/google/uuid v1.6.0
 	github.com/gorilla/mux v1.8.1
 	github.com/joho/godotenv v1.5.1
 	github.com/sirupsen/logrus v1.9.3

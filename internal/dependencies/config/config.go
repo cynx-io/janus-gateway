@@ -11,30 +11,30 @@ import (
 var Config *AppConfig
 
 type AppConfig struct {
-	App struct {
-		Address string `json:"address"`
-		Port    int    `json:"port"`
-		Name    string `json:"name"`
-		Debug   bool   `json:"debug"`
-		Key     string `json:"key"`
-	} `json:"app"`
-
 	Hermes struct {
 		Url string `json:"url"`
 	} `json:"hermes"`
-
 	Mercury struct {
 		Url string `json:"url"`
 	} `json:"mercury"`
-
+	Plato struct {
+		Url string `json:"url"`
+	} `json:"plato"`
 	JWT struct {
 		Secret    string `json:"secret"`
 		ExpiresIn int    `json:"expires_in"`
 	} `json:"jwt"`
+	App struct {
+		Address string `json:"address"`
+		Name    string `json:"name"`
+		Key     string `json:"key"`
+		Port    int    `json:"port"`
+		Debug   bool   `json:"debug"`
+	} `json:"app"`
 	CORS struct {
-		Enabled bool     `json:"enabled"`
-		Origins []string `json:"origins"`
 		Domain  string   `json:"domain"`
+		Origins []string `json:"origins"`
+		Enabled bool     `json:"enabled"`
 	} `json:"cors"`
 }
 
@@ -95,6 +95,9 @@ func bindEnvs(iface interface{}, parentKey string) {
 		}
 
 		// Bind environment variable
-		viper.BindEnv(fullKey)
+		err := viper.BindEnv(fullKey)
+		if err != nil {
+			panic("error binding env: " + err.Error())
+		}
 	}
 }

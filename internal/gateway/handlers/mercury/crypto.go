@@ -1,11 +1,12 @@
-package handlers
+package mercury
 
 import (
 	"encoding/json"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	pb "janus/api/proto/gen/mercury"
+	pb "janus/api/proto/gen/mercury/mercury"
 	"janus/internal/dependencies/config"
+	"janus/internal/gateway/handlers"
 	"net/http"
 )
 
@@ -14,7 +15,7 @@ type CryptoHandler struct {
 }
 
 func NewCryptoHandler() *CryptoHandler {
-	conn, err := grpc.Dial(config.Config.Mercury.Url, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.NewClient(config.Config.Mercury.Url, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		panic("Failed to connect to Mercury gRPC server: " + err.Error())
 	}
@@ -42,7 +43,7 @@ func (h *CryptoHandler) SearchCoin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = handleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
 	if err != nil {
 		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
 		return
@@ -68,7 +69,7 @@ func (h *CryptoHandler) GetCoinRisk(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = handleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
 	if err != nil {
 		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
 		return

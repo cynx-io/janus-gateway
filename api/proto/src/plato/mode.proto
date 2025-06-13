@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+import "core/core.proto";
+import "plato/generic.proto";
+import "plato/object.proto";
+import "validate/validate.proto";
+
+package plato;
+
+option go_package = "plato/api/proto";
+
+service PlatoModeService {
+  rpc GetModeById(ModeIdRequest) returns (ModeResponse) {}
+  rpc InsertMode(InsertModeRequest) returns (ModeResponse) {}
+  rpc UpdateMode(UpdateModeRequest) returns (ModeResponse) {}
+  rpc DeleteMode(ModeIdRequest) returns (GenericResponse) {}
+
+  rpc ListModesByTopicId(TopicIdRequest) returns (ListModesResponse) {} // Player
+}
+
+message ListModesResponse {
+  BaseResponse   base = 1;
+  repeated Mode modes = 2;
+}
+
+message ModeResponse {
+  BaseResponse base = 1;
+  Mode mode = 2;
+
+  uint64 current_daily_game_id = 3;
+  DailyGameGuessStats daily_game_guess_stats = 4;
+}
+
+message InsertModeRequest{
+  BaseRequest base = 1 [(validate.rules).message.required = true];
+  string title = 2;
+  string description = 3;
+  string icon_url = 4;
+  string banner_url = 5;
+  string slug = 6;
+
+  uint64 topic_id = 7;
+}
+
+message UpdateModeRequest{
+  BaseRequest base = 1 [(validate.rules).message.required = true];
+  uint64 id = 2;
+  optional string title = 3;
+  optional string description = 4;
+  optional string icon_url = 5;
+  optional string banner_url = 6;
+}

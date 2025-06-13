@@ -1,0 +1,160 @@
+package plato
+
+import (
+	"encoding/json"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+	pb "janus/api/proto/gen/plato/plato"
+	"janus/internal/dependencies/config"
+	"janus/internal/gateway/handlers"
+	"janus/internal/helper"
+	"net/http"
+)
+
+type AnswerHandler struct {
+	client pb.PlatoAnswerServiceClient
+}
+
+func NewAnswerHandler() *AnswerHandler {
+	conn, err := grpc.NewClient(config.Config.Plato.Url, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		panic("Failed to connect to Plato gRPC server: " + err.Error())
+	}
+
+	client := pb.NewPlatoAnswerServiceClient(conn)
+	return &AnswerHandler{client: client}
+}
+
+// GET /answer?id=123
+func (h *AnswerHandler) GetAnswerById(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("id")
+
+	req := pb.AnswerIdRequest{}
+	var err error
+	req.AnswerId, err = helper.StringToUint64(id)
+	if err != nil {
+		http.Error(w, "Invalid answer ID", http.StatusBadRequest)
+		return
+	}
+
+	resp, err := h.client.GetAnswerById(r.Context(), &req)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	_ = handlers.HandleResponse(w, resp)
+}
+
+// POST /answer/detail with JSON: { "answer_id": 123 }
+func (h *AnswerHandler) GetDetailAnswerById(w http.ResponseWriter, r *http.Request) {
+	var req pb.AnswerIdRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
+		return
+	}
+
+	resp, err := h.client.GetDetailAnswerById(r.Context(), &req)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	_ = handlers.HandleResponse(w, resp)
+}
+
+func (h *AnswerHandler) ListAnswersByTopicId(w http.ResponseWriter, r *http.Request) {
+	var req pb.TopicIdRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
+		return
+	}
+
+	resp, err := h.client.ListAnswersByTopicId(r.Context(), &req)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	_ = handlers.HandleResponse(w, resp)
+}
+
+func (h *AnswerHandler) ListDetailAnswersByTopicId(w http.ResponseWriter, r *http.Request) {
+	var req pb.TopicIdRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
+		return
+	}
+
+	resp, err := h.client.ListDetailAnswersByTopicId(r.Context(), &req)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	_ = handlers.HandleResponse(w, resp)
+}
+
+func (h *AnswerHandler) InsertAnswer(w http.ResponseWriter, r *http.Request) {
+	var req pb.InsertAnswerRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
+		return
+	}
+
+	resp, err := h.client.InsertAnswer(r.Context(), &req)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	_ = handlers.HandleResponse(w, resp)
+}
+
+func (h *AnswerHandler) UpdateAnswer(w http.ResponseWriter, r *http.Request) {
+	var req pb.UpdateAnswerRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
+		return
+	}
+
+	resp, err := h.client.UpdateAnswer(r.Context(), &req)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	_ = handlers.HandleResponse(w, resp)
+}
+
+func (h *AnswerHandler) DeleteAnswer(w http.ResponseWriter, r *http.Request) {
+	var req pb.AnswerIdRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
+		return
+	}
+
+	resp, err := h.client.DeleteAnswer(r.Context(), &req)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	_ = handlers.HandleResponse(w, resp)
+}
+
+func (h *AnswerHandler) SearchAnswers(w http.ResponseWriter, r *http.Request) {
+	var req pb.SearchAnswersRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
+		return
+	}
+
+	resp, err := h.client.SearchAnswers(r.Context(), &req)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	_ = handlers.HandleResponse(w, resp)
+}

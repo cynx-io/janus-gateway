@@ -1,0 +1,7 @@
+version: v1beta1
+name: github.com/cynxees/janus-gateway
+build:
+  roots:
+    - api/proto/src
+deps:
+  - buf.build/validate/validate

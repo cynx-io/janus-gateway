@@ -7,10 +7,13 @@
     "key": "Ramen"
   },
   "hermes": {
-    "url": "localhost:5001"
+    "url": "devspace:31501"
   },
   "mercury": {
-    "url": "localhost:5002"
+    "url": "devspace:31502"
+  },
+  "plato": {
+    "url": "devspace:31503"
   },
   "jwt": {
     "secret": "sushi",

@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func handleResponse(w http.ResponseWriter, resp proto.Message) error {
+func HandleResponse(w http.ResponseWriter, resp proto.Message) error {
 
 	marshaler := protojson.MarshalOptions{
 		EmitUnpopulated: true,
