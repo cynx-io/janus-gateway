@@ -15,6 +15,9 @@
   "plato": {
     "url": "devspace:31503"
   },
+  "elasticsearch": {
+    "url": "http://devspace:32200/"
+  },
   "jwt": {
     "secret": "sushi",
     "expires_in": 24

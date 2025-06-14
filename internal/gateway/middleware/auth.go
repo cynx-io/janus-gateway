@@ -51,7 +51,7 @@ func PublicAuthMiddleware(next http.Handler) http.Handler {
 			return []byte(config.Config.JWT.Secret), nil
 		})
 
-		if err == nil || token.Valid {
+		if err != nil || !token.Valid {
 			// Invalid, continue without auth
 			next.ServeHTTP(w, r.WithContext(r.Context()))
 			return

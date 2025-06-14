@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"github.com/cynxees/janus-gateway/internal/dependencies/config"
+	"github.com/cynxees/janus-gateway/internal/dependencies/elastic"
 	"github.com/cynxees/janus-gateway/internal/dependencies/logger"
 	"github.com/cynxees/janus-gateway/internal/gateway/handlers/hermes"
 	"github.com/cynxees/janus-gateway/internal/gateway/handlers/mercury"
@@ -23,8 +24,8 @@ func main() {
 	config.Init()
 
 	// Load Dependencies
-	es, err := elasticsearch.NewClient(elasticsearch.Config{
-		Addresses: []string{"http://152.53.169.236:32200/"},
+	es, err := elastic.NewClient(elasticsearch.Config{
+		Addresses: []string{config.Config.Elasticsearch.Url},
 	})
 	if err != nil {
 		panic("Failed to create Elasticsearch client: " + err.Error())
@@ -45,13 +46,23 @@ func main() {
 	platoTopicHandler := plato.NewTopicHandler()
 
 	// Create router
-	publicRouter := mux.NewRouter().PathPrefix("").Subrouter()
-	publicRouter.Use(middleware.CORSMiddleware)
-	publicRouter.Use(middleware.PublicAuthMiddleware)
-	publicRouter.Use(logMiddleware.Handler)
+	root := mux.NewRouter()
+	root.Use(middleware.CORSMiddleware)
+	root.Use(middleware.BaseRequestHandler)
 
-	privateRouter := publicRouter.PathPrefix("").Subrouter()
-	privateRouter.Use(middleware.PrivateAuthMiddleware)
+	publicRouter := root.PathPrefix("").Subrouter()
+	publicRouter.Use(
+		middleware.PublicAuthMiddleware,
+		logMiddleware.RequestHandler,
+	)
+	publicRouter.Use(logMiddleware.ResponseHandler)
+
+	privateRouter := root.PathPrefix("/").Subrouter()
+	privateRouter.Use(
+		middleware.PrivateAuthMiddleware,
+		logMiddleware.RequestHandler,
+	)
+	privateRouter.Use(logMiddleware.ResponseHandler)
 
 	// Inject routes
 	userHandler.InjectRoutes(publicRouter, privateRouter)
@@ -67,7 +78,7 @@ func main() {
 	// Create server with middleware
 	server := &http.Server{
 		Addr:    address,
-		Handler: publicRouter,
+		Handler: root,
 	}
 
 	// Start server

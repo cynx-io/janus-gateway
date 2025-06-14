@@ -20,6 +20,9 @@ type AppConfig struct {
 	Plato struct {
 		Url string `json:"url"`
 	} `json:"plato"`
+	Elasticsearch struct {
+		Url string `json:"url"`
+	} `json:"elasticsearch"`
 	JWT struct {
 		Secret    string `json:"secret"`
 		ExpiresIn int    `json:"expires_in"`
