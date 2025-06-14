@@ -2,14 +2,14 @@ package main
 
 import (
 	"errors"
+	"github.com/cynxees/janus-gateway/internal/dependencies/config"
+	"github.com/cynxees/janus-gateway/internal/dependencies/logger"
+	"github.com/cynxees/janus-gateway/internal/gateway/handlers/hermes"
+	"github.com/cynxees/janus-gateway/internal/gateway/handlers/mercury"
+	"github.com/cynxees/janus-gateway/internal/gateway/handlers/plato"
+	"github.com/cynxees/janus-gateway/internal/gateway/middleware"
 	"github.com/elastic/go-elasticsearch"
 	"github.com/gorilla/mux"
-	"janus/internal/dependencies/config"
-	"janus/internal/dependencies/logger"
-	"janus/internal/gateway/handlers/hermes"
-	"janus/internal/gateway/handlers/mercury"
-	"janus/internal/gateway/handlers/plato"
-	"janus/internal/gateway/middleware"
 	"log"
 	"net/http"
 	"strconv"
@@ -24,8 +24,7 @@ func main() {
 
 	// Load Dependencies
 	es, err := elasticsearch.NewClient(elasticsearch.Config{
-		Addresses: nil,
-		Transport: nil,
+		Addresses: []string{"http://152.53.169.236:32200/"},
 	})
 	if err != nil {
 		panic("Failed to create Elasticsearch client: " + err.Error())

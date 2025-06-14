@@ -26,8 +26,14 @@ install_deps:
 	# These needs sudo
 	# apt install build-essential -y
     # curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.1.6
-	go install golang.org/x/tools/go/analysis/passes/fieldalignment/cmd/fieldalignment@latest
+    # Proto
+	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	go install github.com/envoyproxy/protoc-gen-validate@latest
+	npm install -g @bufbuild/protoc-gen-es
+
+	go install golang.org/x/tools/go/analysis/passes/fieldalignment/cmd/fieldalignment@latest
 	go install honnef.co/go/tools/cmd/staticcheck@latest
 	go install github.com/google/wire/cmd/wire@latest
 	go get -u gorm.io/gorm
@@ -43,30 +49,28 @@ proto-clean:
 	@echo "Cleaning generated proto files..."
 	rm -rf $(PROTO_GEN_DIR)/*
 
-
+#proto-gen:
+#	@echo "Generating proto files..."
+#	@for service in $(MICROSERVICES); do \
+#		echo "Processing $$service..."; \
+#		mkdir -p $(PROTO_GEN_DIR)/$$service; \
+#		protoc \
+#			-I=$(PROTO_SRC_DIR) \
+#			--go_out=$(PROTO_GEN_DIR)/$$service \
+#			--go_opt=paths=source_relative \
+#			--go-grpc_out=$(PROTO_GEN_DIR)/$$service \
+#			--go-grpc_opt=paths=source_relative \
+#			--validate_out=lang=go:$(PROTO_GEN_DIR)/$$service \
+#			--validate_opt=paths=source_relative \
+#			--experimental_allow_proto3_optional \
+#			$(PROTO_SRC_DIR)/$$service/*.proto; \
+#	done
 
 proto-gen:
 	@echo "Generating proto files..."
-	@for service in $(MICROSERVICES); do \
-		echo "Processing $$service..."; \
-		mkdir -p $(PROTO_GEN_DIR)/$$service; \
-		protoc \
-			-I=$(PROTO_SRC_DIR) \
-			--go_out=$(PROTO_GEN_DIR)/$$service \
-			--go_opt=paths=source_relative \
-			--go-grpc_out=$(PROTO_GEN_DIR)/$$service \
-			--go-grpc_opt=paths=source_relative \
-			--validate_out=lang=go:$(PROTO_GEN_DIR)/$$service \
-			--validate_opt=paths=source_relative \
-			--experimental_allow_proto3_optional \
-			$(PROTO_SRC_DIR)/$$service/*.proto; \
-	done
+	cd . && buf generate
 
-proto-gen-ts:
-	@echo "Generating proto files..."
-	cd $(PROTO_SRC_DIR) && buf generate
-
-proto: proto-clean proto-gen proto-gen-ts
+proto: proto-clean proto-gen
 
 
 .PHONY: build

@@ -3,7 +3,7 @@ syntax = "proto3";
 import "core/core.proto";
 import "plato/generic.proto";
 import "plato/object.proto";
-import "validate/validate.proto";
+import "buf/validate/validate.proto";
 
 package plato;
 
@@ -32,7 +32,7 @@ message ModeResponse {
 }
 
 message InsertModeRequest{
-  BaseRequest base = 1 [(validate.rules).message.required = true];
+  BaseRequest base = 1 [(buf.validate.field).required = true];
   string title = 2;
   string description = 3;
   string icon_url = 4;
@@ -43,7 +43,7 @@ message InsertModeRequest{
 }
 
 message UpdateModeRequest{
-  BaseRequest base = 1 [(validate.rules).message.required = true];
+  BaseRequest base = 1 [(buf.validate.field).required = true];
   uint64 id = 2;
   optional string title = 3;
   optional string description = 4;

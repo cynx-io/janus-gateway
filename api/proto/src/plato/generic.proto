@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 import "core/core.proto";
-import "validate/validate.proto";
+import "buf/validate/validate.proto";
 
 package plato;
 
@@ -9,44 +9,44 @@ option go_package = "plato/api/proto";
 
 
 message PaginateRequest {
-  BaseRequest base = 1 [(validate.rules).message.required = true];
+  BaseRequest base = 1 [(buf.validate.field).required = true];
   optional int64 limit = 2;
   optional int64 offset = 3;
   optional string keyword = 4;
 }
 
 message SlugRequest {
-  BaseRequest base = 1 [(validate.rules).message.required = true];
+  BaseRequest base = 1 [(buf.validate.field).required = true];
   string slug = 2;
 }
 
 message TopicModeRequest {
-  BaseRequest base = 1 [(validate.rules).message.required = true];
+  BaseRequest base = 1 [(buf.validate.field).required = true];
   uint64 topic_id = 2;
   uint64 mode_id = 3;
 }
 
 message ModeIdRequest {
-  BaseRequest base = 1 [(validate.rules).message.required = true];
+  BaseRequest base = 1 [(buf.validate.field).required = true];
   uint64 mode_id = 2;
 }
 
 message TopicIdRequest {
-  BaseRequest base = 1 [(validate.rules).message.required = true];
+  BaseRequest base = 1 [(buf.validate.field).required = true];
   uint64 topic_id = 2;
 }
 
 message DailyGameIdRequest {
-  BaseRequest base = 1 [(validate.rules).message.required = true];
+  BaseRequest base = 1 [(buf.validate.field).required = true];
   uint64 daily_game_id = 2;
 }
 
 message AnswerIdRequest {
-  BaseRequest base = 1 [(validate.rules).message.required = true];
+  BaseRequest base = 1 [(buf.validate.field).required = true];
   uint64 answer_id = 2;
 }
 
 message AnswerCategoryIdRequest {
-  BaseRequest base = 1 [(validate.rules).message.required = true];
+  BaseRequest base = 1 [(buf.validate.field).required = true];
   uint64 answer_category_id = 2;
 }

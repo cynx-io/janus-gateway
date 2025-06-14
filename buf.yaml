@@ -4,4 +4,5 @@ build:
   roots:
     - api/proto/src
 deps:
-  - buf.build/validate/validate
+  - buf.build/bufbuild/protovalidate
+  - buf.build/googleapis/googleapis

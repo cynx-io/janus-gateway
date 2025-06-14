@@ -3,8 +3,8 @@ package context
 import (
 	"context"
 	"errors"
+	pb "github.com/cynxees/janus-gateway/api/proto/gen/core"
 	"google.golang.org/protobuf/types/known/timestamppb"
-	pb "janus/api/proto/gen/go/core/api/proto"
 	"time"
 )
 

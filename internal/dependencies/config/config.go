@@ -1,9 +1,9 @@
 package config
 
 import (
+	"github.com/cynxees/janus-gateway/internal/dependencies/logger"
 	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
-	"janus/internal/dependencies/logger"
 	"reflect"
 	"strings"
 )

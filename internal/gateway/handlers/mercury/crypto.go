@@ -2,11 +2,11 @@ package mercury
 
 import (
 	"encoding/json"
+	pb "github.com/cynxees/janus-gateway/api/proto/gen/mercury"
+	"github.com/cynxees/janus-gateway/internal/dependencies/config"
+	"github.com/cynxees/janus-gateway/internal/gateway/handlers"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	pb "janus/api/proto/gen/mercury/mercury"
-	"janus/internal/dependencies/config"
-	"janus/internal/gateway/handlers"
 	"net/http"
 )
 

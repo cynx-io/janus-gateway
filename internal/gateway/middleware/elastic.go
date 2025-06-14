@@ -4,12 +4,13 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	pb "github.com/cynxees/janus-gateway/api/proto/gen/core"
+	"github.com/cynxees/janus-gateway/internal/context"
+	"github.com/cynxees/janus-gateway/internal/dependencies/logger"
 	"github.com/elastic/go-elasticsearch"
 	"github.com/google/uuid"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"io"
-	pb "janus/api/proto/gen/go/core/api/proto"
-	"janus/internal/context"
 	"log"
 	"net/http"
 	"time"
@@ -49,7 +50,7 @@ func logToElasticsearch(es *elasticsearch.Client, entry LogEntry) error {
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-
+			logger.Error("Error closing response body: ", err)
 		}
 	}(res.Body)
 

@@ -2,9 +2,9 @@ package middleware
 
 import (
 	"errors"
-	"janus/internal/context"
-	"janus/internal/dependencies/config"
-	"janus/internal/dependencies/logger"
+	"github.com/cynxees/janus-gateway/internal/context"
+	"github.com/cynxees/janus-gateway/internal/dependencies/config"
+	"github.com/cynxees/janus-gateway/internal/dependencies/logger"
 	"net/http"
 	"time"
 

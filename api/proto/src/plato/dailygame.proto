@@ -3,7 +3,7 @@ syntax = "proto3";
 import "core/core.proto";
 import "plato/generic.proto";
 import "plato/object.proto";
-import "validate/validate.proto";
+import "buf/validate/validate.proto";
 
 package plato;
 
@@ -34,8 +34,8 @@ message DetailDailyGameResponse {
 }
 
 message AttemptAnswerRequest {
-  BaseRequest base = 1 [(validate.rules).message.required = true];
-  uint64 daily_game_id = 2 [(validate.rules).uint64.gt = 0];
+  BaseRequest base = 1 [(buf.validate.field).required = true];
+  uint64 daily_game_id = 2;
   uint64 answer_id = 4;
 }
 

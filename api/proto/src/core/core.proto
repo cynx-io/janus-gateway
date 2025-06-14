@@ -1,17 +1,33 @@
 syntax = "proto3";
 
-import "validate/validate.proto";
+import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 
 package plato;
 
-option go_package = "github.com/cynxees/janus-gateway/api/proto/src/core;core";
+option go_package = "github.com/cynxees/janus-gateway/api/proto/gen/core;core";
 
 message BaseRequest {
-  string request_id = 1 [(validate.rules).string = {min_len: 1, max_len: 100}];
-  string request_origin = 2 [(validate.rules).string = {min_len: 1, max_len: 100}];
-  string request_path = 3 [(validate.rules).string = {min_len: 1, max_len: 100}];
-  google.protobuf.Timestamp timestamp = 4;
+  // string length 1–100
+  string request_id = 1 [
+    (buf.validate.field).string.min_len = 1,
+    (buf.validate.field).string.max_len = 100
+  ];
+
+  string request_origin = 2 [
+    (buf.validate.field).string.min_len = 1,
+    (buf.validate.field).string.max_len = 100
+  ];
+
+  string request_path = 3 [
+    (buf.validate.field).string.min_len = 1,
+    (buf.validate.field).string.max_len = 100
+  ];
+
+  // timestamp must be in the past
+  google.protobuf.Timestamp timestamp = 4 [
+    (buf.validate.field).timestamp.lt_now = true
+  ];
 
   optional uint64 user_id = 5;
   optional string username = 6;
@@ -23,9 +39,13 @@ message BaseResponse {
 }
 
 message GenericRequest {
-  BaseRequest base = 1 [(validate.rules).message.required = true];
+  BaseRequest base = 1 [
+    (buf.validate.field).required = true
+  ];
 }
 
 message GenericResponse {
-  BaseResponse base = 1 [(validate.rules).message.required = true];
+  BaseResponse base = 1 [
+    (buf.validate.field).required = true
+  ];
 }
