@@ -20,33 +20,26 @@ func (m *LoggingMiddleware) RequestHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		ctx := r.Context()
+		requestBody := r.Body
+		var bodyBytes []byte
+
+		if requestBody != nil && requestBody != http.NoBody {
+			var err error
+			bodyBytes, err = io.ReadAll(requestBody)
+			if err != nil {
+				log.Printf("Failed to read body: %v", err)
+			}
+			// Replace the body so the next handler can still read it
+			r.Body = io.NopCloser(bytes.NewReader(bodyBytes))
+		} else {
+			requestBody = http.NoBody
+		}
+
 		go func() {
 
 			referer := r.Header.Get("Referer")      // e.g. https://example.com/page
 			host := r.Host                          // e.g. api.myservice.com
 			userAgent := r.Header.Get("User-Agent") // browser or bot details
-
-			requestBody := r.Body
-			if requestBody != nil {
-				defer func(requestBody io.ReadCloser) {
-					err := requestBody.Close()
-					if err != nil {
-						logger.Error("error on closing requestBody during logging middleware", err.Error())
-					}
-				}(requestBody) // Ensure the body is closed after reading
-			} else {
-				requestBody = http.NoBody // Fallback to an empty body if nil
-			}
-
-			var bodyBytes []byte
-			if requestBody != http.NoBody {
-				var err error
-				bodyBytes, err = io.ReadAll(requestBody)
-				if err != nil {
-					log.Printf("Failed to read body: %v", err)
-				}
-				r.Body = io.NopCloser(bytes.NewReader(bodyBytes))
-			}
 
 			baseReq := context.GetBaseRequest(ctx)
 
