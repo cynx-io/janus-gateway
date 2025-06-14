@@ -2,6 +2,7 @@ package plato
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"google.golang.org/grpc"
@@ -38,7 +39,11 @@ func (h *TopicHandler) PaginateTopic(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		log.Printf("Failed to handle response: %v", err)
+		return
+	}
 }
 
 func (h *TopicHandler) GetTopicById(w http.ResponseWriter, r *http.Request) {

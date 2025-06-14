@@ -31,8 +31,6 @@ func (m *LoggingMiddleware) RequestHandler(next http.Handler) http.Handler {
 			}
 			// Replace the body so the next handler can still read it
 			r.Body = io.NopCloser(bytes.NewReader(bodyBytes))
-		} else {
-			requestBody = http.NoBody
 		}
 
 		go func() {
@@ -42,6 +40,20 @@ func (m *LoggingMiddleware) RequestHandler(next http.Handler) http.Handler {
 			userAgent := r.Header.Get("User-Agent") // browser or bot details
 
 			baseReq := context.GetBaseRequest(ctx)
+
+			var bodyMap map[string]interface{}
+			_ = json.Unmarshal(bodyBytes, &bodyMap)
+
+			if base, ok := bodyMap["base"].(map[string]interface{}); ok {
+				if ts, ok := base["timestamp"].(map[string]interface{}); ok {
+					seconds, _ := ts["seconds"].(float64)
+					nanos, _ := ts["nanos"].(float64)
+					t := time.Unix(int64(seconds), int64(nanos))
+					base["timestamp"] = t.Format(time.RFC3339Nano)
+				}
+			}
+
+			modifiedBodyBytes, _ := json.Marshal(bodyMap)
 
 			logEntry := elastic.LogEntry{
 				Timestamp:     baseReq.Timestamp.AsTime(),
@@ -55,13 +67,12 @@ func (m *LoggingMiddleware) RequestHandler(next http.Handler) http.Handler {
 				Referer:       referer,
 				UserAgent:     userAgent,
 				Type:          "REQUEST",
-				Body:          json.RawMessage(bodyBytes),
+				Body:          json.RawMessage(modifiedBodyBytes),
 			}
 
 			// Log to Elasticsearch (ignore error or handle it)
 			if err := m.ElasticClient.LogToElasticsearch(logEntry); err != nil {
-				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-				log.Printf("Failed to log to ES: %v", err)
+				logger.Error("Failed to log to ES: %v", err)
 			}
 		}()
 
@@ -97,6 +108,7 @@ func (m *LoggingMiddleware) ResponseHandler(next http.Handler) http.Handler {
 
 		// let the handler run and write to our captureWriter
 		next.ServeHTTP(cw, r)
+		finishedAt := time.Now()
 
 		go func() {
 			ctx := r.Context()
@@ -108,7 +120,7 @@ func (m *LoggingMiddleware) ResponseHandler(next http.Handler) http.Handler {
 
 			// log to Elasticsearch
 			entry := elastic.LogEntry{
-				Timestamp:     time.Now(),
+				Timestamp:     finishedAt,
 				UserId:        baseReq.UserId,
 				Username:      baseReq.Username,
 				RequestId:     baseReq.RequestId,

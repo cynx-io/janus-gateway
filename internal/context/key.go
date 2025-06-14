@@ -9,7 +9,8 @@ const (
 
 	KeyUsername Key = "username"
 
-	KeyUserId    Key = "user_id"   // uint64
-	KeyTimestamp Key = "timestamp" // time.Time
+	KeyUserId      Key = "user_id"      // uint64
+	KeyTimestamp   Key = "timestamp"    // time.Time
+	KeyBaseRequest Key = "base_request" // *pb.BaseRequest (protobuf message for base request info
 
 )

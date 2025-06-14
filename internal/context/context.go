@@ -2,62 +2,22 @@ package context
 
 import (
 	"context"
-	"errors"
 	pb "github.com/cynxees/janus-gateway/api/proto/gen/core"
-	"google.golang.org/protobuf/types/known/timestamppb"
-	"time"
 )
 
 func GetBaseRequest(ctx context.Context) *pb.BaseRequest {
-
-	timestamp := ctx.Value(KeyTimestamp).(time.Time)
-
-	req := &pb.BaseRequest{
-		RequestId:     GetKeyOrEmpty(ctx, KeyRequestId),
-		RequestOrigin: GetKeyOrEmpty(ctx, KeyRequestOrigin),
-		RequestPath:   GetKeyOrEmpty(ctx, KeyRequestPath),
-		Timestamp:     timestamppb.New(timestamp),
-		UserId:        GetUserId(ctx),
-		Username:      GetKey(ctx, KeyUsername),
+	val := ctx.Value(KeyBaseRequest)
+	if val == nil {
+		return nil
 	}
-	return req
+	if req, ok := val.(*pb.BaseRequest); ok {
+		return req
+	}
+	return nil
 }
 
 func SetBaseRequest(ctx context.Context, req *pb.BaseRequest) (context.Context, error) {
-	if req == nil {
-		return ctx, errors.New("baseRequest cannot be nil")
-	}
-
-	if req.UserId != nil {
-		ctx = SetUserId(ctx, *req.UserId)
-	}
-
-	if req.RequestId != "" {
-		ctx = SetKey(ctx, KeyRequestId, req.RequestId)
-	}
-
-	if req.RequestOrigin != "" {
-		ctx = SetKey(ctx, KeyRequestOrigin, req.RequestOrigin)
-	}
-
-	if req.RequestPath != "" {
-		ctx = SetKey(ctx, KeyRequestPath, req.RequestPath)
-	}
-
-	if req.Username != nil {
-		ctx = SetKey(ctx, KeyUsername, *req.Username)
-	}
-
-	if req.Timestamp != nil {
-		timestamp := req.Timestamp.AsTime()
-		if !timestamp.IsZero() {
-			ctx = context.WithValue(ctx, KeyTimestamp, timestamp)
-		}
-	} else {
-		ctx = context.WithValue(ctx, KeyTimestamp, time.Now())
-	}
-
-	return ctx, nil
+	return context.WithValue(ctx, KeyBaseRequest, req), nil
 }
 
 func SetKey(ctx context.Context, key Key, value string) context.Context {
