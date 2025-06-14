@@ -13,8 +13,9 @@ type Client struct {
 	Client *elasticsearch.Client
 }
 
-func NewClient(cfg elasticsearch.Config) (*Client, error) {
-	client, err := elasticsearch.NewClient(cfg)
+// NewClient need env ELASTICSEARCH_URL
+func NewClient() (*Client, error) {
+	client, err := elasticsearch.NewDefaultClient()
 	if err != nil {
 		return nil, err
 	}

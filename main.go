@@ -9,7 +9,6 @@ import (
 	"github.com/cynxees/janus-gateway/internal/gateway/handlers/mercury"
 	"github.com/cynxees/janus-gateway/internal/gateway/handlers/plato"
 	"github.com/cynxees/janus-gateway/internal/gateway/middleware"
-	"github.com/elastic/go-elasticsearch"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
@@ -24,9 +23,7 @@ func main() {
 	config.Init()
 
 	// Load Dependencies
-	es, err := elastic.NewClient(elasticsearch.Config{
-		Addresses: []string{config.Config.Elasticsearch.Url},
-	})
+	es, err := elastic.NewClient()
 	if err != nil {
 		panic("Failed to create Elasticsearch client: " + err.Error())
 	}
