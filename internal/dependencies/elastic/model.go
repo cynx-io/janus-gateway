@@ -7,7 +7,7 @@ import (
 
 type LogEntry struct {
 	Timestamp     time.Time       `json:"timestamp"`
-	UserId        *uint64         `json:"userId"`
+	UserId        *int32          `json:"userId"`
 	Username      *string         `json:"username"`
 	RequestId     string          `json:"requestId"`
 	RequestOrigin string          `json:"requestOrigin"`

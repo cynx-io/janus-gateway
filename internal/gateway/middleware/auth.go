@@ -15,10 +15,10 @@ import (
 type Claims struct {
 	jwt.RegisteredClaims
 	Username string `json:"username"`
-	UserId   uint64 `json:"user_id"`
+	UserId   int32  `json:"user_id"`
 }
 
-func GenerateToken(username string, userId uint64) (string, error) {
+func GenerateToken(username string, userId int32) (string, error) {
 	claims := &Claims{
 		Username: username,
 		UserId:   userId,
@@ -62,7 +62,7 @@ func PublicAuthMiddleware(next http.Handler) http.Handler {
 		// Add username to context
 		ctx := context.SetKey(r.Context(), context.KeyUsername, claims.Username)
 		ctx = context.SetUserId(ctx, claims.UserId)
-		logger.Debug("[PUBLIC AUTH] Success set for: " + claims.Username + " (UserID: " + strconv.FormatUint(claims.UserId, 10) + ")")
+		logger.Debug("[PUBLIC AUTH] Success set for: " + claims.Username + " (UserID: " + strconv.Itoa(int(claims.UserId)) + ")")
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
@@ -100,7 +100,7 @@ func PrivateAuthMiddleware(next http.Handler) http.Handler {
 		ctx := context.SetKey(r.Context(), context.KeyUsername, claims.Username)
 		ctx = context.SetUserId(ctx, claims.UserId)
 
-		logger.Debug("[PRIVATE AUTH] Success set for: " + claims.Username + " (UserID: " + strconv.FormatUint(claims.UserId, 10) + ")")
+		logger.Debug("[PRIVATE AUTH] Success set for: ", claims.Username, " (UserID: ", claims.UserId, ")")
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

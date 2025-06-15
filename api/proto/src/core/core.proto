@@ -29,7 +29,7 @@ message BaseRequest {
     (buf.validate.field).timestamp.lt_now = true
   ];
 
-  optional uint64 user_id = 5;
+  optional int32 user_id = 5;
   optional string username = 6;
 }
 

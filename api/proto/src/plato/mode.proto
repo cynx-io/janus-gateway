@@ -27,7 +27,7 @@ message ModeResponse {
   BaseResponse base = 1;
   Mode mode = 2;
 
-  uint64 current_daily_game_id = 3;
+  int32 current_daily_game_id = 3;
   DailyGameGuessStats daily_game_guess_stats = 4;
 }
 
@@ -39,12 +39,12 @@ message InsertModeRequest{
   string banner_url = 5;
   string slug = 6;
 
-  uint64 topic_id = 7;
+  int32 topic_id = 7;
 }
 
 message UpdateModeRequest{
   BaseRequest base = 1 [(buf.validate.field).required = true];
-  uint64 id = 2;
+  int32 id = 2;
   optional string title = 3;
   optional string description = 4;
   optional string icon_url = 5;

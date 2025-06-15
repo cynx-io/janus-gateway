@@ -51,7 +51,7 @@ message GetCoinRiskResponse {
 }
 
 message RiskScore {
-  uint32 score = 1; // out of 100
+  int32 score = 1; // out of 100
   string description = 2; // e.g., "Low Risk", "Medium Risk", "High Risk"
 }
 
@@ -62,7 +62,7 @@ message TokenInfo {
   string logo_url = 4;
   string chain = 5; // "ethereum", "binance-smart-chain", etc.
   double total_supply = 6;
-  uint32 decimals = 7;
+  int32 decimals = 7;
 }
 
 message RiskFlags {
@@ -95,7 +95,7 @@ message RiskFlagFunctions {
 
 message RiskFlag {
   bool value = 1; // true or false
-  uint32 severity = 2; // 0: None, 1: Low, 2: Medium, 3: High
+  int32 severity = 2; // 0: None, 1: Low, 2: Medium, 3: High
   string reason = 3; // optional: reason for the risk flag
 }
 

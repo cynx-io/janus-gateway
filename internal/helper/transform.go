@@ -2,16 +2,16 @@ package helper
 
 import "errors"
 
-func StringToUint64(s string) (uint64, error) {
+func StringToint32(s string) (int32, error) {
 	if s == "" {
 		return 0, nil
 	}
-	var result uint64
+	var result int32
 	for _, c := range s {
 		if c < '0' || c > '9' {
-			return 0, errors.New("failed parsing uint64")
+			return 0, errors.New("failed parsing int32")
 		}
-		result = result*10 + uint64(c-'0')
+		result = result*10 + int32(c-'0')
 	}
 	return result, nil
 }

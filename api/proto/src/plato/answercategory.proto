@@ -33,7 +33,7 @@ message InsertAnswerCategoryRequest{
   string type = 3;
   string value = 4;
 
-  uint64 answer_id = 6;
+  int32 answer_id = 6;
 }
 
 message UpdateAnswerCategoryRequest{
@@ -42,5 +42,5 @@ message UpdateAnswerCategoryRequest{
   optional string type = 3;
   optional string value = 4;
 
-  uint64 answer_category_id = 5;
+  int32 answer_category_id = 5;
 }

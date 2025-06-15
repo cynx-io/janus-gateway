@@ -17,7 +17,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file plato/mode.proto.
  */
 export const file_plato_mode: GenFile = /*@__PURE__*/
-  fileDesc("ChBwbGF0by9tb2RlLnByb3RvEgVwbGF0byJSChFMaXN0TW9kZXNSZXNwb25zZRIhCgRiYXNlGAEgASgLMhMucGxhdG8uQmFzZVJlc3BvbnNlEhoKBW1vZGVzGAIgAygLMgsucGxhdG8uTW9kZSKnAQoMTW9kZVJlc3BvbnNlEiEKBGJhc2UYASABKAsyEy5wbGF0by5CYXNlUmVzcG9uc2USGQoEbW9kZRgCIAEoCzILLnBsYXRvLk1vZGUSHQoVY3VycmVudF9kYWlseV9nYW1lX2lkGAMgASgEEjoKFmRhaWx5X2dhbWVfZ3Vlc3Nfc3RhdHMYBCABKAsyGi5wbGF0by5EYWlseUdhbWVHdWVzc1N0YXRzIqcBChFJbnNlcnRNb2RlUmVxdWVzdBIoCgRiYXNlGAEgASgLMhIucGxhdG8uQmFzZVJlcXVlc3RCBrpIA8gBARINCgV0aXRsZRgCIAEoCRITCgtkZXNjcmlwdGlvbhgDIAEoCRIQCghpY29uX3VybBgEIAEoCRISCgpiYW5uZXJfdXJsGAUgASgJEgwKBHNsdWcYBiABKAkSEAoIdG9waWNfaWQYByABKAQi3QEKEVVwZGF0ZU1vZGVSZXF1ZXN0EigKBGJhc2UYASABKAsyEi5wbGF0by5CYXNlUmVxdWVzdEIGukgDyAEBEgoKAmlkGAIgASgEEhIKBXRpdGxlGAMgASgJSACIAQESGAoLZGVzY3JpcHRpb24YBCABKAlIAYgBARIVCghpY29uX3VybBgFIAEoCUgCiAEBEhcKCmJhbm5lcl91cmwYBiABKAlIA4gBAUIICgZfdGl0bGVCDgoMX2Rlc2NyaXB0aW9uQgsKCV9pY29uX3VybEINCgtfYmFubmVyX3VybDLTAgoQUGxhdG9Nb2RlU2VydmljZRI6CgtHZXRNb2RlQnlJZBIULnBsYXRvLk1vZGVJZFJlcXVlc3QaEy5wbGF0by5Nb2RlUmVzcG9uc2UiABI9CgpJbnNlcnRNb2RlEhgucGxhdG8uSW5zZXJ0TW9kZVJlcXVlc3QaEy5wbGF0by5Nb2RlUmVzcG9uc2UiABI9CgpVcGRhdGVNb2RlEhgucGxhdG8uVXBkYXRlTW9kZVJlcXVlc3QaEy5wbGF0by5Nb2RlUmVzcG9uc2UiABI8CgpEZWxldGVNb2RlEhQucGxhdG8uTW9kZUlkUmVxdWVzdBoWLnBsYXRvLkdlbmVyaWNSZXNwb25zZSIAEkcKEkxpc3RNb2Rlc0J5VG9waWNJZBIVLnBsYXRvLlRvcGljSWRSZXF1ZXN0GhgucGxhdG8uTGlzdE1vZGVzUmVzcG9uc2UiAEIRWg9wbGF0by9hcGkvcHJvdG9iBnByb3RvMw", [file_core_core, file_plato_generic, file_plato_object, file_buf_validate_validate]);
+  fileDesc("ChBwbGF0by9tb2RlLnByb3RvEgVwbGF0byJSChFMaXN0TW9kZXNSZXNwb25zZRIhCgRiYXNlGAEgASgLMhMucGxhdG8uQmFzZVJlc3BvbnNlEhoKBW1vZGVzGAIgAygLMgsucGxhdG8uTW9kZSKnAQoMTW9kZVJlc3BvbnNlEiEKBGJhc2UYASABKAsyEy5wbGF0by5CYXNlUmVzcG9uc2USGQoEbW9kZRgCIAEoCzILLnBsYXRvLk1vZGUSHQoVY3VycmVudF9kYWlseV9nYW1lX2lkGAMgASgFEjoKFmRhaWx5X2dhbWVfZ3Vlc3Nfc3RhdHMYBCABKAsyGi5wbGF0by5EYWlseUdhbWVHdWVzc1N0YXRzIqcBChFJbnNlcnRNb2RlUmVxdWVzdBIoCgRiYXNlGAEgASgLMhIucGxhdG8uQmFzZVJlcXVlc3RCBrpIA8gBARINCgV0aXRsZRgCIAEoCRITCgtkZXNjcmlwdGlvbhgDIAEoCRIQCghpY29uX3VybBgEIAEoCRISCgpiYW5uZXJfdXJsGAUgASgJEgwKBHNsdWcYBiABKAkSEAoIdG9waWNfaWQYByABKAUi3QEKEVVwZGF0ZU1vZGVSZXF1ZXN0EigKBGJhc2UYASABKAsyEi5wbGF0by5CYXNlUmVxdWVzdEIGukgDyAEBEgoKAmlkGAIgASgFEhIKBXRpdGxlGAMgASgJSACIAQESGAoLZGVzY3JpcHRpb24YBCABKAlIAYgBARIVCghpY29uX3VybBgFIAEoCUgCiAEBEhcKCmJhbm5lcl91cmwYBiABKAlIA4gBAUIICgZfdGl0bGVCDgoMX2Rlc2NyaXB0aW9uQgsKCV9pY29uX3VybEINCgtfYmFubmVyX3VybDLTAgoQUGxhdG9Nb2RlU2VydmljZRI6CgtHZXRNb2RlQnlJZBIULnBsYXRvLk1vZGVJZFJlcXVlc3QaEy5wbGF0by5Nb2RlUmVzcG9uc2UiABI9CgpJbnNlcnRNb2RlEhgucGxhdG8uSW5zZXJ0TW9kZVJlcXVlc3QaEy5wbGF0by5Nb2RlUmVzcG9uc2UiABI9CgpVcGRhdGVNb2RlEhgucGxhdG8uVXBkYXRlTW9kZVJlcXVlc3QaEy5wbGF0by5Nb2RlUmVzcG9uc2UiABI8CgpEZWxldGVNb2RlEhQucGxhdG8uTW9kZUlkUmVxdWVzdBoWLnBsYXRvLkdlbmVyaWNSZXNwb25zZSIAEkcKEkxpc3RNb2Rlc0J5VG9waWNJZBIVLnBsYXRvLlRvcGljSWRSZXF1ZXN0GhgucGxhdG8uTGlzdE1vZGVzUmVzcG9uc2UiAEIRWg9wbGF0by9hcGkvcHJvdG9iBnByb3RvMw", [file_core_core, file_plato_generic, file_plato_object, file_buf_validate_validate]);
 
 /**
  * @generated from message plato.ListModesResponse
@@ -56,9 +56,9 @@ export type ModeResponse = Message<"plato.ModeResponse"> & {
   mode?: Mode;
 
   /**
-   * @generated from field: uint64 current_daily_game_id = 3;
+   * @generated from field: int32 current_daily_game_id = 3;
    */
-  currentDailyGameId: bigint;
+  currentDailyGameId: number;
 
   /**
    * @generated from field: plato.DailyGameGuessStats daily_game_guess_stats = 4;
@@ -108,9 +108,9 @@ export type InsertModeRequest = Message<"plato.InsertModeRequest"> & {
   slug: string;
 
   /**
-   * @generated from field: uint64 topic_id = 7;
+   * @generated from field: int32 topic_id = 7;
    */
-  topicId: bigint;
+  topicId: number;
 };
 
 /**
@@ -130,9 +130,9 @@ export type UpdateModeRequest = Message<"plato.UpdateModeRequest"> & {
   base?: BaseRequest;
 
   /**
-   * @generated from field: uint64 id = 2;
+   * @generated from field: int32 id = 2;
    */
-  id: bigint;
+  id: number;
 
   /**
    * @generated from field: optional string title = 3;

@@ -20,7 +20,7 @@ service PlatoDailyGameService {
 message ModeDailyGameResponse {
   BaseResponse base = 1;
   Mode mode = 2;
-  uint64 daily_game_id = 3;
+  int32 daily_game_id = 3;
 }
 
 message PublicDailyGameResponse {
@@ -35,8 +35,8 @@ message DetailDailyGameResponse {
 
 message AttemptAnswerRequest {
   BaseRequest base = 1 [(buf.validate.field).required = true];
-  uint64 daily_game_id = 2;
-  uint64 answer_id = 4;
+  int32 daily_game_id = 2;
+  int32 answer_id = 4;
 }
 
 message AttemptAnswerResponse {

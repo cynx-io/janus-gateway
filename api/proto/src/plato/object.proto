@@ -7,8 +7,8 @@ package plato;
 option go_package = "plato/api/proto";
 
 message Topic {
-  uint64 id = 1;
-  uint64 user_id = 2;
+  int32 id = 1;
+  int32 user_id = 2;
   string title = 3;
   string description = 4;
   string icon_url = 5;
@@ -18,20 +18,20 @@ message Topic {
 }
 
 message Mode {
-  uint64 id = 1;
+  int32 id = 1;
   string title = 2;
   string description = 3;
   optional string icon_url = 4;
 
-  uint64 topic_id = 6;
+  int32 topic_id = 6;
 }
 
 message Answer {
-  uint64 id = 1;
+  int32 id = 1;
   string name = 2;
   string icon_url = 3;
 
-  uint64 topic_id = 4;
+  int32 topic_id = 4;
 }
 
 message DetailAnswer {
@@ -45,17 +45,17 @@ message AttemptDetailAnswer {
 }
 
 message AnswerCategory {
-  uint64 id = 1;
+  int32 id = 1;
   string name = 2;
   string type = 3;
   string value =4;
 
-  uint64  topic_id = 5;
-  uint64  answer_id = 6;
+  int32  topic_id = 5;
+  int32  answer_id = 6;
 }
 
 message AttemptAnswerCategory {
-  uint64 id = 1;
+  int32 id = 1;
   string name = 2;
   string type = 3;
   string value =4;
@@ -66,44 +66,44 @@ message AttemptAnswerCategory {
         Type == "number" : Scale from -5 to 5
         Type == "string" : 0 false, 1 partial, 2 true
    */
-  int64 correctness = 5;
+  int32 correctness = 5;
 
-  uint64  topic_id = 15;
-  uint64  answer_id = 16;
+  int32  topic_id = 15;
+  int32  answer_id = 16;
 }
 
 message DailyGame {
-  uint64 id = 1;
+  int32 id = 1;
   google.protobuf.Timestamp date = 3;
 
-  uint64 answer_id = 10;
-  uint64 mode_id = 11;
-  uint64 topic_id = 12;
+  int32 answer_id = 10;
+  int32 mode_id = 11;
+  int32 topic_id = 12;
 }
 
 message DailyGameAnswerStats{
-  uint64 total_guesses = 2;
+  int32 total_guesses = 2;
 
-  uint64 daily_game_id = 10;
-  uint64 answer_id = 11;
+  int32 daily_game_id = 10;
+  int32 answer_id = 11;
 }
 
 message DetailDailyGameAnswerStats{
-  uint64 total_guesses = 2;
-  uint64 correct_guesses = 3;
-  uint64 incorrect_guesses = 4;
+  int32 total_guesses = 2;
+  int32 correct_guesses = 3;
+  int32 incorrect_guesses = 4;
 
-  uint64 daily_game_id = 10;
-  uint64 answer_id = 11;
+  int32 daily_game_id = 10;
+  int32 answer_id = 11;
   DetailAnswer detail_answer = 12;
 }
 
 message DailyGameGuessStats{
-  uint64 total_guesses = 2;
-  uint64 correct_guesses = 3;
-  uint64 incorrect_guesses = 4;
+  int32 total_guesses = 2;
+  int32 correct_guesses = 3;
+  int32 incorrect_guesses = 4;
 
-  uint64 daily_game_id = 10;
+  int32 daily_game_id = 10;
 }
 
 message DetailDailyGame {
@@ -115,8 +115,8 @@ message DetailDailyGame {
 }
 
 message PublicDailyGame {
-  uint64 daily_game_id = 1;
+  int32 daily_game_id = 1;
   google.protobuf.Timestamp date = 2;
-  uint64 total_guesses = 3;
-  uint64 total_correct_guesses = 4;
+  int32 total_guesses = 3;
+  int32 total_correct_guesses = 4;
 }

@@ -27,7 +27,7 @@ func SetKey(ctx context.Context, key Key, value string) context.Context {
 	return context.WithValue(ctx, key, value)
 }
 
-func SetUserId(ctx context.Context, userId uint64) context.Context {
+func SetUserId(ctx context.Context, userId int32) context.Context {
 	return context.WithValue(ctx, KeyUserId, userId)
 }
 
@@ -59,13 +59,13 @@ func GetKey(ctx context.Context, key Key) *string {
 	return &strValue
 }
 
-func GetUserId(ctx context.Context) *uint64 {
+func GetUserId(ctx context.Context) *int32 {
 	value := ctx.Value(KeyUserId)
 	if value == nil {
 		return nil
 	}
 
-	userId, ok := value.(uint64)
+	userId, ok := value.(int32)
 	if !ok {
 		return nil
 	}
