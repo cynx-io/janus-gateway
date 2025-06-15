@@ -10,11 +10,10 @@ import (
 	pb "github.com/cynxees/janus-gateway/api/proto/gen/plato"
 	"github.com/cynxees/janus-gateway/internal/dependencies/config"
 	"github.com/cynxees/janus-gateway/internal/gateway/handlers"
-	"github.com/cynxees/janus-gateway/internal/helper"
 )
 
 type AnswerCategoryHandler struct {
-	client pb.PlatoAnswerCategoriesServiceClient
+	client pb.PlatoAnswerCategoryServiceClient
 }
 
 func NewAnswerCategoryHandler() *AnswerCategoryHandler {
@@ -23,18 +22,14 @@ func NewAnswerCategoryHandler() *AnswerCategoryHandler {
 		panic("Failed to connect to Plato gRPC server: " + err.Error())
 	}
 
-	client := pb.NewPlatoAnswerCategoriesServiceClient(conn)
+	client := pb.NewPlatoAnswerCategoryServiceClient(conn)
 	return &AnswerCategoryHandler{client: client}
 }
 
 func (h *AnswerCategoryHandler) GetAnswerCategoryById(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("id")
-
 	req := pb.AnswerCategoryIdRequest{}
-	var err error
-	req.AnswerCategoryId, err = helper.StringToUint64(id)
-	if err != nil {
-		http.Error(w, "Invalid answer category ID", http.StatusBadRequest)
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 
@@ -48,13 +43,9 @@ func (h *AnswerCategoryHandler) GetAnswerCategoryById(w http.ResponseWriter, r *
 }
 
 func (h *AnswerCategoryHandler) ListAnswerCategoriesByAnswerId(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("answer_id")
-
 	req := pb.AnswerIdRequest{}
-	var err error
-	req.AnswerId, err = helper.StringToUint64(id)
-	if err != nil {
-		http.Error(w, "Invalid answer ID", http.StatusBadRequest)
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 
@@ -100,13 +91,9 @@ func (h *AnswerCategoryHandler) UpdateAnswerCategory(w http.ResponseWriter, r *h
 }
 
 func (h *AnswerCategoryHandler) DeleteAnswerCategory(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("id")
-
 	req := pb.AnswerCategoryIdRequest{}
-	var err error
-	req.AnswerCategoryId, err = helper.StringToUint64(id)
-	if err != nil {
-		http.Error(w, "Invalid answer category ID", http.StatusBadRequest)
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 

@@ -13,6 +13,7 @@ service PlatoTopicService {
   rpc InsertTopic(InsertTopicRequest) returns (TopicResponse) {}
   rpc UpdateTopic(UpdateTopicRequest) returns (TopicResponse) {}
   rpc DeleteTopic(TopicIdRequest) returns (GenericResponse) {}
+  rpc ListTopicsByUserId(GenericRequest) returns (PaginateTopicResponse) {}
 
   rpc PaginateTopic(PaginateRequest) returns (PaginateTopicResponse) {} // Public
   rpc GetTopicById(TopicIdRequest) returns (TopicResponse) {} // Public

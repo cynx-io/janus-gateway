@@ -28,5 +28,12 @@
     "methods": ["POST", "OPTIONS"],
     "headers": ["Content-Type", "Authorization"],
     "credentials": true
+  },
+  "cookie": {
+    "name": "token",
+    "domain": "*",
+    "path": "/",
+    "http_only": true,
+    "secure": false
   }
 }

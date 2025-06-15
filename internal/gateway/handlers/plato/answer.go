@@ -5,7 +5,6 @@ import (
 	pb "github.com/cynxees/janus-gateway/api/proto/gen/plato"
 	"github.com/cynxees/janus-gateway/internal/dependencies/config"
 	"github.com/cynxees/janus-gateway/internal/gateway/handlers"
-	"github.com/cynxees/janus-gateway/internal/helper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"net/http"
@@ -25,15 +24,10 @@ func NewAnswerHandler() *AnswerHandler {
 	return &AnswerHandler{client: client}
 }
 
-// GET /answer?id=123
 func (h *AnswerHandler) GetAnswerById(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("id")
-
 	req := pb.AnswerIdRequest{}
-	var err error
-	req.AnswerId, err = helper.StringToUint64(id)
-	if err != nil {
-		http.Error(w, "Invalid answer ID", http.StatusBadRequest)
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 
@@ -46,7 +40,6 @@ func (h *AnswerHandler) GetAnswerById(w http.ResponseWriter, r *http.Request) {
 	_ = handlers.HandleResponse(w, resp)
 }
 
-// POST /answer/detail with JSON: { "answer_id": 123 }
 func (h *AnswerHandler) GetDetailAnswerById(w http.ResponseWriter, r *http.Request) {
 	var req pb.AnswerIdRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {

@@ -23,6 +23,13 @@ type AppConfig struct {
 	Elasticsearch struct {
 		Url string `json:"url"`
 	} `json:"elasticsearch"`
+	Cookie struct {
+		Name     string `json:"name"`
+		Domain   string `json:"domain"`
+		Path     string `json:"path"`
+		Secure   bool   `json:"secure"`
+		HttpOnly bool   `json:"http_only"`
+	} `json:"cookie"`
 	JWT struct {
 		Secret    string `json:"secret"`
 		ExpiresIn int    `json:"expires_in"`

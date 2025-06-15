@@ -1,8 +1,9 @@
 syntax = "proto3";
 
-package crypto;
 
-option go_package = "mercury/api/proto/crypto";
+package mercury;
+
+option go_package = "mercury/api/proto";
 
 service MercuryCryptoService {
 

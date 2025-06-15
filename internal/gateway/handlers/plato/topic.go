@@ -8,10 +8,10 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
+	pbCore "github.com/cynxees/janus-gateway/api/proto/gen/core"
 	pb "github.com/cynxees/janus-gateway/api/proto/gen/plato"
 	"github.com/cynxees/janus-gateway/internal/dependencies/config"
 	"github.com/cynxees/janus-gateway/internal/gateway/handlers"
-	"github.com/cynxees/janus-gateway/internal/helper"
 )
 
 type TopicHandler struct {
@@ -47,13 +47,9 @@ func (h *TopicHandler) PaginateTopic(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *TopicHandler) GetTopicById(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("topic_id")
-
 	req := pb.TopicIdRequest{}
-	var err error
-	req.TopicId, err = helper.StringToUint64(id)
-	if err != nil {
-		http.Error(w, "Invalid topic ID", http.StatusBadRequest)
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 
@@ -66,13 +62,12 @@ func (h *TopicHandler) GetTopicById(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *TopicHandler) GetTopicBySlug(w http.ResponseWriter, r *http.Request) {
-	slug := r.URL.Query().Get("slug")
-	if slug == "" {
-		http.Error(w, "Slug is required", http.StatusBadRequest)
+	req := pb.SlugRequest{}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 
-	req := pb.SlugRequest{Slug: slug}
 	resp, err := h.client.GetTopicBySlug(r.Context(), &req)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -112,17 +107,30 @@ func (h *TopicHandler) UpdateTopic(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *TopicHandler) DeleteTopic(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("topic_id")
 
 	req := pb.TopicIdRequest{}
-	var err error
-	req.TopicId, err = helper.StringToUint64(id)
-	if err != nil {
-		http.Error(w, "Invalid topic ID", http.StatusBadRequest)
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 
 	resp, err := h.client.DeleteTopic(r.Context(), &req)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	_ = handlers.HandleResponse(w, resp)
+}
+
+func (h *TopicHandler) ListTopicsByUserId(w http.ResponseWriter, r *http.Request) {
+	req := pbCore.GenericRequest{}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
+		return
+	}
+
+	resp, err := h.client.ListTopicsByUserId(r.Context(), &req)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

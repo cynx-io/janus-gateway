@@ -9,7 +9,7 @@ package plato;
 
 option go_package = "plato/api/proto";
 
-service PlatoAnswerCategoriesService {
+service PlatoAnswerCategoryService {
   rpc GetAnswerCategoryById(AnswerCategoryIdRequest) returns (AnswerCategoryResponse) {}
   rpc ListAnswerCategoriesByAnswerId(AnswerIdRequest) returns (ListAnswerCategoriesResponse) {}
   rpc InsertAnswerCategory(InsertAnswerCategoryRequest) returns (AnswerCategoryResponse) {}

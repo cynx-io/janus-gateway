@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package user;
+package hermes;
 
-option go_package = "hermes/api/proto/user";
+option go_package = "hermes/api/proto";
 
 import "google/protobuf/timestamp.proto";
 

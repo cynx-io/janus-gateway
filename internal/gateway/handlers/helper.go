@@ -23,7 +23,7 @@ func HandleResponse(w http.ResponseWriter, resp proto.Message) error {
 	w.WriteHeader(http.StatusOK)
 	_, err = w.Write(data)
 	if err != nil {
-		logger.Error("Failed to write response: %v", err)
+		logger.Error("Failed to write response: ", err)
 	}
 	return err
 }

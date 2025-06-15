@@ -72,7 +72,7 @@ func (m *LoggingMiddleware) RequestHandler(next http.Handler) http.Handler {
 
 			// Log to Elasticsearch (ignore error or handle it)
 			if err := m.ElasticClient.LogToElasticsearch(logEntry); err != nil {
-				logger.Error("Failed to log to ES: %v", err)
+				logger.Error("Failed to log to ES: ", err)
 			}
 		}()
 

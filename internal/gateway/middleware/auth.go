@@ -6,6 +6,7 @@ import (
 	"github.com/cynxees/janus-gateway/internal/dependencies/config"
 	"github.com/cynxees/janus-gateway/internal/dependencies/logger"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -33,6 +34,7 @@ func GenerateToken(username string, userId uint64) (string, error) {
 
 func PublicAuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		logger.Debug("[PUBLIC AUTH] Processing request")
 		cookie, err := r.Cookie("token")
 		if err != nil {
 			if errors.Is(err, http.ErrNoCookie) {
@@ -60,14 +62,18 @@ func PublicAuthMiddleware(next http.Handler) http.Handler {
 		// Add username to context
 		ctx := context.SetKey(r.Context(), context.KeyUsername, claims.Username)
 		ctx = context.SetUserId(ctx, claims.UserId)
+		logger.Debug("[PUBLIC AUTH] Success set for: " + claims.Username + " (UserID: " + strconv.FormatUint(claims.UserId, 10) + ")")
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
 
 func PrivateAuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		logger.Debug("[PRIVATE AUTH] Processing request")
+
 		cookie, err := r.Cookie("token")
 		if err != nil {
+			logger.Error("[PRIVATE AUTH] Error getting cookie: " + err.Error())
 			if errors.Is(err, http.ErrNoCookie) {
 				// No Token - Unauthorized
 				http.Error(w, "Unauthorized, No Token in cookie", http.StatusUnauthorized)
@@ -85,21 +91,22 @@ func PrivateAuthMiddleware(next http.Handler) http.Handler {
 		})
 
 		if err != nil || !token.Valid {
-			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			logger.Error("[PRIVATE AUTH] Invalid token: " + err.Error())
+			http.Error(w, "Unauthorized: "+err.Error(), http.StatusUnauthorized)
 			return
 		}
 
 		// Add username to context
 		ctx := context.SetKey(r.Context(), context.KeyUsername, claims.Username)
 		ctx = context.SetUserId(ctx, claims.UserId)
+
+		logger.Debug("[PRIVATE AUTH] Success set for: " + claims.Username + " (UserID: " + strconv.FormatUint(claims.UserId, 10) + ")")
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
-
 func CORSMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
-		logger.Debug("CORS Middleware: Processing request")
+		logger.Debug("[CORS]: Processing request")
 
 		if !config.Config.CORS.Enabled {
 			next.ServeHTTP(w, r)
@@ -109,26 +116,33 @@ func CORSMiddleware(next http.Handler) http.Handler {
 		origin := r.Header.Get("Origin")
 		logger.Debug("CORS Middleware: Origin: " + origin)
 
+		allowedOrigin := ""
 		if origin != "" {
-			for _, allowedOrigin := range config.Config.CORS.Origins {
-				logger.Debug("CORS Middleware: Checking allowed origin: " + allowedOrigin)
-				if origin == allowedOrigin {
-					logger.Debug("CORS Middleware: Origin allowed: " + origin)
-					w.Header().Set("Access-Control-Allow-Origin", origin)
-					w.Header().Add("Vary", "Origin")
-					w.Header().Set("Access-Control-Allow-Credentials", "true")
+			for _, o := range config.Config.CORS.Origins {
+				logger.Debug("CORS Middleware: Checking allowed origin: " + o)
+				if origin == o {
+					allowedOrigin = origin
 					break
 				}
 			}
 		}
 
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		if allowedOrigin != "" {
+			// Set only if origin is allowed, never '*'
+			w.Header().Set("Access-Control-Allow-Origin", allowedOrigin)
+			w.Header().Add("Vary", "Origin") // ensure caching varies by origin
+			w.Header().Set("Access-Control-Allow-Credentials", "true")
+			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+			w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, Connect-Protocol-Version")
+		}
 
+		// Handle preflight OPTIONS request early
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
 			return
 		}
+
+		logger.Debug("[CORS] Success set for origin: " + allowedOrigin)
 		next.ServeHTTP(w, r)
 	})
 }

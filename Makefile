@@ -18,10 +18,6 @@ run:
 	make tidy
 	go run main.go
 
-build:
-	make tidy
-	go build
-
 install_deps:
 	# These needs sudo
 	# apt install build-essential -y
@@ -72,12 +68,6 @@ proto-gen:
 
 proto: proto-clean proto-gen
 
-
-.PHONY: build
-build: proto
-	@echo "Building application..."
-	go build -o bin/janus main.go
-
 .PHONY: clean
 clean:
 	@echo "Cleaning generated files..."
@@ -87,7 +77,7 @@ clean:
 .PHONY: all
 all: clean proto build
 
-build_docker_dev:
+build_and_push:
 	docker build -t janus-gateway-dev:latest .
 	docker tag janus-gateway-dev:latest derwin334/janus-gateway-dev:latest
 	docker push derwin334/janus-gateway-dev:latest

@@ -45,11 +45,11 @@ func main() {
 	// Create router
 	root := mux.NewRouter()
 	root.Use(middleware.CORSMiddleware)
-	root.Use(middleware.BaseRequestHandler)
 
 	publicRouter := root.PathPrefix("").Subrouter()
 	publicRouter.Use(
 		middleware.PublicAuthMiddleware,
+		middleware.BaseRequestHandler,
 		logMiddleware.RequestHandler,
 	)
 	publicRouter.Use(logMiddleware.ResponseHandler)
@@ -57,6 +57,7 @@ func main() {
 	privateRouter := root.PathPrefix("/").Subrouter()
 	privateRouter.Use(
 		middleware.PrivateAuthMiddleware,
+		middleware.BaseRequestHandler,
 		logMiddleware.RequestHandler,
 	)
 	privateRouter.Use(logMiddleware.ResponseHandler)

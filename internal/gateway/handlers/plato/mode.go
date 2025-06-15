@@ -10,7 +10,6 @@ import (
 	pb "github.com/cynxees/janus-gateway/api/proto/gen/plato"
 	"github.com/cynxees/janus-gateway/internal/dependencies/config"
 	"github.com/cynxees/janus-gateway/internal/gateway/handlers"
-	"github.com/cynxees/janus-gateway/internal/helper"
 )
 
 type ModeHandler struct {
@@ -27,13 +26,11 @@ func NewModeHandler() *ModeHandler {
 }
 
 func (h *ModeHandler) GetModeById(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("mode_id")
 
 	req := pb.ModeIdRequest{}
-	var err error
-	req.ModeId, err = helper.StringToUint64(id)
-	if err != nil {
-		http.Error(w, "Invalid mode ID", http.StatusBadRequest)
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 
@@ -76,13 +73,11 @@ func (h *ModeHandler) UpdateMode(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *ModeHandler) DeleteMode(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("mode_id")
 
 	req := pb.ModeIdRequest{}
-	var err error
-	req.ModeId, err = helper.StringToUint64(id)
-	if err != nil {
-		http.Error(w, "Invalid mode ID", http.StatusBadRequest)
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 
@@ -95,13 +90,11 @@ func (h *ModeHandler) DeleteMode(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *ModeHandler) ListModesByTopicId(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("topic_id")
 
 	req := pb.TopicIdRequest{}
-	var err error
-	req.TopicId, err = helper.StringToUint64(id)
-	if err != nil {
-		http.Error(w, "Invalid topic ID", http.StatusBadRequest)
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 

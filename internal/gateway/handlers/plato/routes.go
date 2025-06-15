@@ -64,4 +64,5 @@ func (h *TopicHandler) InjectRoutes(publicRouter *mux.Router, privateRouter *mux
 	private.HandleFunc("/InsertTopic", h.InsertTopic)
 	private.HandleFunc("/UpdateTopic", h.UpdateTopic)
 	private.HandleFunc("/DeleteTopic", h.DeleteTopic)
+	private.HandleFunc("/ListTopicsByUserId", h.ListTopicsByUserId)
 }

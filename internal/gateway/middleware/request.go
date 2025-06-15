@@ -5,16 +5,20 @@ import (
 	"encoding/json"
 	pb "github.com/cynxees/janus-gateway/api/proto/gen/core"
 	"github.com/cynxees/janus-gateway/internal/context"
+	"github.com/cynxees/janus-gateway/internal/dependencies/logger"
+	"github.com/cynxees/janus-gateway/internal/helper"
 	"github.com/google/uuid"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"io"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 )
 
 func BaseRequestHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		logger.Debug("[BASE REQ] Processing request")
 
 		ctx := r.Context()
 		reqId := uuid.New().String()
@@ -79,6 +83,8 @@ func BaseRequestHandler(next http.Handler) http.Handler {
 			log.Printf("Failed to set base request in context: %v", err)
 			return
 		}
+
+		logger.Debug("[BASE REQ] Success set for: " + reqId + " (UserID: " + strconv.FormatUint(helper.PtrOrDefault(userId, 0), 10) + ", Username: " + helper.PtrOrDefault(username, "") + ")")
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

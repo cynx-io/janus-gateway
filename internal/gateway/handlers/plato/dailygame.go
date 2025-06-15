@@ -10,7 +10,6 @@ import (
 	pb "github.com/cynxees/janus-gateway/api/proto/gen/plato"
 	"github.com/cynxees/janus-gateway/internal/dependencies/config"
 	"github.com/cynxees/janus-gateway/internal/gateway/handlers"
-	"github.com/cynxees/janus-gateway/internal/helper"
 )
 
 type DailyGameHandler struct {
@@ -28,13 +27,11 @@ func NewDailyGameHandler() *DailyGameHandler {
 }
 
 func (h *DailyGameHandler) GetDetailDailyGameById(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("daily_game_id")
 
 	req := pb.DailyGameIdRequest{}
-	var err error
-	req.DailyGameId, err = helper.StringToUint64(id)
-	if err != nil {
-		http.Error(w, "Invalid daily game ID", http.StatusBadRequest)
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 
@@ -48,13 +45,11 @@ func (h *DailyGameHandler) GetDetailDailyGameById(w http.ResponseWriter, r *http
 }
 
 func (h *DailyGameHandler) GetModeDailyGameById(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("mode_id")
 
 	req := pb.ModeIdRequest{}
-	var err error
-	req.ModeId, err = helper.StringToUint64(id)
-	if err != nil {
-		http.Error(w, "Invalid mode ID", http.StatusBadRequest)
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 
@@ -68,13 +63,11 @@ func (h *DailyGameHandler) GetModeDailyGameById(w http.ResponseWriter, r *http.R
 }
 
 func (h *DailyGameHandler) GetPublicDailyGame(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("mode_id")
 
 	req := pb.ModeIdRequest{}
-	var err error
-	req.ModeId, err = helper.StringToUint64(id)
-	if err != nil {
-		http.Error(w, "Invalid mode ID", http.StatusBadRequest)
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 

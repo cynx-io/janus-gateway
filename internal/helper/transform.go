@@ -15,3 +15,10 @@ func StringToUint64(s string) (uint64, error) {
 	}
 	return result, nil
 }
+
+func PtrOrDefault[T any](p *T, def T) T {
+	if p != nil {
+		return *p
+	}
+	return def
+}

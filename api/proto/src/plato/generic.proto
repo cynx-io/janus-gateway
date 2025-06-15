@@ -33,7 +33,7 @@ message ModeIdRequest {
 
 message TopicIdRequest {
   BaseRequest base = 1 [(buf.validate.field).required = true];
-  uint64 topic_id = 2;
+  uint32 topic_id = 2;
 }
 
 message DailyGameIdRequest {
