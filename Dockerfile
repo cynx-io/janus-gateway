@@ -11,7 +11,8 @@ RUN go mod download
 COPY . .
 
 # Build your binary
-RUN go build -o janus main.go
+ENV CGO_ENABLED=0
+RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o janus main.go
 
 # Final stage
 FROM alpine:latest

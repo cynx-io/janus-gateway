@@ -11,10 +11,12 @@ message Topic {
   int32 user_id = 2;
   string title = 3;
   string description = 4;
-  string icon_url = 5;
-  string banner_url = 6;
-  optional string link = 7;
-  string slug = 8;
+  string slug = 7;
+  optional string link = 8;
+
+  string icon_url = 20;
+  optional string banner_url = 21;
+  optional string title_image_url = 22;
 }
 
 message Mode {
@@ -22,16 +24,25 @@ message Mode {
   string title = 2;
   string description = 3;
   optional string icon_url = 4;
+  optional string background_url = 5;
+  string answer_type = 6; // e.g., "Champion", "Hero", "Pokemon"
+  string Type = 7; // e.g., "WORDLE", "SUDOKU"
 
-  int32 topic_id = 6;
+  optional string text1 = 9;
+  optional string text2 = 10;
+  optional string text3 = 11;
+  optional string text4 = 12;
+  optional string text5 = 13;
+
+  int32 topic_id = 20;
 }
 
 message Answer {
   int32 id = 1;
   string name = 2;
-  string icon_url = 3;
+  optional string icon_url = 3;
 
-  int32 topic_id = 4;
+  int32 topic_id = 20;
 }
 
 message DetailAnswer {

@@ -78,7 +78,9 @@ clean:
 all: clean proto build
 
 build_and_push:
-	docker build -t janus-gateway-dev:latest .
-	docker tag janus-gateway-dev:latest derwin334/janus-gateway-dev:latest
-	docker push derwin334/janus-gateway-dev:latest
+	docker buildx build \
+		--platform linux/amd64,linux/arm64 \
+		--tag derwin334/janus-gateway-dev:latest \
+		--push \
+		.
 

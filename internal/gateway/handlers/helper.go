@@ -16,6 +16,7 @@ func HandleResponse(w http.ResponseWriter, resp proto.Message) error {
 
 	data, err := marshaler.Marshal(resp)
 	if err != nil {
+		logger.Error("Failed to marshal response: ", err)
 		return err
 	}
 

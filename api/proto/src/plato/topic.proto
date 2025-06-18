@@ -34,9 +34,11 @@ message InsertTopicRequest{
   BaseRequest base = 1 [(buf.validate.field).required = true];
   string title = 2;
   string description = 3;
-  string icon_url = 4;
-  string banner_url = 5;
   string slug = 6;
+
+  string icon_url = 20;
+  optional string banner_url = 21;
+  optional string title_image_url = 22;
 }
 
 
@@ -47,4 +49,5 @@ message UpdateTopicRequest{
   optional string description = 4;
   optional string icon_url = 5;
   optional string banner_url = 6;
+  optional string title_image_url = 7;
 }
