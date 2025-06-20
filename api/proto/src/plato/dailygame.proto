@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-import "core/core.proto";
+import "proto/core.proto";
 import "plato/generic.proto";
 import "plato/object.proto";
 import "buf/validate/validate.proto";
@@ -18,29 +18,29 @@ service PlatoDailyGameService {
 }
 
 message ModeDailyGameResponse {
-  BaseResponse base = 1;
+  core.BaseResponse base = 1;
   Mode mode = 2;
   int32 daily_game_id = 3;
 }
 
 message PublicDailyGameResponse {
-  BaseResponse base = 1;
+  core.BaseResponse base = 1;
   PublicDailyGame public_daily_game = 2;
 }
 
 message DetailDailyGameResponse {
-  BaseResponse base = 1;
+  core.BaseResponse base = 1;
   DetailDailyGame detail_daily_game = 2;
 }
 
 message AttemptAnswerRequest {
-  BaseRequest base = 1 [(buf.validate.field).required = true];
+  core.BaseRequest base = 1 [(buf.validate.field).required = true];
   int32 daily_game_id = 2;
   int32 answer_id = 4;
 }
 
 message AttemptAnswerResponse {
-  BaseResponse base = 1;
+  core.BaseResponse base = 1;
   bool is_correct = 2;
   AttemptDetailAnswer attempt_detail_answer = 3;
   DailyGameAnswerStats daily_game_answer_stats = 4;

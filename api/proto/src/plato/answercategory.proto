@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-import "core/core.proto";
+import "proto/core.proto";
 import "plato/generic.proto";
 import "plato/object.proto";
 import "buf/validate/validate.proto";
@@ -14,21 +14,21 @@ service PlatoAnswerCategoryService {
   rpc ListAnswerCategoriesByAnswerId(AnswerIdRequest) returns (ListAnswerCategoriesResponse) {}
   rpc InsertAnswerCategory(InsertAnswerCategoryRequest) returns (AnswerCategoryResponse) {}
   rpc UpdateAnswerCategory(UpdateAnswerCategoryRequest) returns (AnswerCategoryResponse) {}
-  rpc DeleteAnswerCategory(AnswerCategoryIdRequest) returns (GenericResponse) {}
+  rpc DeleteAnswerCategory(AnswerCategoryIdRequest) returns (core.GenericResponse) {}
 }
 
 message ListAnswerCategoriesResponse {
-  BaseResponse   base = 1;
+  core.BaseResponse   base = 1;
   repeated AnswerCategory answerCategories = 2;
 }
 
 message AnswerCategoryResponse {
-  BaseResponse base = 1;
+  core.BaseResponse base = 1;
   AnswerCategory answerCategory = 2;
 }
 
 message InsertAnswerCategoryRequest{
-  BaseRequest base = 1 [(buf.validate.field).required = true];
+  core.BaseRequest base = 1 [(buf.validate.field).required = true];
   string name= 2;
   string type = 3;
   string value = 4;
@@ -37,7 +37,7 @@ message InsertAnswerCategoryRequest{
 }
 
 message UpdateAnswerCategoryRequest{
-  BaseRequest base = 1 [(buf.validate.field).required = true];
+  core.BaseRequest base = 1 [(buf.validate.field).required = true];
   optional string name= 2;
   optional string type = 3;
   optional string value = 4;

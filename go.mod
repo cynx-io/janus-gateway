@@ -1,11 +1,10 @@
 module github.com/cynxees/janus-gateway
 
-go 1.23.0
-
-toolchain go1.24.3
+go 1.24.3
 
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.6-20250613105001-9f2d3c737feb.1
+	github.com/cynxees/cynx-core v0.0.7
 	github.com/elastic/go-elasticsearch v0.0.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/google/uuid v1.6.0

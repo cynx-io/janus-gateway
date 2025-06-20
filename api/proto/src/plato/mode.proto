@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-import "core/core.proto";
+import "proto/core.proto";
 import "plato/generic.proto";
 import "plato/object.proto";
 import "buf/validate/validate.proto";
@@ -13,18 +13,18 @@ service PlatoModeService {
   rpc GetModeById(ModeIdRequest) returns (ModeResponse) {}
   rpc InsertMode(InsertModeRequest) returns (ModeResponse) {}
   rpc UpdateMode(UpdateModeRequest) returns (ModeResponse) {}
-  rpc DeleteMode(ModeIdRequest) returns (GenericResponse) {}
+  rpc DeleteMode(ModeIdRequest) returns (core.GenericResponse) {}
 
   rpc ListModesByTopicId(TopicIdRequest) returns (ListModesResponse) {} // Player
 }
 
 message ListModesResponse {
-  BaseResponse   base = 1;
+  core.BaseResponse   base = 1;
   repeated Mode modes = 2;
 }
 
 message ModeResponse {
-  BaseResponse base = 1;
+  core.BaseResponse base = 1;
   Mode mode = 2;
 
   int32 current_daily_game_id = 3;
@@ -32,7 +32,7 @@ message ModeResponse {
 }
 
 message InsertModeRequest{
-  BaseRequest base = 1 [(buf.validate.field).required = true];
+  core.BaseRequest base = 1 [(buf.validate.field).required = true];
   string title = 2;
   string description = 3;
   string icon_url = 4;
@@ -43,7 +43,7 @@ message InsertModeRequest{
 }
 
 message UpdateModeRequest{
-  BaseRequest base = 1 [(buf.validate.field).required = true];
+  core.BaseRequest base = 1 [(buf.validate.field).required = true];
   int32 id = 2;
   optional string title = 3;
   optional string description = 4;

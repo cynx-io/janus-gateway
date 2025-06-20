@@ -1,6 +1,6 @@
 package core
 
-import pb "github.com/cynxees/janus-gateway/api/proto/gen/core"
+import pb "github.com/cynxees/cynx-core/proto/gen"
 
 func InitBaseRequest() *pb.BaseRequest {
 

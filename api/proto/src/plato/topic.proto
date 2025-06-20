@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-import "core/core.proto";
+import "proto/core.proto";
 import "plato/generic.proto";
 import "plato/object.proto";
 import "buf/validate/validate.proto";
@@ -12,8 +12,8 @@ option go_package = "plato/api/proto";
 service PlatoTopicService {
   rpc InsertTopic(InsertTopicRequest) returns (TopicResponse) {}
   rpc UpdateTopic(UpdateTopicRequest) returns (TopicResponse) {}
-  rpc DeleteTopic(TopicIdRequest) returns (GenericResponse) {}
-  rpc ListTopicsByUserId(GenericRequest) returns (PaginateTopicResponse) {}
+  rpc DeleteTopic(TopicIdRequest) returns (core.GenericResponse) {}
+  rpc ListTopicsByUserId(core.GenericRequest) returns (PaginateTopicResponse) {}
 
   rpc PaginateTopic(PaginateRequest) returns (PaginateTopicResponse) {} // Public
   rpc GetTopicById(TopicIdRequest) returns (TopicResponse) {} // Public
@@ -21,17 +21,17 @@ service PlatoTopicService {
 }
 
 message PaginateTopicResponse {
-  BaseResponse   base = 1;
+  core.BaseResponse   base = 1;
   repeated Topic topics = 2;
 }
 
 message TopicResponse {
-  BaseResponse base = 1;
+  core.BaseResponse base = 1;
   Topic topic = 2;
 }
 
 message InsertTopicRequest{
-  BaseRequest base = 1 [(buf.validate.field).required = true];
+  core.BaseRequest base = 1 [(buf.validate.field).required = true];
   string title = 2;
   string description = 3;
   string slug = 6;
@@ -43,7 +43,7 @@ message InsertTopicRequest{
 
 
 message UpdateTopicRequest{
-  BaseRequest base = 1 [(buf.validate.field).required = true];
+  core.BaseRequest base = 1 [(buf.validate.field).required = true];
   int32 id = 2;
   optional string title = 3;
   optional string description = 4;

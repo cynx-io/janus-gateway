@@ -2,7 +2,7 @@ package context
 
 import (
 	"context"
-	pb "github.com/cynxees/janus-gateway/api/proto/gen/core"
+	pb "github.com/cynxees/cynx-core/proto/gen"
 )
 
 func GetBaseRequest(ctx context.Context) *pb.BaseRequest {
@@ -10,6 +10,7 @@ func GetBaseRequest(ctx context.Context) *pb.BaseRequest {
 	if val == nil {
 		return nil
 	}
+
 	if req, ok := val.(*pb.BaseRequest); ok {
 		return req
 	}

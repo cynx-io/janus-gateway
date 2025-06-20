@@ -23,11 +23,7 @@ install_deps:
 	# apt install build-essential -y
     # curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.1.6
     # Proto
-	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-	go install github.com/envoyproxy/protoc-gen-validate@latest
-	npm install -g @bufbuild/protoc-gen-es
+
 
 	go install golang.org/x/tools/go/analysis/passes/fieldalignment/cmd/fieldalignment@latest
 	go install honnef.co/go/tools/cmd/staticcheck@latest
@@ -79,7 +75,7 @@ all: clean proto build
 
 build_and_push:
 	docker buildx build \
-		--platform linux/amd64 \
+		--platform linux/amd64,linux/arm64 \
 		--tag derwin334/janus-gateway-dev:latest \
 		--push \
 		.

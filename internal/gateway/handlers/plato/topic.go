@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	pbCore "github.com/cynxees/janus-gateway/api/proto/gen/core"
+	pbCore "github.com/cynxees/cynx-core/proto/gen"
 	pb "github.com/cynxees/janus-gateway/api/proto/gen/plato"
 	"github.com/cynxees/janus-gateway/internal/dependencies/config"
 	"github.com/cynxees/janus-gateway/internal/gateway/handlers"

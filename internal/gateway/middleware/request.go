@@ -3,7 +3,7 @@ package middleware
 import (
 	"bytes"
 	"encoding/json"
-	pb "github.com/cynxees/janus-gateway/api/proto/gen/core"
+	pb "github.com/cynxees/cynx-core/proto/gen"
 	"github.com/cynxees/janus-gateway/internal/context"
 	"github.com/cynxees/janus-gateway/internal/dependencies/logger"
 	"github.com/google/uuid"

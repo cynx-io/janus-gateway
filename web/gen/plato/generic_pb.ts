@@ -4,23 +4,23 @@
 
 import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
-import type { BaseRequest } from "../core/core_pb";
-import { file_core_core } from "../core/core_pb";
 import { file_buf_validate_validate } from "../buf/validate/validate_pb";
+import type { BaseRequest } from "../core_pb";
+import { file_core } from "../core_pb";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file plato/generic.proto.
  */
 export const file_plato_generic: GenFile = /*@__PURE__*/
-  fileDesc("ChNwbGF0by9nZW5lcmljLnByb3RvEgVwbGF0byKbAQoPUGFnaW5hdGVSZXF1ZXN0EigKBGJhc2UYASABKAsyEi5wbGF0by5CYXNlUmVxdWVzdEIGukgDyAEBEhIKBWxpbWl0GAIgASgFSACIAQESEwoGb2Zmc2V0GAMgASgFSAGIAQESFAoHa2V5d29yZBgEIAEoCUgCiAEBQggKBl9saW1pdEIJCgdfb2Zmc2V0QgoKCF9rZXl3b3JkIkUKC1NsdWdSZXF1ZXN0EigKBGJhc2UYASABKAsyEi5wbGF0by5CYXNlUmVxdWVzdEIGukgDyAEBEgwKBHNsdWcYAiABKAkiXwoQVG9waWNNb2RlUmVxdWVzdBIoCgRiYXNlGAEgASgLMhIucGxhdG8uQmFzZVJlcXVlc3RCBrpIA8gBARIQCgh0b3BpY19pZBgCIAEoBRIPCgdtb2RlX2lkGAMgASgFIkoKDU1vZGVJZFJlcXVlc3QSKAoEYmFzZRgBIAEoCzISLnBsYXRvLkJhc2VSZXF1ZXN0Qga6SAPIAQESDwoHbW9kZV9pZBgCIAEoBSJMCg5Ub3BpY0lkUmVxdWVzdBIoCgRiYXNlGAEgASgLMhIucGxhdG8uQmFzZVJlcXVlc3RCBrpIA8gBARIQCgh0b3BpY19pZBgCIAEoBSJVChJEYWlseUdhbWVJZFJlcXVlc3QSKAoEYmFzZRgBIAEoCzISLnBsYXRvLkJhc2VSZXF1ZXN0Qga6SAPIAQESFQoNZGFpbHlfZ2FtZV9pZBgCIAEoBSJOCg9BbnN3ZXJJZFJlcXVlc3QSKAoEYmFzZRgBIAEoCzISLnBsYXRvLkJhc2VSZXF1ZXN0Qga6SAPIAQESEQoJYW5zd2VyX2lkGAIgASgFIl8KF0Fuc3dlckNhdGVnb3J5SWRSZXF1ZXN0EigKBGJhc2UYASABKAsyEi5wbGF0by5CYXNlUmVxdWVzdEIGukgDyAEBEhoKEmFuc3dlcl9jYXRlZ29yeV9pZBgCIAEoBUIRWg9wbGF0by9hcGkvcHJvdG9iBnByb3RvMw", [file_core_core, file_buf_validate_validate]);
+  fileDesc("ChNwbGF0by9nZW5lcmljLnByb3RvEgVwbGF0byKaAQoPUGFnaW5hdGVSZXF1ZXN0EicKBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0Qga6SAPIAQESEgoFbGltaXQYAiABKAVIAIgBARITCgZvZmZzZXQYAyABKAVIAYgBARIUCgdrZXl3b3JkGAQgASgJSAKIAQFCCAoGX2xpbWl0QgkKB19vZmZzZXRCCgoIX2tleXdvcmQiRAoLU2x1Z1JlcXVlc3QSJwoEYmFzZRgBIAEoCzIRLmNvcmUuQmFzZVJlcXVlc3RCBrpIA8gBARIMCgRzbHVnGAIgASgJIl4KEFRvcGljTW9kZVJlcXVlc3QSJwoEYmFzZRgBIAEoCzIRLmNvcmUuQmFzZVJlcXVlc3RCBrpIA8gBARIQCgh0b3BpY19pZBgCIAEoBRIPCgdtb2RlX2lkGAMgASgFIkkKDU1vZGVJZFJlcXVlc3QSJwoEYmFzZRgBIAEoCzIRLmNvcmUuQmFzZVJlcXVlc3RCBrpIA8gBARIPCgdtb2RlX2lkGAIgASgFIksKDlRvcGljSWRSZXF1ZXN0EicKBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0Qga6SAPIAQESEAoIdG9waWNfaWQYAiABKAUiVAoSRGFpbHlHYW1lSWRSZXF1ZXN0EicKBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0Qga6SAPIAQESFQoNZGFpbHlfZ2FtZV9pZBgCIAEoBSJNCg9BbnN3ZXJJZFJlcXVlc3QSJwoEYmFzZRgBIAEoCzIRLmNvcmUuQmFzZVJlcXVlc3RCBrpIA8gBARIRCglhbnN3ZXJfaWQYAiABKAUiXgoXQW5zd2VyQ2F0ZWdvcnlJZFJlcXVlc3QSJwoEYmFzZRgBIAEoCzIRLmNvcmUuQmFzZVJlcXVlc3RCBrpIA8gBARIaChJhbnN3ZXJfY2F0ZWdvcnlfaWQYAiABKAVCEVoPcGxhdG8vYXBpL3Byb3RvYgZwcm90bzM", [file_buf_validate_validate, file_core]);
 
 /**
  * @generated from message plato.PaginateRequest
  */
 export type PaginateRequest = Message<"plato.PaginateRequest"> & {
   /**
-   * @generated from field: plato.BaseRequest base = 1;
+   * @generated from field: core.BaseRequest base = 1;
    */
   base?: BaseRequest;
 
@@ -52,7 +52,7 @@ export const PaginateRequestSchema: GenMessage<PaginateRequest> = /*@__PURE__*/
  */
 export type SlugRequest = Message<"plato.SlugRequest"> & {
   /**
-   * @generated from field: plato.BaseRequest base = 1;
+   * @generated from field: core.BaseRequest base = 1;
    */
   base?: BaseRequest;
 
@@ -74,7 +74,7 @@ export const SlugRequestSchema: GenMessage<SlugRequest> = /*@__PURE__*/
  */
 export type TopicModeRequest = Message<"plato.TopicModeRequest"> & {
   /**
-   * @generated from field: plato.BaseRequest base = 1;
+   * @generated from field: core.BaseRequest base = 1;
    */
   base?: BaseRequest;
 
@@ -101,7 +101,7 @@ export const TopicModeRequestSchema: GenMessage<TopicModeRequest> = /*@__PURE__*
  */
 export type ModeIdRequest = Message<"plato.ModeIdRequest"> & {
   /**
-   * @generated from field: plato.BaseRequest base = 1;
+   * @generated from field: core.BaseRequest base = 1;
    */
   base?: BaseRequest;
 
@@ -123,7 +123,7 @@ export const ModeIdRequestSchema: GenMessage<ModeIdRequest> = /*@__PURE__*/
  */
 export type TopicIdRequest = Message<"plato.TopicIdRequest"> & {
   /**
-   * @generated from field: plato.BaseRequest base = 1;
+   * @generated from field: core.BaseRequest base = 1;
    */
   base?: BaseRequest;
 
@@ -145,7 +145,7 @@ export const TopicIdRequestSchema: GenMessage<TopicIdRequest> = /*@__PURE__*/
  */
 export type DailyGameIdRequest = Message<"plato.DailyGameIdRequest"> & {
   /**
-   * @generated from field: plato.BaseRequest base = 1;
+   * @generated from field: core.BaseRequest base = 1;
    */
   base?: BaseRequest;
 
@@ -167,7 +167,7 @@ export const DailyGameIdRequestSchema: GenMessage<DailyGameIdRequest> = /*@__PUR
  */
 export type AnswerIdRequest = Message<"plato.AnswerIdRequest"> & {
   /**
-   * @generated from field: plato.BaseRequest base = 1;
+   * @generated from field: core.BaseRequest base = 1;
    */
   base?: BaseRequest;
 
@@ -189,7 +189,7 @@ export const AnswerIdRequestSchema: GenMessage<AnswerIdRequest> = /*@__PURE__*/
  */
 export type AnswerCategoryIdRequest = Message<"plato.AnswerCategoryIdRequest"> & {
   /**
-   * @generated from field: plato.BaseRequest base = 1;
+   * @generated from field: core.BaseRequest base = 1;
    */
   base?: BaseRequest;
 
