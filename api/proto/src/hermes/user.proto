@@ -5,7 +5,6 @@ package hermes;
 option go_package = "hermes/api/proto";
 
 import "google/protobuf/timestamp.proto";
-import "buf/validate/validate.proto";
 
 // User service definition
 service HermesUserService {
@@ -26,25 +25,14 @@ service HermesUserService {
 
 message BaseRequest {
   // string length 1–100
-  string request_id = 1 [
-    (buf.validate.field).string.min_len = 1,
-    (buf.validate.field).string.max_len = 100
-  ];
+  string request_id = 1;
 
-  string request_origin = 2 [
-    (buf.validate.field).string.min_len = 1,
-    (buf.validate.field).string.max_len = 100
-  ];
+  string request_origin = 2;
 
-  string request_path = 3 [
-    (buf.validate.field).string.min_len = 1,
-    (buf.validate.field).string.max_len = 100
-  ];
+  string request_path = 3;
 
   // timestamp must be in the past
-  google.protobuf.Timestamp timestamp = 4 [
-    (buf.validate.field).timestamp.lt_now = true
-  ];
+  google.protobuf.Timestamp timestamp = 4;
 
   optional int32 user_id = 5;
   optional string username = 6;

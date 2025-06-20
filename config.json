@@ -7,7 +7,7 @@
     "key": "Ramen"
   },
   "hermes": {
-    "url": "devspace:31501"
+    "url": "0.0.0.0:5001"
   },
   "mercury": {
     "url": "devspace:31502"
@@ -31,9 +31,9 @@
   },
   "cookie": {
     "name": "token",
-    "domain": "*",
+    "domain": ".makeadle.com",
     "path": "/",
     "http_only": true,
-    "secure": false
+    "secure": true
   }
 }

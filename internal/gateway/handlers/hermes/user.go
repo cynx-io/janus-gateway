@@ -112,12 +112,13 @@ func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	// Set cookie
 	http.SetCookie(w, &http.Cookie{
-		Name:     "token",
+		Name:     config.Config.Cookie.Name,
 		Value:    token,
-		Path:     "/",
-		HttpOnly: true,
-		Secure:   false, // Set to true in production
-		SameSite: http.SameSiteLaxMode,
+		Path:     config.Config.Cookie.Path,
+		HttpOnly: config.Config.Cookie.HttpOnly,
+		Domain:   config.Config.Cookie.Domain,
+		Secure:   config.Config.Cookie.Secure,
+		SameSite: http.SameSiteNoneMode,
 	})
 
 	err = handlers.HandleResponse(w, resp)
@@ -180,7 +181,7 @@ func (h *UserHandler) ValidatePassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if resp.Base.Code == "200" {
+	if resp.Base.Code == "00" {
 		// Generate JWT token
 		token, err := middleware.GenerateToken(req.Username, resp.User.Id)
 		if err != nil {
@@ -190,12 +191,13 @@ func (h *UserHandler) ValidatePassword(w http.ResponseWriter, r *http.Request) {
 
 		// Set cookie
 		http.SetCookie(w, &http.Cookie{
-			Name:     "token",
+			Name:     config.Config.Cookie.Name,
 			Value:    token,
-			Path:     "/",
-			HttpOnly: true,
-			Secure:   false, // Set to true in production
-			SameSite: http.SameSiteLaxMode,
+			Path:     config.Config.Cookie.Path,
+			HttpOnly: config.Config.Cookie.HttpOnly,
+			Domain:   config.Config.Cookie.Domain,
+			Secure:   config.Config.Cookie.Secure,
+			SameSite: http.SameSiteNoneMode,
 		})
 	}
 
