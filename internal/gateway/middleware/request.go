@@ -4,8 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	pb "github.com/cynxees/cynx-core/proto/gen"
-	"github.com/cynxees/janus-gateway/internal/context"
-	"github.com/cynxees/janus-gateway/internal/dependencies/logger"
+	"github.com/cynxees/cynx-core/src/context"
+	"github.com/cynxees/cynx-core/src/logger"
+
 	"github.com/google/uuid"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"io"
@@ -16,9 +17,9 @@ import (
 
 func BaseRequestHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		logger.Debug("[BASE REQ] Processing request")
-
 		ctx := r.Context()
+		logger.Debug(ctx, "[BASE REQ] Processing request")
+
 		reqId := uuid.New().String()
 		userId := context.GetUserId(ctx)
 		username := context.GetKey(ctx, context.KeyUsername)
@@ -30,7 +31,6 @@ func BaseRequestHandler(next http.Handler) http.Handler {
 			RequestId:     reqId,
 			RequestOrigin: origin,
 			RequestPath:   r.URL.Path,
-			Timestamp:     timestamppb.New(timestamp),
 			UserId:        userId,
 			Username:      username,
 		}
@@ -82,7 +82,7 @@ func BaseRequestHandler(next http.Handler) http.Handler {
 			return
 		}
 
-		logger.Debug("[BASE REQ] Success set for: ", reqId, " (UserID: ", userId, ", Username: ", username, ")")
+		logger.Debug(ctx, "[BASE REQ] Success set for: ", reqId, " (UserID: ", userId, ", Username: ", username, ")")
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

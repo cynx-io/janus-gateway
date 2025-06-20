@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"github.com/cynxees/janus-gateway/internal/dependencies/logger"
+	"github.com/cynxees/cynx-core/src/logger"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"net/http"

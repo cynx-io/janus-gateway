@@ -2,9 +2,9 @@ package middleware
 
 import (
 	"errors"
-	"github.com/cynxees/janus-gateway/internal/context"
+	contextcore "github.com/cynxees/cynx-core/src/context"
+	"github.com/cynxees/cynx-core/src/logger"
 	"github.com/cynxees/janus-gateway/internal/dependencies/config"
-	"github.com/cynxees/janus-gateway/internal/dependencies/logger"
 	"net/http"
 	"strconv"
 	"time"
@@ -34,7 +34,8 @@ func GenerateToken(username string, userId int32) (string, error) {
 
 func PublicAuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		logger.Debug("[PUBLIC AUTH] Processing request")
+		ctx := r.Context()
+		logger.Debug(ctx, ctx, "[PUBLIC AUTH] Processing request")
 		cookie, err := r.Cookie("token")
 		if err != nil {
 			if errors.Is(err, http.ErrNoCookie) {
@@ -60,16 +61,18 @@ func PublicAuthMiddleware(next http.Handler) http.Handler {
 		}
 
 		// Add username to context
-		ctx := context.SetKey(r.Context(), context.KeyUsername, claims.Username)
-		ctx = context.SetUserId(ctx, claims.UserId)
-		logger.Debug("[PUBLIC AUTH] Success set for: " + claims.Username + " (UserID: " + strconv.Itoa(int(claims.UserId)) + ")")
+		ctx = contextcore.SetKey(r.Context(), contextcore.KeyUsername, claims.Username)
+		ctx = contextcore.SetUserId(ctx, claims.UserId)
+		logger.Debug(ctx, "[PUBLIC AUTH] Success set for: "+claims.Username+" (UserID: "+strconv.Itoa(int(claims.UserId))+")")
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
 
 func PrivateAuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		logger.Debug("[PRIVATE AUTH] Processing request")
+
+		ctx := r.Context()
+		logger.Debug(ctx, "[PRIVATE AUTH] Processing request")
 
 		cookie, err := r.Cookie("token")
 		if err != nil {
@@ -96,17 +99,18 @@ func PrivateAuthMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		// Add username to context
-		ctx := context.SetKey(r.Context(), context.KeyUsername, claims.Username)
-		ctx = context.SetUserId(ctx, claims.UserId)
+		// Add username to contextcore
+		ctx = contextcore.SetKey(r.Context(), contextcore.KeyUsername, claims.Username)
+		ctx = contextcore.SetUserId(ctx, claims.UserId)
 
-		logger.Debug("[PRIVATE AUTH] Success set for: ", claims.Username, " (UserID: ", claims.UserId, ")")
+		logger.Debug(ctx, "[PRIVATE AUTH] Success set for: ", claims.Username, " (UserID: ", claims.UserId, ")")
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
 func CORSMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		logger.Debug("[CORS]: Processing request")
+		ctx := r.Context()
+		logger.Debug(ctx, "[CORS]: Processing request")
 
 		if !config.Config.CORS.Enabled {
 			next.ServeHTTP(w, r)
@@ -114,12 +118,12 @@ func CORSMiddleware(next http.Handler) http.Handler {
 		}
 
 		origin := r.Header.Get("Origin")
-		logger.Debug("CORS Middleware: Origin: " + origin)
+		logger.Debug(ctx, "CORS Middleware: Origin: "+origin)
 
 		allowedOrigin := ""
 		if origin != "" {
 			for _, o := range config.Config.CORS.Origins {
-				logger.Debug("CORS Middleware: Checking allowed origin: " + o)
+				logger.Debug(ctx, "CORS Middleware: Checking allowed origin: "+o)
 				if origin == o {
 					allowedOrigin = origin
 					break
@@ -142,7 +146,7 @@ func CORSMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		logger.Debug("[CORS] Success set for origin: " + allowedOrigin)
+		logger.Debug(ctx, "[CORS] Success set for origin: "+allowedOrigin)
 		next.ServeHTTP(w, r)
 	})
 }

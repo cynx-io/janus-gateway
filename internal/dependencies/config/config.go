@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/cynxees/janus-gateway/internal/dependencies/logger"
+	"fmt"
 	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
 	"reflect"
@@ -20,9 +20,10 @@ type AppConfig struct {
 	Plato struct {
 		Url string `json:"url"`
 	} `json:"plato"`
-	Elasticsearch struct {
-		Url string `json:"url"`
-	} `json:"elasticsearch"`
+	Elastic struct {
+		Url   string `json:"url"`
+		Level string `json:"level"`
+	} `json:"elastic"`
 	Cookie struct {
 		Name     string `json:"name"`
 		Domain   string `json:"domain"`
@@ -51,8 +52,7 @@ type AppConfig struct {
 func Init() {
 	// Load .env file into environment variables
 	if err := godotenv.Load(); err != nil {
-		logger.Warn("No .env file found, using environment variables only: ", err)
-
+		fmt.Println(".env file not found")
 	}
 
 	viper.SetConfigName("config")

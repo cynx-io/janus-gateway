@@ -75,7 +75,7 @@ all: clean proto build
 
 build_and_push:
 	docker buildx build \
-		--platform linux/amd64,linux/arm64 \
+		--platform linux/amd64 \
 		--tag derwin334/janus-gateway-dev:latest \
 		--push \
 		.

@@ -3,20 +3,16 @@ package middleware
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/cynxees/janus-gateway/internal/context"
-	"github.com/cynxees/janus-gateway/internal/dependencies/elastic"
-	"github.com/cynxees/janus-gateway/internal/dependencies/logger"
+	contextcore "github.com/cynxees/cynx-core/src/context"
+	"github.com/cynxees/cynx-core/src/logger"
+
 	"io"
 	"log"
 	"net/http"
 	"time"
 )
 
-type LoggingMiddleware struct {
-	ElasticClient *elastic.Client
-}
-
-func (m *LoggingMiddleware) RequestHandler(next http.Handler) http.Handler {
+func LogRequestHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		ctx := r.Context()
@@ -39,7 +35,7 @@ func (m *LoggingMiddleware) RequestHandler(next http.Handler) http.Handler {
 			host := r.Host                          // e.g. api.myservice.com
 			userAgent := r.Header.Get("User-Agent") // browser or bot details
 
-			baseReq := context.GetBaseRequest(ctx)
+			baseReq := contextcore.GetBaseRequest(ctx)
 
 			var bodyMap map[string]interface{}
 			_ = json.Unmarshal(bodyBytes, &bodyMap)
@@ -55,8 +51,8 @@ func (m *LoggingMiddleware) RequestHandler(next http.Handler) http.Handler {
 
 			modifiedBodyBytes, _ := json.Marshal(bodyMap)
 
-			logEntry := elastic.LogEntry{
-				Timestamp:     baseReq.Timestamp.AsTime(),
+			logEntry := logger.TrxEntry{
+				Timestamp:     time.Now(),
 				UserId:        baseReq.UserId,
 				Username:      baseReq.Username,
 				RequestId:     baseReq.RequestId,
@@ -70,8 +66,8 @@ func (m *LoggingMiddleware) RequestHandler(next http.Handler) http.Handler {
 				Body:          json.RawMessage(modifiedBodyBytes),
 			}
 
-			// Log to Elasticsearch (ignore error or handle it)
-			if err := m.ElasticClient.LogToElasticsearch(logEntry); err != nil {
+			// Log to Elastic (ignore error or handle it)
+			if err := logger.LogTrxElasticsearch("trx-janus-gateway", logEntry); err != nil {
 				logger.Error("Failed to log to ES: ", err)
 			}
 		}()
@@ -101,7 +97,7 @@ func (cw *captureWriter) Write(b []byte) (int, error) {
 	return cw.ResponseWriter.Write(b)
 }
 
-func (m *LoggingMiddleware) ResponseHandler(next http.Handler) http.Handler {
+func LogResponseHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// wrap the writer
 		cw := newCaptureWriter(w)
@@ -112,14 +108,14 @@ func (m *LoggingMiddleware) ResponseHandler(next http.Handler) http.Handler {
 
 		go func() {
 			ctx := r.Context()
-			baseReq := context.GetBaseRequest(ctx)
+			baseReq := contextcore.GetBaseRequest(ctx)
 
 			referer := r.Header.Get("Referer")      // e.g. https://example.com/page
 			host := r.Host                          // e.g. api.myservice.com
 			userAgent := r.Header.Get("User-Agent") // browser or bot details
 
-			// log to Elasticsearch
-			entry := elastic.LogEntry{
+			// log to Elastic
+			entry := logger.TrxEntry{
 				Timestamp:     finishedAt,
 				UserId:        baseReq.UserId,
 				Username:      baseReq.Username,
@@ -133,7 +129,7 @@ func (m *LoggingMiddleware) ResponseHandler(next http.Handler) http.Handler {
 				Type:          "RESPONSE",
 				Body:          json.RawMessage(cw.body.Bytes()),
 			}
-			if err := m.ElasticClient.LogToElasticsearch(entry); err != nil {
+			if err := logger.LogTrxElasticsearch("trx-janus-gateway", entry); err != nil {
 				logger.Error("response logging failed", err.Error())
 			}
 		}()

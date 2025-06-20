@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-import "proto/core.proto";
+import "core.proto";
 import "plato/generic.proto";
 import "plato/object.proto";
 import "buf/validate/validate.proto";

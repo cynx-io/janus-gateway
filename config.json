@@ -15,8 +15,9 @@
   "plato": {
     "url": "devspace:31503"
   },
-  "elasticsearch": {
-    "url": "http://devspace:32200/"
+  "elastic": {
+    "url": "http://elasticsearch.cynx.buzz/",
+    "level": "debug"
   },
   "jwt": {
     "secret": "sushi",

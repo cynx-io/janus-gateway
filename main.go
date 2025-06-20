@@ -1,15 +1,16 @@
 package main
 
 import (
+	"context"
 	"errors"
+	"github.com/cynxees/cynx-core/src/logger"
 	"github.com/cynxees/janus-gateway/internal/dependencies/config"
-	"github.com/cynxees/janus-gateway/internal/dependencies/elastic"
-	"github.com/cynxees/janus-gateway/internal/dependencies/logger"
 	"github.com/cynxees/janus-gateway/internal/gateway/handlers/hermes"
 	"github.com/cynxees/janus-gateway/internal/gateway/handlers/mercury"
 	"github.com/cynxees/janus-gateway/internal/gateway/handlers/plato"
 	"github.com/cynxees/janus-gateway/internal/gateway/middleware"
 	"github.com/gorilla/mux"
+	"github.com/sirupsen/logrus"
 	"log"
 	"net/http"
 	"strconv"
@@ -19,18 +20,18 @@ func main() {
 	log.Println("Starting Janus API Gateway")
 
 	// Load configuration
-	logger.Init()
 	config.Init()
 
-	// Load Dependencies
-	es, err := elastic.NewClient()
+	logLevel, err := logrus.ParseLevel(config.Config.Elastic.Level)
 	if err != nil {
-		panic("Failed to create Elasticsearch client: " + err.Error())
+		logLevel = logrus.DebugLevel
 	}
 
-	logMiddleware := middleware.LoggingMiddleware{
-		ElasticClient: es,
-	}
+	logger.Init(logger.LoggerConfig{
+		Level:            logLevel,
+		ElasticsearchURL: []string{config.Config.Elastic.Url},
+		ServiceName:      "janus-gateway",
+	})
 
 	// Create user handler
 	userHandler := hermes.NewUserHandler()
@@ -50,17 +51,17 @@ func main() {
 	publicRouter.Use(
 		middleware.PublicAuthMiddleware,
 		middleware.BaseRequestHandler,
-		logMiddleware.RequestHandler,
+		middleware.LogRequestHandler,
 	)
-	publicRouter.Use(logMiddleware.ResponseHandler)
+	publicRouter.Use(middleware.LogResponseHandler)
 
 	privateRouter := root.PathPrefix("/").Subrouter()
 	privateRouter.Use(
 		middleware.PrivateAuthMiddleware,
 		middleware.BaseRequestHandler,
-		logMiddleware.RequestHandler,
+		middleware.LogRequestHandler,
 	)
-	privateRouter.Use(logMiddleware.ResponseHandler)
+	privateRouter.Use(middleware.LogResponseHandler)
 
 	// Inject routes
 	userHandler.InjectRoutes(publicRouter, privateRouter)
@@ -80,7 +81,7 @@ func main() {
 	}
 
 	// Start server
-	logger.Info("HTTP server listening on ", address)
+	logger.Info(context.Background(), "HTTP server listening on ", address)
 	if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 		panic("Failed to start server: " + err.Error())
 	}

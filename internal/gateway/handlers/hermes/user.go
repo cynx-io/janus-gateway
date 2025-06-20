@@ -2,7 +2,7 @@ package hermes
 
 import (
 	"encoding/json"
-	"github.com/cynxees/janus-gateway/internal/context"
+	"github.com/cynxees/cynx-core/src/context"
 	"github.com/cynxees/janus-gateway/internal/dependencies/config"
 	"github.com/cynxees/janus-gateway/internal/gateway/handlers"
 	"net/http"

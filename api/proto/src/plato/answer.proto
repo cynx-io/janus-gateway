@@ -3,7 +3,7 @@ syntax = "proto3";
 import "plato/generic.proto";
 import "plato/object.proto";
 import "buf/validate/validate.proto";
-import "proto/core.proto";
+import "core.proto";
 
 package plato;
 
