@@ -37,7 +37,11 @@ func (h *AnswerHandler) GetAnswerById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *AnswerHandler) GetDetailAnswerById(w http.ResponseWriter, r *http.Request) {
@@ -53,7 +57,11 @@ func (h *AnswerHandler) GetDetailAnswerById(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *AnswerHandler) ListAnswersByTopicId(w http.ResponseWriter, r *http.Request) {
@@ -69,7 +77,11 @@ func (h *AnswerHandler) ListAnswersByTopicId(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *AnswerHandler) ListDetailAnswersByTopicId(w http.ResponseWriter, r *http.Request) {
@@ -85,7 +97,11 @@ func (h *AnswerHandler) ListDetailAnswersByTopicId(w http.ResponseWriter, r *htt
 		return
 	}
 
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *AnswerHandler) InsertAnswer(w http.ResponseWriter, r *http.Request) {
@@ -101,7 +117,11 @@ func (h *AnswerHandler) InsertAnswer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *AnswerHandler) UpdateAnswer(w http.ResponseWriter, r *http.Request) {
@@ -117,7 +137,11 @@ func (h *AnswerHandler) UpdateAnswer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *AnswerHandler) DeleteAnswer(w http.ResponseWriter, r *http.Request) {
@@ -133,7 +157,11 @@ func (h *AnswerHandler) DeleteAnswer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *AnswerHandler) SearchAnswers(w http.ResponseWriter, r *http.Request) {
@@ -149,5 +177,9 @@ func (h *AnswerHandler) SearchAnswers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }

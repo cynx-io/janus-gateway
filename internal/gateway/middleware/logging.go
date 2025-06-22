@@ -57,7 +57,7 @@ func LogRequestHandler(next http.Handler) http.Handler {
 				Username:      baseReq.Username,
 				RequestId:     baseReq.RequestId,
 				RequestOrigin: baseReq.RequestOrigin,
-				IpAddress:     r.RemoteAddr,
+				IpAddress:     baseReq.IpAddress,
 				Endpoint:      r.Method + " " + r.URL.Path,
 				Host:          host,
 				Referer:       referer,
@@ -67,8 +67,8 @@ func LogRequestHandler(next http.Handler) http.Handler {
 			}
 
 			// Log to Elastic (ignore error or handle it)
-			if err := logger.LogTrxElasticsearch("trx-janus-gateway", logEntry); err != nil {
-				logger.Error("Failed to log to ES: ", err)
+			if err := logger.LogTrxElasticsearch(ctx, logEntry); err != nil {
+				logger.Error(ctx, "Failed to log to ES: ", err)
 			}
 		}()
 
@@ -121,7 +121,7 @@ func LogResponseHandler(next http.Handler) http.Handler {
 				Username:      baseReq.Username,
 				RequestId:     baseReq.RequestId,
 				RequestOrigin: baseReq.RequestOrigin,
-				IpAddress:     r.RemoteAddr,
+				IpAddress:     baseReq.IpAddress,
 				Endpoint:      r.Method + " " + r.URL.Path,
 				Host:          host,
 				Referer:       referer,
@@ -129,8 +129,8 @@ func LogResponseHandler(next http.Handler) http.Handler {
 				Type:          "RESPONSE",
 				Body:          json.RawMessage(cw.body.Bytes()),
 			}
-			if err := logger.LogTrxElasticsearch("trx-janus-gateway", entry); err != nil {
-				logger.Error("response logging failed", err.Error())
+			if err := logger.LogTrxElasticsearch(ctx, entry); err != nil {
+				logger.Error(ctx, "response logging failed", err.Error())
 			}
 		}()
 	})

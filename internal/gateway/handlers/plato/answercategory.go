@@ -39,7 +39,11 @@ func (h *AnswerCategoryHandler) GetAnswerCategoryById(w http.ResponseWriter, r *
 		return
 	}
 
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *AnswerCategoryHandler) ListAnswerCategoriesByAnswerId(w http.ResponseWriter, r *http.Request) {
@@ -55,7 +59,11 @@ func (h *AnswerCategoryHandler) ListAnswerCategoriesByAnswerId(w http.ResponseWr
 		return
 	}
 
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *AnswerCategoryHandler) InsertAnswerCategory(w http.ResponseWriter, r *http.Request) {
@@ -71,7 +79,11 @@ func (h *AnswerCategoryHandler) InsertAnswerCategory(w http.ResponseWriter, r *h
 		return
 	}
 
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *AnswerCategoryHandler) UpdateAnswerCategory(w http.ResponseWriter, r *http.Request) {
@@ -87,7 +99,11 @@ func (h *AnswerCategoryHandler) UpdateAnswerCategory(w http.ResponseWriter, r *h
 		return
 	}
 
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *AnswerCategoryHandler) DeleteAnswerCategory(w http.ResponseWriter, r *http.Request) {
@@ -103,5 +119,9 @@ func (h *AnswerCategoryHandler) DeleteAnswerCategory(w http.ResponseWriter, r *h
 		return
 	}
 
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }

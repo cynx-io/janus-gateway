@@ -13,11 +13,11 @@ service PlatoAnswerService {
   rpc GetAnswerById(AnswerIdRequest) returns (AnswerResponse) {}
   rpc GetDetailAnswerById(AnswerIdRequest) returns (DetailAnswerResponse) {}
   rpc ListAnswersByTopicId(TopicIdRequest) returns (ListAnswersResponse) {}
-  rpc ListDetailAnswersByTopicId(TopicIdRequest) returns (ListDetailAnswersResponse) {}
   rpc InsertAnswer(InsertAnswerRequest) returns (AnswerResponse) {}
   rpc UpdateAnswer(UpdateAnswerRequest) returns (AnswerResponse) {}
   rpc DeleteAnswer(AnswerIdRequest) returns (core.GenericResponse) {}
 
+  rpc ListDetailAnswersByTopicId(TopicIdRequest) returns (ListDetailAnswersResponse) {} // Player
   rpc SearchAnswers(SearchAnswersRequest) returns (ListAnswersResponse) {} // Player
 }
 
@@ -53,14 +53,16 @@ message InsertAnswerRequest{
   core.BaseRequest base = 1 [(buf.validate.field).required = true];
   string name= 2;
   optional string icon_url = 3;
+  string answer_type = 4; // e.g., "Champion", "Hero", "Pokemon"
 
-  int32 topic_id = 4;
+  int32 topic_id = 10;
 }
 
 message UpdateAnswerRequest{
   core.BaseRequest base = 1 [(buf.validate.field).required = true];
   optional string name= 2;
   optional string icon_url = 3;
+  string answer_type = 4; // e.g., "Champion", "Hero", "Pokemon"
 
-  int32 answer_id = 4;
+  int32 answer_id = 10;
 }

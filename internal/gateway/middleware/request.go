@@ -6,6 +6,8 @@ import (
 	pb "github.com/cynxees/cynx-core/proto/gen"
 	"github.com/cynxees/cynx-core/src/context"
 	"github.com/cynxees/cynx-core/src/logger"
+	"net"
+	"strings"
 
 	"github.com/google/uuid"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -54,6 +56,20 @@ func BaseRequestHandler(next http.Handler) http.Handler {
 					return
 				}
 
+				ip := ""
+				ips := r.Header.Get("X-Forwarded-For")
+				if ips != "" {
+					// The X-Forwarded-For header contains a comma-separated list of IPs
+					// The first IP in the list is the original client IP.
+					ip = strings.Split(ips, ",")[0]
+				}
+
+				// Otherwise, fallback to the remote address.
+				ip, _, err = net.SplitHostPort(r.RemoteAddr)
+				if err != nil {
+					ip = r.RemoteAddr
+				}
+
 				// Inject baseRequest
 				baseMap := map[string]interface{}{
 					"request_id":     baseReq.RequestId,
@@ -62,6 +78,7 @@ func BaseRequestHandler(next http.Handler) http.Handler {
 					"timestamp":      timestamppb.New(timestamp),
 					"user_id":        baseReq.UserId,
 					"username":       baseReq.Username,
+					"ip_address":     ip,
 				}
 				bodyMap["base"] = baseMap
 

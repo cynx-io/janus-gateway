@@ -7,11 +7,11 @@ func (h *AnswerHandler) InjectRoutes(publicRouter *mux.Router, privateRouter *mu
 	private := privateRouter.PathPrefix("/plato.PlatoAnswerService").Subrouter()
 
 	public.HandleFunc("/SearchAnswers", h.SearchAnswers)
+	public.HandleFunc("/ListDetailAnswersByTopicId", h.ListDetailAnswersByTopicId)
 
 	private.HandleFunc("/GetAnswerById", h.GetAnswerById)
 	private.HandleFunc("/GetDetailAnswerById", h.GetDetailAnswerById)
 	private.HandleFunc("/ListAnswersByTopicId", h.ListAnswersByTopicId)
-	private.HandleFunc("/ListDetailAnswersByTopicId", h.ListDetailAnswersByTopicId)
 
 	private.HandleFunc("/InsertAnswer", h.InsertAnswer)
 	private.HandleFunc("/UpdateAnswer", h.UpdateAnswer)

@@ -34,6 +34,8 @@ message Mode {
   optional string text4 = 12;
   optional string text5 = 13;
 
+  optional string additional_data = 14; // json string for additional mode data
+
   int32 topic_id = 20;
 }
 
@@ -41,6 +43,7 @@ message Answer {
   int32 id = 1;
   string name = 2;
   optional string icon_url = 3;
+  string answer_type = 4; // e.g., "Champion", "Hero", "Pokemon"
 
   int32 topic_id = 20;
 }

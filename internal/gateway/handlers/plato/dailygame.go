@@ -41,7 +41,11 @@ func (h *DailyGameHandler) GetDetailDailyGameById(w http.ResponseWriter, r *http
 		return
 	}
 
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *DailyGameHandler) GetModeDailyGameById(w http.ResponseWriter, r *http.Request) {
@@ -59,7 +63,11 @@ func (h *DailyGameHandler) GetModeDailyGameById(w http.ResponseWriter, r *http.R
 		return
 	}
 
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *DailyGameHandler) GetPublicDailyGame(w http.ResponseWriter, r *http.Request) {
@@ -77,7 +85,11 @@ func (h *DailyGameHandler) GetPublicDailyGame(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *DailyGameHandler) AttemptAnswer(w http.ResponseWriter, r *http.Request) {
@@ -93,5 +105,9 @@ func (h *DailyGameHandler) AttemptAnswer(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }

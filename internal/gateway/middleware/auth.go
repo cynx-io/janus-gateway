@@ -4,28 +4,25 @@ import (
 	"errors"
 	contextcore "github.com/cynxees/cynx-core/src/context"
 	"github.com/cynxees/cynx-core/src/logger"
+	"github.com/cynxees/cynx-core/src/types/usertype"
 	"github.com/cynxees/janus-gateway/internal/dependencies/config"
+	"github.com/golang-jwt/jwt/v5"
 	"net/http"
 	"strconv"
 	"time"
-
-	"github.com/golang-jwt/jwt/v5"
 )
 
 type Claims struct {
 	jwt.RegisteredClaims
-	Username string `json:"username"`
-	UserId   int32  `json:"user_id"`
+	Username string            `json:"username"`
+	UserId   int32             `json:"user_id"`
+	UserType usertype.UserType `json:"user_type"`
 }
 
-func GenerateToken(username string, userId int32) (string, error) {
-	claims := &Claims{
-		Username: username,
-		UserId:   userId,
-		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)), // Using default 24h since config uses string format
-			IssuedAt:  jwt.NewNumericDate(time.Now()),
-		},
+func GenerateToken(claims *Claims) (string, error) {
+	claims.RegisteredClaims = jwt.RegisteredClaims{
+		ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),
+		IssuedAt:  jwt.NewNumericDate(time.Now()),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -60,9 +57,11 @@ func PublicAuthMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		// Add username to context
+		// Add user details to ctx
 		ctx = contextcore.SetKey(r.Context(), contextcore.KeyUsername, claims.Username)
 		ctx = contextcore.SetUserId(ctx, claims.UserId)
+		ctx = contextcore.SetUserType(ctx, int32(claims.UserType))
+
 		logger.Debug(ctx, "[PUBLIC AUTH] Success set for: "+claims.Username+" (UserID: "+strconv.Itoa(int(claims.UserId))+")")
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
@@ -76,7 +75,7 @@ func PrivateAuthMiddleware(next http.Handler) http.Handler {
 
 		cookie, err := r.Cookie("token")
 		if err != nil {
-			logger.Error("[PRIVATE AUTH] Error getting cookie: " + err.Error())
+			logger.Error(ctx, "[PRIVATE AUTH] Error getting cookie: "+err.Error())
 			if errors.Is(err, http.ErrNoCookie) {
 				// No Token - Unauthorized
 				http.Error(w, "Unauthorized, No Token in cookie", http.StatusUnauthorized)
@@ -94,14 +93,15 @@ func PrivateAuthMiddleware(next http.Handler) http.Handler {
 		})
 
 		if err != nil || !token.Valid {
-			logger.Error("[PRIVATE AUTH] Invalid token: " + err.Error())
+			logger.Error(ctx, "[PRIVATE AUTH] Invalid token: "+err.Error())
 			http.Error(w, "Unauthorized: "+err.Error(), http.StatusUnauthorized)
 			return
 		}
 
-		// Add username to contextcore
+		// Add user details to ctx
 		ctx = contextcore.SetKey(r.Context(), contextcore.KeyUsername, claims.Username)
 		ctx = contextcore.SetUserId(ctx, claims.UserId)
+		ctx = contextcore.SetUserType(ctx, int32(claims.UserType))
 
 		logger.Debug(ctx, "[PRIVATE AUTH] Success set for: ", claims.Username, " (UserID: ", claims.UserId, ")")
 		next.ServeHTTP(w, r.WithContext(ctx))

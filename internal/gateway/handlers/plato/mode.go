@@ -39,7 +39,11 @@ func (h *ModeHandler) GetModeById(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *ModeHandler) InsertMode(w http.ResponseWriter, r *http.Request) {
@@ -54,7 +58,11 @@ func (h *ModeHandler) InsertMode(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *ModeHandler) UpdateMode(w http.ResponseWriter, r *http.Request) {
@@ -69,7 +77,11 @@ func (h *ModeHandler) UpdateMode(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *ModeHandler) DeleteMode(w http.ResponseWriter, r *http.Request) {
@@ -86,7 +98,11 @@ func (h *ModeHandler) DeleteMode(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *ModeHandler) ListModesByTopicId(w http.ResponseWriter, r *http.Request) {
@@ -103,5 +119,9 @@ func (h *ModeHandler) ListModesByTopicId(w http.ResponseWriter, r *http.Request)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	_ = handlers.HandleResponse(w, resp)
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
 }

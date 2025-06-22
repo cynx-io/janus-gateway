@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"github.com/cynxees/cynx-core/src/logger"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
@@ -8,7 +9,6 @@ import (
 )
 
 func HandleResponse(w http.ResponseWriter, resp proto.Message) error {
-
 	marshaler := protojson.MarshalOptions{
 		EmitUnpopulated: true,
 		UseProtoNames:   true,
@@ -16,7 +16,7 @@ func HandleResponse(w http.ResponseWriter, resp proto.Message) error {
 
 	data, err := marshaler.Marshal(resp)
 	if err != nil {
-		logger.Error("Failed to marshal response: ", err)
+		logger.Error(context.Background(), "Failed to marshal response: ", err)
 		return err
 	}
 
@@ -24,7 +24,7 @@ func HandleResponse(w http.ResponseWriter, resp proto.Message) error {
 	w.WriteHeader(http.StatusOK)
 	_, err = w.Write(data)
 	if err != nil {
-		logger.Error("Failed to write response: ", err)
+		logger.Error(context.Background(), "Failed to write response: ", err)
 	}
 	return err
 }
