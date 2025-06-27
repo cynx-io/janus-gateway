@@ -7,11 +7,11 @@ func (h *AnswerHandler) InjectRoutes(publicRouter *mux.Router, privateRouter *mu
 	private := privateRouter.PathPrefix("/plato.PlatoAnswerService").Subrouter()
 
 	public.HandleFunc("/SearchAnswers", h.SearchAnswers)
-	public.HandleFunc("/ListDetailAnswersByTopicId", h.ListDetailAnswersByTopicId)
 
-	private.HandleFunc("/GetAnswerById", h.GetAnswerById)
-	private.HandleFunc("/GetDetailAnswerById", h.GetDetailAnswerById)
-	private.HandleFunc("/ListAnswersByTopicId", h.ListAnswersByTopicId)
+	public.HandleFunc("/GetAnswerById", h.GetAnswerById)
+	public.HandleFunc("/GetDetailAnswerById", h.GetDetailAnswerById)
+	public.HandleFunc("/ListAnswersByTopicId", h.ListAnswersByTopicId)
+	public.HandleFunc("/ListDetailAnswersByTopicModeId", h.ListDetailAnswersByTopicModeId)
 
 	private.HandleFunc("/InsertAnswer", h.InsertAnswer)
 	private.HandleFunc("/UpdateAnswer", h.UpdateAnswer)
@@ -19,11 +19,11 @@ func (h *AnswerHandler) InjectRoutes(publicRouter *mux.Router, privateRouter *mu
 }
 
 func (h *AnswerCategoryHandler) InjectRoutes(publicRouter *mux.Router, privateRouter *mux.Router) {
-	_ = publicRouter.PathPrefix("/plato.PlatoAnswerCategoryService").Subrouter()
+	public := publicRouter.PathPrefix("/plato.PlatoAnswerCategoryService").Subrouter()
 	private := privateRouter.PathPrefix("/plato.PlatoAnswerCategoryService").Subrouter()
 
-	private.HandleFunc("/GetAnswerCategoryById", h.GetAnswerCategoryById)
-	private.HandleFunc("/ListAnswerCategoriesByAnswerId", h.ListAnswerCategoriesByAnswerId)
+	public.HandleFunc("/GetAnswerCategoryById", h.GetAnswerCategoryById)
+	public.HandleFunc("/ListAnswerCategoriesByAnswerId", h.ListAnswerCategoriesByAnswerId)
 
 	private.HandleFunc("/InsertAnswerCategory", h.InsertAnswerCategory)
 	private.HandleFunc("/UpdateAnswerCategory", h.UpdateAnswerCategory)
@@ -37,6 +37,7 @@ func (h *DailyGameHandler) InjectRoutes(publicRouter *mux.Router, privateRouter 
 	public.HandleFunc("/GetModeDailyGameById", h.GetModeDailyGameById)
 	public.HandleFunc("/GetPublicDailyGame", h.GetPublicDailyGame)
 	public.HandleFunc("/AttemptAnswer", h.AttemptAnswer)
+	public.HandleFunc("/AttemptHistory", h.AttemptHistory)
 
 	private.HandleFunc("/GetDetailDailyGameById", h.GetDetailDailyGameById)
 }

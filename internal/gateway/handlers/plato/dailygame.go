@@ -111,3 +111,23 @@ func (h *DailyGameHandler) AttemptAnswer(w http.ResponseWriter, r *http.Request)
 		return
 	}
 }
+
+func (h *DailyGameHandler) AttemptHistory(w http.ResponseWriter, r *http.Request) {
+	var req pb.DailyGameIdRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
+		return
+	}
+
+	resp, err := h.client.AttemptHistory(r.Context(), &req)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
+}

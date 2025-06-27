@@ -75,19 +75,21 @@ func (h *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
-	var req pb.UsernamePasswordRequest
+	req := pb.UsernamePasswordRequest{}
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 
-	resp, err := h.client.CreateUser(r.Context(), &pb.UsernamePasswordRequest{
-		Username: req.Username,
-		Password: req.Password,
-	})
+	resp, err := h.client.CreateUser(r.Context(), &req)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if resp == nil || resp.Base == nil {
+		http.Error(w, "Invalid response from server", http.StatusInternalServerError)
 		return
 	}
 
@@ -130,61 +132,56 @@ func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *UserHandler) PaginateUsers(w http.ResponseWriter, r *http.Request) {
-	var req pb.PaginateRequest
+func (h *UserHandler) CreateUserFromGuest(w http.ResponseWriter, r *http.Request) {
+	req := pb.UsernamePasswordRequest{}
+
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 
-	resp, err := h.client.PaginateUsers(r.Context(), &req)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	err = handlers.HandleResponse(w, resp)
-	if err != nil {
-		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
-		return
-	}
-}
-
-func (h *UserHandler) ValidatePassword(w http.ResponseWriter, r *http.Request) {
-	var req pb.UsernamePasswordRequest
-	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, "Invalid request", http.StatusBadRequest)
-		return
-	}
-
-	resp, err := h.client.ValidatePassword(r.Context(), &req)
+	resp, err := h.client.CreateUserFromGuest(r.Context(), &req)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	if resp.Base.Code == "00" {
-		// Generate JWT token
-		token, err := middleware.GenerateToken(&middleware.Claims{
-			Username: req.Username,
-			UserId:   resp.User.Id,
-			UserType: usertype.UserType(resp.User.UserType),
-		})
+	if resp == nil || resp.Base == nil {
+		http.Error(w, "Invalid response from server", http.StatusInternalServerError)
+		return
+	}
+
+	if resp.Base.Code != "00" {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		err = json.NewEncoder(w).Encode(resp)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
 		}
-
-		// Set cookie
-		http.SetCookie(w, &http.Cookie{
-			Name:     config.Config.Cookie.Name,
-			Value:    token,
-			Path:     config.Config.Cookie.Path,
-			HttpOnly: config.Config.Cookie.HttpOnly,
-			Domain:   config.Config.Cookie.Domain,
-			Secure:   config.Config.Cookie.Secure,
-			SameSite: http.SameSiteNoneMode,
-		})
+		return
 	}
+
+	// Generate JWT token
+	token, err := middleware.GenerateToken(&middleware.Claims{
+		Username: req.Username,
+		UserId:   resp.User.Id,
+		UserType: usertype.UserType(resp.User.UserType),
+	})
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Set cookie
+	http.SetCookie(w, &http.Cookie{
+		Name:     config.Config.Cookie.Name,
+		Value:    token,
+		Path:     config.Config.Cookie.Path,
+		HttpOnly: config.Config.Cookie.HttpOnly,
+		Domain:   config.Config.Cookie.Domain,
+		Secure:   config.Config.Cookie.Secure,
+		SameSite: http.SameSiteNoneMode,
+	})
 
 	err = handlers.HandleResponse(w, resp)
 	if err != nil {
@@ -194,7 +191,8 @@ func (h *UserHandler) ValidatePassword(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *UserHandler) UpsertGuestUser(w http.ResponseWriter, r *http.Request) {
-	var req core.GenericRequest
+	req := core.GenericRequest{}
+
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
@@ -206,10 +204,91 @@ func (h *UserHandler) UpsertGuestUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if resp == nil || resp.Base == nil {
+		http.Error(w, "Invalid response from server", http.StatusInternalServerError)
+		return
+	}
+
+	if resp.Base.Code != "00" {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		err = json.NewEncoder(w).Encode(resp)
+		if err != nil {
+			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		}
+		return
+	}
+
+	// Generate JWT token
+	token, err := middleware.GenerateToken(&middleware.Claims{
+		Username: resp.User.Username,
+		UserId:   resp.User.Id,
+		UserType: usertype.UserType(resp.User.UserType),
+	})
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Set cookie
+	http.SetCookie(w, &http.Cookie{
+		Name:     config.Config.Cookie.Name,
+		Value:    token,
+		Path:     config.Config.Cookie.Path,
+		HttpOnly: config.Config.Cookie.HttpOnly,
+		Domain:   config.Config.Cookie.Domain,
+		Secure:   config.Config.Cookie.Secure,
+		SameSite: http.SameSiteNoneMode,
+	})
+
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
+}
+
+func (h *UserHandler) PaginateUsers(w http.ResponseWriter, r *http.Request) {
+	req := pb.PaginateRequest{}
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
+		return
+	}
+
+	resp, err := h.client.PaginateUsers(r.Context(), &req)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	err = handlers.HandleResponse(w, resp)
+	if err != nil {
+		http.Error(w, "Failed to handle response", http.StatusInternalServerError)
+		return
+	}
+}
+
+func (h *UserHandler) ValidatePassword(w http.ResponseWriter, r *http.Request) {
+	req := pb.UsernamePasswordRequest{}
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
+		return
+	}
+
+	resp, err := h.client.ValidatePassword(r.Context(), &req)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	if resp.Base.Code == "00" {
 		// Generate JWT token
 		token, err := middleware.GenerateToken(&middleware.Claims{
-			Username: resp.User.Username,
+			Username: req.Username,
 			UserId:   resp.User.Id,
 			UserType: usertype.UserType(resp.User.UserType),
 		})

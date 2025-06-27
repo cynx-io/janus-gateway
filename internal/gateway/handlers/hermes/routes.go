@@ -11,6 +11,8 @@ func (h *UserHandler) InjectRoutes(publicRouter *mux.Router, privateRouter *mux.
 
 	public.HandleFunc("/CheckUsername", h.CheckUsername)
 	public.HandleFunc("/CreateUser", h.CreateUser)
+	public.HandleFunc("/UpsertGuestUser", h.UpsertGuestUser)
+	public.HandleFunc("/CreateUserFromGuest", h.CreateUserFromGuest)
 	public.HandleFunc("/ValidatePassword", h.ValidatePassword)
 	public.HandleFunc("/UpsertGuestUser", h.UpsertGuestUser)
 

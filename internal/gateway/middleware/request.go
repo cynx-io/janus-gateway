@@ -62,12 +62,13 @@ func BaseRequestHandler(next http.Handler) http.Handler {
 					// The X-Forwarded-For header contains a comma-separated list of IPs
 					// The first IP in the list is the original client IP.
 					ip = strings.Split(ips, ",")[0]
-				}
+				} else {
+					// Otherwise, fallback to the remote address.
+					ip, _, err = net.SplitHostPort(r.RemoteAddr)
+					if err != nil {
+						ip = r.RemoteAddr
+					}
 
-				// Otherwise, fallback to the remote address.
-				ip, _, err = net.SplitHostPort(r.RemoteAddr)
-				if err != nil {
-					ip = r.RemoteAddr
 				}
 
 				// Inject baseRequest

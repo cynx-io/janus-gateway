@@ -84,14 +84,14 @@ func (h *AnswerHandler) ListAnswersByTopicId(w http.ResponseWriter, r *http.Requ
 	}
 }
 
-func (h *AnswerHandler) ListDetailAnswersByTopicId(w http.ResponseWriter, r *http.Request) {
-	var req pb.TopicIdRequest
+func (h *AnswerHandler) ListDetailAnswersByTopicModeId(w http.ResponseWriter, r *http.Request) {
+	var req pb.TopicModeRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
 
-	resp, err := h.client.ListDetailAnswersByTopicId(r.Context(), &req)
+	resp, err := h.client.ListDetailAnswersByTopicModeId(r.Context(), &req)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

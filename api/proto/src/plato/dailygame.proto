@@ -15,6 +15,7 @@ service PlatoDailyGameService {
   rpc GetModeDailyGameById(ModeIdRequest) returns (ModeDailyGameResponse) {} // Player
   rpc GetPublicDailyGame(ModeIdRequest) returns (PublicDailyGameResponse) {} // Player
   rpc AttemptAnswer(AttemptAnswerRequest) returns (AttemptAnswerResponse) {} // Player
+  rpc AttemptHistory(DailyGameIdRequest) returns (AttemptHistoryResponse) {} // Player
 }
 
 message ModeDailyGameResponse {
@@ -41,7 +42,12 @@ message AttemptAnswerRequest {
 
 message AttemptAnswerResponse {
   core.BaseResponse base = 1;
-  bool is_correct = 2;
   AttemptDetailAnswer attempt_detail_answer = 3;
-  DailyGameAnswerStats daily_game_answer_stats = 4;
+  repeated Clue clues = 4;
+}
+
+message AttemptHistoryResponse {
+  core.BaseResponse base = 1;
+  repeated AttemptDetailAnswer attempt_detail_answers = 2;
+  repeated Clue clues = 5;
 }
