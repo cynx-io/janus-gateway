@@ -21,7 +21,7 @@
   },
   "jwt": {
     "secret": "sushi",
-    "expires_in": 24
+    "expiresInHours": 168
   },
   "cors": {
     "enabled": true,

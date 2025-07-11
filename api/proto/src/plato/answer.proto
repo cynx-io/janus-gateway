@@ -12,11 +12,11 @@ option go_package = "plato/api/proto";
 service PlatoAnswerService {
   rpc GetAnswerById(AnswerIdRequest) returns (AnswerResponse) {}
   rpc GetDetailAnswerById(AnswerIdRequest) returns (DetailAnswerResponse) {}
+  rpc ListAnswersByTopicId(TopicIdRequest) returns (ListAnswersResponse) {}
   rpc InsertAnswer(InsertAnswerRequest) returns (AnswerResponse) {}
   rpc UpdateAnswer(UpdateAnswerRequest) returns (AnswerResponse) {}
   rpc DeleteAnswer(AnswerIdRequest) returns (core.GenericResponse) {}
 
-  rpc ListAnswersByTopicId(TopicIdRequest) returns (ListAnswersResponse) {}
   rpc ListDetailAnswersByTopicModeId(TopicModeRequest) returns (ListDetailAnswersResponse) {} // Player
   rpc SearchAnswers(SearchAnswersRequest) returns (ListAnswersResponse) {} // Player
 }

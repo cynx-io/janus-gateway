@@ -5,14 +5,13 @@ import (
 	core "github.com/cynxees/cynx-core/proto/gen"
 	"github.com/cynxees/cynx-core/src/context"
 	"github.com/cynxees/cynx-core/src/types/usertype"
+	pb "github.com/cynxees/janus-gateway/api/proto/gen/hermes"
 	"github.com/cynxees/janus-gateway/internal/dependencies/config"
 	"github.com/cynxees/janus-gateway/internal/gateway/handlers"
-	"net/http"
-
-	pb "github.com/cynxees/janus-gateway/api/proto/gen/hermes"
 	"github.com/cynxees/janus-gateway/internal/gateway/middleware"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"net/http"
 )
 
 type UserHandler struct {
@@ -104,11 +103,12 @@ func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Generate JWT token
-	token, err := middleware.GenerateToken(&middleware.Claims{
+	claims := &middleware.Claims{
 		Username: req.Username,
 		UserId:   resp.User.Id,
 		UserType: usertype.UserType(resp.User.UserType),
-	})
+	}
+	token, err := middleware.GenerateToken(claims)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -123,6 +123,7 @@ func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		Domain:   config.Config.Cookie.Domain,
 		Secure:   config.Config.Cookie.Secure,
 		SameSite: http.SameSiteNoneMode,
+		Expires:  claims.ExpiresAt.Time,
 	})
 
 	err = handlers.HandleResponse(w, resp)
@@ -162,11 +163,12 @@ func (h *UserHandler) CreateUserFromGuest(w http.ResponseWriter, r *http.Request
 	}
 
 	// Generate JWT token
-	token, err := middleware.GenerateToken(&middleware.Claims{
+	claims := &middleware.Claims{
 		Username: req.Username,
 		UserId:   resp.User.Id,
 		UserType: usertype.UserType(resp.User.UserType),
-	})
+	}
+	token, err := middleware.GenerateToken(claims)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -181,6 +183,7 @@ func (h *UserHandler) CreateUserFromGuest(w http.ResponseWriter, r *http.Request
 		Domain:   config.Config.Cookie.Domain,
 		Secure:   config.Config.Cookie.Secure,
 		SameSite: http.SameSiteNoneMode,
+		Expires:  claims.ExpiresAt.Time,
 	})
 
 	err = handlers.HandleResponse(w, resp)
@@ -220,11 +223,12 @@ func (h *UserHandler) UpsertGuestUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Generate JWT token
-	token, err := middleware.GenerateToken(&middleware.Claims{
+	claims := &middleware.Claims{
 		Username: resp.User.Username,
 		UserId:   resp.User.Id,
 		UserType: usertype.UserType(resp.User.UserType),
-	})
+	}
+	token, err := middleware.GenerateToken(claims)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -239,6 +243,7 @@ func (h *UserHandler) UpsertGuestUser(w http.ResponseWriter, r *http.Request) {
 		Domain:   config.Config.Cookie.Domain,
 		Secure:   config.Config.Cookie.Secure,
 		SameSite: http.SameSiteNoneMode,
+		Expires:  claims.ExpiresAt.Time,
 	})
 
 	err = handlers.HandleResponse(w, resp)
@@ -287,11 +292,12 @@ func (h *UserHandler) ValidatePassword(w http.ResponseWriter, r *http.Request) {
 
 	if resp.Base.Code == "00" {
 		// Generate JWT token
-		token, err := middleware.GenerateToken(&middleware.Claims{
+		claims := &middleware.Claims{
 			Username: req.Username,
 			UserId:   resp.User.Id,
 			UserType: usertype.UserType(resp.User.UserType),
-		})
+		}
+		token, err := middleware.GenerateToken(claims)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -306,6 +312,7 @@ func (h *UserHandler) ValidatePassword(w http.ResponseWriter, r *http.Request) {
 			Domain:   config.Config.Cookie.Domain,
 			Secure:   config.Config.Cookie.Secure,
 			SameSite: http.SameSiteNoneMode,
+			Expires:  claims.ExpiresAt.Time,
 		})
 	}
 

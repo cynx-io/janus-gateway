@@ -21,7 +21,7 @@ type Claims struct {
 
 func GenerateToken(claims *Claims) (string, error) {
 	claims.RegisteredClaims = jwt.RegisteredClaims{
-		ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),
+		ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(config.Config.JWT.ExpiresInHours) * time.Hour)),
 		IssuedAt:  jwt.NewNumericDate(time.Now()),
 	}
 

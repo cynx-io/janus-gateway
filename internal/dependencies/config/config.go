@@ -26,8 +26,8 @@ type AppConfig struct {
 		HttpOnly bool   `json:"http_only"`
 	} `json:"cookie"`
 	JWT struct {
-		Secret    string `json:"secret"`
-		ExpiresIn int    `json:"expires_in"`
+		Secret         string `json:"secret"`
+		ExpiresInHours int    `json:"expiresInHours"`
 	} `json:"jwt"`
 	App struct {
 		Address string `json:"address"`
