@@ -3,9 +3,9 @@ package middleware
 import (
 	"bytes"
 	"encoding/json"
-	pb "github.com/cynxees/cynx-core/proto/gen"
-	"github.com/cynxees/cynx-core/src/context"
-	"github.com/cynxees/cynx-core/src/logger"
+	pb "github.com/cynx-io/cynx-core/proto/gen"
+	"github.com/cynx-io/cynx-core/src/context"
+	"github.com/cynx-io/cynx-core/src/logger"
 	"net"
 	"strings"
 

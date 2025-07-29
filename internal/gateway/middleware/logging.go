@@ -3,8 +3,8 @@ package middleware
 import (
 	"bytes"
 	"encoding/json"
-	contextcore "github.com/cynxees/cynx-core/src/context"
-	"github.com/cynxees/cynx-core/src/logger"
+	contextcore "github.com/cynx-io/cynx-core/src/context"
+	"github.com/cynx-io/cynx-core/src/logger"
 
 	"io"
 	"log"

@@ -2,9 +2,9 @@ package plato
 
 import (
 	"encoding/json"
-	pb "github.com/cynxees/janus-gateway/api/proto/gen/plato"
-	"github.com/cynxees/janus-gateway/internal/dependencies/config"
-	"github.com/cynxees/janus-gateway/internal/gateway/handlers"
+	pb "github.com/cynx-io/janus-gateway/api/proto/gen/plato"
+	"github.com/cynx-io/janus-gateway/internal/dependencies/config"
+	"github.com/cynx-io/janus-gateway/internal/gateway/handlers"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"net/http"

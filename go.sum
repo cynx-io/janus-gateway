@@ -1,7 +1,7 @@
 buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.6-20250613105001-9f2d3c737feb.1 h1:AUL6VF5YWL01j/1H/DQbPUSDkEwYqwVCNw7yhbpOxSQ=
 buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.6-20250613105001-9f2d3c737feb.1/go.mod h1:avRlCjnFzl98VPaeCtJ24RrV/wwHFzB8sWXhj26+n/U=
-github.com/cynxees/cynx-core v0.0.25 h1:QQIfPfWQxCV/TPgg6NYuVOPm36nVg6L55z3MEP/H4hw=
-github.com/cynxees/cynx-core v0.0.25/go.mod h1:Ans3ZRq7p0PGuQ7uv4oBg/qIhA7RJTelD9O2D/HX0ks=
+github.com/cynx-io/cynx-core v0.0.32 h1:1AnSLJcaGUt4iB9WpMBapIZqr2RjW6YChkC+YH/Rbfo=
+github.com/cynx-io/cynx-core v0.0.32/go.mod h1:1rqYb9VFIUFbiKEUgWt8OewNAAk/Ct4lTJcH3pOMUPU=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

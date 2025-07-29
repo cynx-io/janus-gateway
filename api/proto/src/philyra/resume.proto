@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package philyra;
+
+option go_package = "philyra/api/proto";
+
+import "philyra/entity.proto";
+import "core.proto";
+
+service ResumeService {
+    rpc CreateResume(CreateResumeRequest) returns (ResumeResponse);
+    rpc GetResume(GetResumeRequest) returns (ResumeResponse);
+    rpc UpdateResume(UpdateResumeRequest) returns (ResumeResponse);
+    rpc DeleteResume(DeleteResumeRequest) returns (core.GenericResponse);
+    rpc ListResumes(ListResumesRequest) returns (ListResumesResponse);
+    rpc GenerateResume(GenerateResumeRequest) returns (GenerateResumeResponse);
+}
+
+message CreateResumeRequest {
+    core.BaseRequest base = 1;
+    string title = 2;
+    string full_name = 3;
+    string email = 4;
+    string phone = 5;
+    string address = 6;
+    string summary = 7;
+    string experience = 8;
+    string education = 9;
+    string skills = 10;
+    string certifications = 11;
+    string projects = 12;
+    string languages = 13;
+    string references = 14;
+    string file_url = 15;
+}
+
+message GetResumeRequest {
+    core.BaseRequest base = 1;
+    int32 id = 2;
+}
+
+message UpdateResumeRequest {
+    core.BaseRequest base = 1;
+    int32 id = 2;
+    string title = 3;
+    string full_name = 4;
+    string email = 5;
+    string phone = 6;
+    string address = 7;
+    string summary = 8;
+    string experience = 9;
+    string education = 10;
+    string skills = 11;
+    string certifications = 12;
+    string projects = 13;
+    string languages = 14;
+    string references = 15;
+    string file_url = 16;
+    string status = 17;
+}
+
+message DeleteResumeRequest {
+    core.BaseRequest base = 1;
+    int32 id = 2;
+}
+
+message ListResumesRequest {
+    core.BaseRequest base = 1;
+    int32 page = 2;
+    int32 limit = 3;
+    string search = 4;
+    string status = 5;
+}
+
+message ResumeResponse {
+    core.BaseResponse base = 1;
+    Resume resume = 2;
+}
+
+message ListResumesResponse {
+    core.BaseResponse base = 1;
+    repeated Resume resumes = 2;
+    int32 total = 3;
+    int32 page = 4;
+    int32 limit = 5;
+}
+
+message GenerateResumeRequest {
+    core.BaseRequest base = 1;
+    string context = 2;
+}
+
+message GenerateResumeResponse {
+    core.BaseResponse base = 1;
+    GeneratedResume generated_resume = 2;
+}

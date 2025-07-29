@@ -1,6 +1,6 @@
 package config
 
-import "github.com/cynxees/cynx-core/src/configuration"
+import "github.com/cynx-io/cynx-core/src/configuration"
 
 var Config *AppConfig
 
@@ -14,6 +14,9 @@ type AppConfig struct {
 	Plato struct {
 		Url string `json:"url"`
 	} `json:"plato"`
+	Philyra struct {
+		Url string `json:"url"`
+	} `json:"philyra"`
 	Elastic struct {
 		Url   string `json:"url"`
 		Level string `json:"level"`

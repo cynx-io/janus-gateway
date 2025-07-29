@@ -2,10 +2,10 @@ package middleware
 
 import (
 	"errors"
-	contextcore "github.com/cynxees/cynx-core/src/context"
-	"github.com/cynxees/cynx-core/src/logger"
-	"github.com/cynxees/cynx-core/src/types/usertype"
-	"github.com/cynxees/janus-gateway/internal/dependencies/config"
+	contextcore "github.com/cynx-io/cynx-core/src/context"
+	"github.com/cynx-io/cynx-core/src/logger"
+	"github.com/cynx-io/cynx-core/src/types/usertype"
+	"github.com/cynx-io/janus-gateway/internal/dependencies/config"
 	"github.com/golang-jwt/jwt/v5"
 	"net/http"
 	"strconv"

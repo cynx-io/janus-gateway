@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"context"
-	"github.com/cynxees/cynx-core/src/logger"
+	"github.com/cynx-io/cynx-core/src/logger"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"net/http"

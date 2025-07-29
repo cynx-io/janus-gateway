@@ -1,9 +1,9 @@
 version: v1beta1
-name: github.com/cynxees/janus-gateway
+name: github.com/cynx-io/janus-gateway
 build:
   roots:
     - api/proto/src
 deps:
   - buf.build/bufbuild/protovalidate
   - buf.build/googleapis/googleapis
-  - buf.build/cynx/cynx-core
+  - buf.build/cynx/cynx-core:v0.0.32

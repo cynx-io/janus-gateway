@@ -3,12 +3,13 @@ package main
 import (
 	"context"
 	"errors"
-	"github.com/cynxees/cynx-core/src/logger"
-	"github.com/cynxees/janus-gateway/internal/dependencies/config"
-	"github.com/cynxees/janus-gateway/internal/gateway/handlers/hermes"
-	"github.com/cynxees/janus-gateway/internal/gateway/handlers/mercury"
-	"github.com/cynxees/janus-gateway/internal/gateway/handlers/plato"
-	"github.com/cynxees/janus-gateway/internal/gateway/middleware"
+	"github.com/cynx-io/cynx-core/src/logger"
+	"github.com/cynx-io/janus-gateway/internal/dependencies/config"
+	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/hermes"
+	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/mercury"
+	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/philyra"
+	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/plato"
+	"github.com/cynx-io/janus-gateway/internal/gateway/middleware"
 	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
 	"log"
@@ -36,6 +37,7 @@ func main() {
 	// Create user handler
 	userHandler := hermes.NewUserHandler()
 	cryptoHandler := mercury.NewCryptoHandler()
+	resumeHandler := philyra.NewResumeHandler()
 
 	platoAnswerHandler := plato.NewAnswerHandler()
 	platoAnswerCategoryHandler := plato.NewAnswerCategoryHandler()
@@ -66,6 +68,7 @@ func main() {
 	// Inject routes
 	userHandler.InjectRoutes(publicRouter, privateRouter)
 	cryptoHandler.InjectRoutes(publicRouter, privateRouter)
+	resumeHandler.InjectRoutes(publicRouter, privateRouter)
 	platoAnswerHandler.InjectRoutes(publicRouter, privateRouter)
 	platoAnswerCategoryHandler.InjectRoutes(publicRouter, privateRouter)
 	platoDailyGameHandler.InjectRoutes(publicRouter, privateRouter)

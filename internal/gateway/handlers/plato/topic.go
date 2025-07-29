@@ -8,10 +8,10 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	pbCore "github.com/cynxees/cynx-core/proto/gen"
-	pb "github.com/cynxees/janus-gateway/api/proto/gen/plato"
-	"github.com/cynxees/janus-gateway/internal/dependencies/config"
-	"github.com/cynxees/janus-gateway/internal/gateway/handlers"
+	pbCore "github.com/cynx-io/cynx-core/proto/gen"
+	pb "github.com/cynx-io/janus-gateway/api/proto/gen/plato"
+	"github.com/cynx-io/janus-gateway/internal/dependencies/config"
+	"github.com/cynx-io/janus-gateway/internal/gateway/handlers"
 )
 
 type TopicHandler struct {

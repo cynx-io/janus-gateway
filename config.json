@@ -7,13 +7,16 @@
     "key": "Ramen"
   },
   "hermes": {
-    "url": "0.0.0.0:5001"
+    "url": "devspace:31501"
   },
   "mercury": {
     "url": "devspace:31502"
   },
   "plato": {
     "url": "devspace:31503"
+  },
+  "philyra": {
+    "url": "devspace:31505"
   },
   "elastic": {
     "url": "http://elasticsearch.cynx.buzz/",

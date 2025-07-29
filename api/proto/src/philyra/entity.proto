@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package philyra;
+
+option go_package = "philyra/api/proto";
+
+import "google/protobuf/timestamp.proto";
+
+message Resume {
+    int32 id = 1;
+    google.protobuf.Timestamp created_date = 2;
+    google.protobuf.Timestamp updated_date = 3;
+    string title = 4;
+    string full_name = 5;
+    string email = 6;
+    string phone = 7;
+    string address = 8;
+    string summary = 9;
+    string experience = 10;
+    string education = 11;
+    string skills = 12;
+    string certifications = 13;
+    string projects = 14;
+    string languages = 15;
+    string references = 16;
+    string file_url = 17;
+    string status = 18;
+    int32 user_id = 19;
+}
+
+message PersonalInfo {
+    string full_name = 1;
+    string email = 2;
+    string phone = 3;
+    string location = 4;
+    string linkedin = 5;
+    string website = 6;
+}
+
+message Experience {
+    int32 id = 1;
+    string company = 2;
+    string position = 3;
+    string location = 4;
+    google.protobuf.Timestamp start_date = 5;
+    google.protobuf.Timestamp end_date = 6;
+    string description = 7;
+    repeated string achievements = 8;
+    int32 order = 9;
+}
+
+message Education {
+    int32 id = 1;
+    string institution = 2;
+    string degree = 3;
+    string field = 4;
+    string location = 5;
+    google.protobuf.Timestamp graduation_date = 6;
+    string gpa = 7;
+    int32 order = 8;
+}
+
+message Skills {
+    repeated string technical = 1;
+    repeated string soft = 2;
+    repeated string certifications = 3;
+}
+
+message StructuredData {
+    PersonalInfo personal_info = 1;
+    string summary = 2;
+    repeated Experience experience = 3;
+    repeated Education education = 4;
+    Skills skills = 5;
+}
+
+message GeneratedResume {
+    int32 id = 1;
+    int32 user_id = 2;
+    string title = 3;
+    StructuredData structured_data = 4;
+    int32 ats_score = 5;
+    google.protobuf.Timestamp created_at = 6;
+    google.protobuf.Timestamp updated_at = 7;
+}
