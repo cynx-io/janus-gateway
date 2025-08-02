@@ -11,8 +11,17 @@ service ResumeService {
     rpc CreateResume(CreateResumeRequest) returns (ResumeResponse);
     rpc GetResume(GetResumeRequest) returns (ResumeResponse);
     rpc UpdateResume(UpdateResumeRequest) returns (ResumeResponse);
-    rpc DeleteResume(DeleteResumeRequest) returns (core.GenericResponse);
     rpc ListResumes(ListResumesRequest) returns (ListResumesResponse);
+    rpc DeleteResume(DeleteResumeRequest) returns (core.GenericResponse);
+    rpc DeleteResumeItem(DeleteResumeItemRequest) returns (core.GenericResponse);
+    rpc GetPersonalInfo(GetPersonalInfoRequest) returns (GetPersonalInfoResponse);
+    rpc GetExperience(GetExperienceRequest) returns (GetExperienceResponse);
+    rpc GetEducation(GetEducationRequest) returns (GetEducationResponse);
+    rpc GetSkills(GetSkillsRequest) returns (GetSkillsResponse);
+    rpc UpsertPersonalInfo(UpsertPersonalInfoRequest) returns (core.GenericResponse);
+    rpc UpsertExperience(UpsertExperienceRequest) returns (core.GenericResponse);
+    rpc UpsertEducation(UpsertEducationRequest) returns (core.GenericResponse);
+    rpc UpsertSkills(UpsertSkillsRequest) returns (core.GenericResponse);
     rpc GenerateResume(GenerateResumeRequest) returns (GenerateResumeResponse);
 }
 
@@ -64,6 +73,20 @@ message DeleteResumeRequest {
     int32 id = 2;
 }
 
+enum ResumeItemType {
+    PERSONAL_INFO = 0;
+    EXPERIENCE = 1;
+    EDUCATION = 2;
+    SKILLS = 3;
+}
+
+message DeleteResumeItemRequest {
+    core.BaseRequest base = 1;
+    int32 resume_id = 2;
+    ResumeItemType item_type = 3;
+    int32 item_id = 4;
+}
+
 message ListResumesRequest {
     core.BaseRequest base = 1;
     int32 page = 2;
@@ -93,4 +116,116 @@ message GenerateResumeRequest {
 message GenerateResumeResponse {
     core.BaseResponse base = 1;
     GeneratedResume generated_resume = 2;
+}
+
+message UpsertPersonalInfoRequest {
+    core.BaseRequest base = 1;
+    int32 resume_id = 2;
+    string context = 3;
+    PersonalInfo personal_info = 4;
+}
+
+message UpsertExperienceRequest {
+    core.BaseRequest base = 1;
+    int32 resume_id = 2;
+    string context = 3;
+    Experience experience = 4;
+}
+
+message UpsertEducationRequest {
+    core.BaseRequest base = 1;
+    int32 resume_id = 2;
+    string context = 3;
+    Education education = 4;
+}
+
+message UpsertSkillsRequest {
+    core.BaseRequest base = 1;
+    int32 resume_id = 2;
+    string context = 3;
+    repeated string skills = 4;
+}
+
+enum FlagType {
+    MISSING = 0;        // Field is missing or empty
+    FORMAT_ISSUE = 1;   // Format is incorrect
+    LENGTH_ISSUE = 2;   // Too short/long
+    COUNT_ISSUE = 3;    // Not enough items or too many
+    CONTENT_ISSUE = 4;  // Content quality needs improvement
+    OPTIONAL = 5;       // Optional field suggestion
+}
+
+message Flag {
+    FlagType flag_type = 1;
+    string field_name = 2; // e.g., "full_name", "email", "skills"
+    string message = 3; // Human readable message (only if there's an issue)
+    int32 score_impact = 4; // 0-100 score impact if fixed
+    bool requires_ai = 5; // Whether this flag needs AI to generate content
+    int32 score = 6; // 0-100 score for this specific field/aspect
+}
+
+message GetPersonalInfoRequest {
+    core.BaseRequest base = 1;
+    int32 resume_id = 2;
+}
+
+message GetPersonalInfoResponse {
+    core.BaseResponse base = 1;
+    PersonalInfo personal_info = 2;
+    int32 score = 3; // Overall score for personal info section
+    repeated Flag flags = 4; // All flags for this section
+}
+
+message GetExperienceRequest {
+    core.BaseRequest base = 1;
+    int32 resume_id = 2;
+    int32 experience_id = 3; // Optional: get specific experience, if not provided get all
+}
+
+message ExperienceWithFlags {
+    Experience experience = 1;
+    int32 score = 2; // Score for this experience item
+    repeated Flag flags = 3; // All flags for this experience
+}
+
+message GetExperienceResponse {
+    core.BaseResponse base = 1;
+    repeated ExperienceWithFlags experiences = 2;
+    int32 overall_score = 3; // Overall score for experience section
+}
+
+message GetEducationRequest {
+    core.BaseRequest base = 1;
+    int32 resume_id = 2;
+    int32 education_id = 3; // Optional: get specific education, if not provided get all
+}
+
+message EducationWithFlags {
+    Education education = 1;
+    int32 score = 2; // Score for this education item
+    repeated Flag flags = 3; // All flags for this education
+}
+
+message GetEducationResponse {
+    core.BaseResponse base = 1;
+    repeated EducationWithFlags educations = 2;
+    int32 overall_score = 3; // Overall score for education section
+}
+
+message GetSkillsRequest {
+    core.BaseRequest base = 1;
+    int32 resume_id = 2;
+}
+
+message SkillWithFlags {
+    string skill_name = 1;
+    string skill_type = 2;
+    string skill_level = 3;
+}
+
+message GetSkillsResponse {
+    core.BaseResponse base = 1;
+    repeated SkillWithFlags skills = 2;
+    int32 score = 3; // Overall score for skills section
+    repeated Flag flags = 4; // All flags for skills section
 }

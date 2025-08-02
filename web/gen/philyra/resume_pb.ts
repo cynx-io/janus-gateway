@@ -2,9 +2,9 @@
 // @generated from file philyra/resume.proto (package philyra, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { GeneratedResume, Resume } from "./entity_pb";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { Education, Experience, GeneratedResume, PersonalInfo, Resume } from "./entity_pb";
 import { file_philyra_entity } from "./entity_pb";
 import type { BaseRequest, BaseResponse, GenericResponseSchema } from "../core_pb";
 import { file_core } from "../core_pb";
@@ -14,7 +14,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file philyra/resume.proto.
  */
 export const file_philyra_resume: GenFile = /*@__PURE__*/
-  fileDesc("ChRwaGlseXJhL3Jlc3VtZS5wcm90bxIHcGhpbHlyYSKyAgoTQ3JlYXRlUmVzdW1lUmVxdWVzdBIfCgRiYXNlGAEgASgLMhEuY29yZS5CYXNlUmVxdWVzdBINCgV0aXRsZRgCIAEoCRIRCglmdWxsX25hbWUYAyABKAkSDQoFZW1haWwYBCABKAkSDQoFcGhvbmUYBSABKAkSDwoHYWRkcmVzcxgGIAEoCRIPCgdzdW1tYXJ5GAcgASgJEhIKCmV4cGVyaWVuY2UYCCABKAkSEQoJZWR1Y2F0aW9uGAkgASgJEg4KBnNraWxscxgKIAEoCRIWCg5jZXJ0aWZpY2F0aW9ucxgLIAEoCRIQCghwcm9qZWN0cxgMIAEoCRIRCglsYW5ndWFnZXMYDSABKAkSEgoKcmVmZXJlbmNlcxgOIAEoCRIQCghmaWxlX3VybBgPIAEoCSI/ChBHZXRSZXN1bWVSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0EgoKAmlkGAIgASgFIs4CChNVcGRhdGVSZXN1bWVSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0EgoKAmlkGAIgASgFEg0KBXRpdGxlGAMgASgJEhEKCWZ1bGxfbmFtZRgEIAEoCRINCgVlbWFpbBgFIAEoCRINCgVwaG9uZRgGIAEoCRIPCgdhZGRyZXNzGAcgASgJEg8KB3N1bW1hcnkYCCABKAkSEgoKZXhwZXJpZW5jZRgJIAEoCRIRCgllZHVjYXRpb24YCiABKAkSDgoGc2tpbGxzGAsgASgJEhYKDmNlcnRpZmljYXRpb25zGAwgASgJEhAKCHByb2plY3RzGA0gASgJEhEKCWxhbmd1YWdlcxgOIAEoCRISCgpyZWZlcmVuY2VzGA8gASgJEhAKCGZpbGVfdXJsGBAgASgJEg4KBnN0YXR1cxgRIAEoCSJCChNEZWxldGVSZXN1bWVSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0EgoKAmlkGAIgASgFInIKEkxpc3RSZXN1bWVzUmVxdWVzdBIfCgRiYXNlGAEgASgLMhEuY29yZS5CYXNlUmVxdWVzdBIMCgRwYWdlGAIgASgFEg0KBWxpbWl0GAMgASgFEg4KBnNlYXJjaBgEIAEoCRIOCgZzdGF0dXMYBSABKAkiUwoOUmVzdW1lUmVzcG9uc2USIAoEYmFzZRgBIAEoCzISLmNvcmUuQmFzZVJlc3BvbnNlEh8KBnJlc3VtZRgCIAEoCzIPLnBoaWx5cmEuUmVzdW1lIoUBChNMaXN0UmVzdW1lc1Jlc3BvbnNlEiAKBGJhc2UYASABKAsyEi5jb3JlLkJhc2VSZXNwb25zZRIgCgdyZXN1bWVzGAIgAygLMg8ucGhpbHlyYS5SZXN1bWUSDQoFdG90YWwYAyABKAUSDAoEcGFnZRgEIAEoBRINCgVsaW1pdBgFIAEoBSJJChVHZW5lcmF0ZVJlc3VtZVJlcXVlc3QSHwoEYmFzZRgBIAEoCzIRLmNvcmUuQmFzZVJlcXVlc3QSDwoHY29udGV4dBgCIAEoCSJuChZHZW5lcmF0ZVJlc3VtZVJlc3BvbnNlEiAKBGJhc2UYASABKAsyEi5jb3JlLkJhc2VSZXNwb25zZRIyChBnZW5lcmF0ZWRfcmVzdW1lGAIgASgLMhgucGhpbHlyYS5HZW5lcmF0ZWRSZXN1bWUywAMKDVJlc3VtZVNlcnZpY2USRQoMQ3JlYXRlUmVzdW1lEhwucGhpbHlyYS5DcmVhdGVSZXN1bWVSZXF1ZXN0GhcucGhpbHlyYS5SZXN1bWVSZXNwb25zZRI/CglHZXRSZXN1bWUSGS5waGlseXJhLkdldFJlc3VtZVJlcXVlc3QaFy5waGlseXJhLlJlc3VtZVJlc3BvbnNlEkUKDFVwZGF0ZVJlc3VtZRIcLnBoaWx5cmEuVXBkYXRlUmVzdW1lUmVxdWVzdBoXLnBoaWx5cmEuUmVzdW1lUmVzcG9uc2USQwoMRGVsZXRlUmVzdW1lEhwucGhpbHlyYS5EZWxldGVSZXN1bWVSZXF1ZXN0GhUuY29yZS5HZW5lcmljUmVzcG9uc2USSAoLTGlzdFJlc3VtZXMSGy5waGlseXJhLkxpc3RSZXN1bWVzUmVxdWVzdBocLnBoaWx5cmEuTGlzdFJlc3VtZXNSZXNwb25zZRJRCg5HZW5lcmF0ZVJlc3VtZRIeLnBoaWx5cmEuR2VuZXJhdGVSZXN1bWVSZXF1ZXN0Gh8ucGhpbHlyYS5HZW5lcmF0ZVJlc3VtZVJlc3BvbnNlQhNaEXBoaWx5cmEvYXBpL3Byb3RvYgZwcm90bzM", [file_philyra_entity, file_core]);
+  fileDesc("ChRwaGlseXJhL3Jlc3VtZS5wcm90bxIHcGhpbHlyYSKyAgoTQ3JlYXRlUmVzdW1lUmVxdWVzdBIfCgRiYXNlGAEgASgLMhEuY29yZS5CYXNlUmVxdWVzdBINCgV0aXRsZRgCIAEoCRIRCglmdWxsX25hbWUYAyABKAkSDQoFZW1haWwYBCABKAkSDQoFcGhvbmUYBSABKAkSDwoHYWRkcmVzcxgGIAEoCRIPCgdzdW1tYXJ5GAcgASgJEhIKCmV4cGVyaWVuY2UYCCABKAkSEQoJZWR1Y2F0aW9uGAkgASgJEg4KBnNraWxscxgKIAEoCRIWCg5jZXJ0aWZpY2F0aW9ucxgLIAEoCRIQCghwcm9qZWN0cxgMIAEoCRIRCglsYW5ndWFnZXMYDSABKAkSEgoKcmVmZXJlbmNlcxgOIAEoCRIQCghmaWxlX3VybBgPIAEoCSI/ChBHZXRSZXN1bWVSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0EgoKAmlkGAIgASgFIs4CChNVcGRhdGVSZXN1bWVSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0EgoKAmlkGAIgASgFEg0KBXRpdGxlGAMgASgJEhEKCWZ1bGxfbmFtZRgEIAEoCRINCgVlbWFpbBgFIAEoCRINCgVwaG9uZRgGIAEoCRIPCgdhZGRyZXNzGAcgASgJEg8KB3N1bW1hcnkYCCABKAkSEgoKZXhwZXJpZW5jZRgJIAEoCRIRCgllZHVjYXRpb24YCiABKAkSDgoGc2tpbGxzGAsgASgJEhYKDmNlcnRpZmljYXRpb25zGAwgASgJEhAKCHByb2plY3RzGA0gASgJEhEKCWxhbmd1YWdlcxgOIAEoCRISCgpyZWZlcmVuY2VzGA8gASgJEhAKCGZpbGVfdXJsGBAgASgJEg4KBnN0YXR1cxgRIAEoCSJCChNEZWxldGVSZXN1bWVSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0EgoKAmlkGAIgASgFIooBChdEZWxldGVSZXN1bWVJdGVtUmVxdWVzdBIfCgRiYXNlGAEgASgLMhEuY29yZS5CYXNlUmVxdWVzdBIRCglyZXN1bWVfaWQYAiABKAUSKgoJaXRlbV90eXBlGAMgASgOMhcucGhpbHlyYS5SZXN1bWVJdGVtVHlwZRIPCgdpdGVtX2lkGAQgASgFInIKEkxpc3RSZXN1bWVzUmVxdWVzdBIfCgRiYXNlGAEgASgLMhEuY29yZS5CYXNlUmVxdWVzdBIMCgRwYWdlGAIgASgFEg0KBWxpbWl0GAMgASgFEg4KBnNlYXJjaBgEIAEoCRIOCgZzdGF0dXMYBSABKAkiUwoOUmVzdW1lUmVzcG9uc2USIAoEYmFzZRgBIAEoCzISLmNvcmUuQmFzZVJlc3BvbnNlEh8KBnJlc3VtZRgCIAEoCzIPLnBoaWx5cmEuUmVzdW1lIoUBChNMaXN0UmVzdW1lc1Jlc3BvbnNlEiAKBGJhc2UYASABKAsyEi5jb3JlLkJhc2VSZXNwb25zZRIgCgdyZXN1bWVzGAIgAygLMg8ucGhpbHlyYS5SZXN1bWUSDQoFdG90YWwYAyABKAUSDAoEcGFnZRgEIAEoBRINCgVsaW1pdBgFIAEoBSJJChVHZW5lcmF0ZVJlc3VtZVJlcXVlc3QSHwoEYmFzZRgBIAEoCzIRLmNvcmUuQmFzZVJlcXVlc3QSDwoHY29udGV4dBgCIAEoCSJuChZHZW5lcmF0ZVJlc3VtZVJlc3BvbnNlEiAKBGJhc2UYASABKAsyEi5jb3JlLkJhc2VSZXNwb25zZRIyChBnZW5lcmF0ZWRfcmVzdW1lGAIgASgLMhgucGhpbHlyYS5HZW5lcmF0ZWRSZXN1bWUijgEKGVVwc2VydFBlcnNvbmFsSW5mb1JlcXVlc3QSHwoEYmFzZRgBIAEoCzIRLmNvcmUuQmFzZVJlcXVlc3QSEQoJcmVzdW1lX2lkGAIgASgFEg8KB2NvbnRleHQYAyABKAkSLAoNcGVyc29uYWxfaW5mbxgEIAEoCzIVLnBoaWx5cmEuUGVyc29uYWxJbmZvIocBChdVcHNlcnRFeHBlcmllbmNlUmVxdWVzdBIfCgRiYXNlGAEgASgLMhEuY29yZS5CYXNlUmVxdWVzdBIRCglyZXN1bWVfaWQYAiABKAUSDwoHY29udGV4dBgDIAEoCRInCgpleHBlcmllbmNlGAQgASgLMhMucGhpbHlyYS5FeHBlcmllbmNlIoQBChZVcHNlcnRFZHVjYXRpb25SZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0EhEKCXJlc3VtZV9pZBgCIAEoBRIPCgdjb250ZXh0GAMgASgJEiUKCWVkdWNhdGlvbhgEIAEoCzISLnBoaWx5cmEuRWR1Y2F0aW9uImoKE1Vwc2VydFNraWxsc1JlcXVlc3QSHwoEYmFzZRgBIAEoCzIRLmNvcmUuQmFzZVJlcXVlc3QSEQoJcmVzdW1lX2lkGAIgASgFEg8KB2NvbnRleHQYAyABKAkSDgoGc2tpbGxzGAQgAygJIosBCgRGbGFnEiQKCWZsYWdfdHlwZRgBIAEoDjIRLnBoaWx5cmEuRmxhZ1R5cGUSEgoKZmllbGRfbmFtZRgCIAEoCRIPCgdtZXNzYWdlGAMgASgJEhQKDHNjb3JlX2ltcGFjdBgEIAEoBRITCgtyZXF1aXJlc19haRgFIAEoCBINCgVzY29yZRgGIAEoBSJMChZHZXRQZXJzb25hbEluZm9SZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0EhEKCXJlc3VtZV9pZBgCIAEoBSKWAQoXR2V0UGVyc29uYWxJbmZvUmVzcG9uc2USIAoEYmFzZRgBIAEoCzISLmNvcmUuQmFzZVJlc3BvbnNlEiwKDXBlcnNvbmFsX2luZm8YAiABKAsyFS5waGlseXJhLlBlcnNvbmFsSW5mbxINCgVzY29yZRgDIAEoBRIcCgVmbGFncxgEIAMoCzINLnBoaWx5cmEuRmxhZyJhChRHZXRFeHBlcmllbmNlUmVxdWVzdBIfCgRiYXNlGAEgASgLMhEuY29yZS5CYXNlUmVxdWVzdBIRCglyZXN1bWVfaWQYAiABKAUSFQoNZXhwZXJpZW5jZV9pZBgDIAEoBSJrChNFeHBlcmllbmNlV2l0aEZsYWdzEicKCmV4cGVyaWVuY2UYASABKAsyEy5waGlseXJhLkV4cGVyaWVuY2USDQoFc2NvcmUYAiABKAUSHAoFZmxhZ3MYAyADKAsyDS5waGlseXJhLkZsYWcigwEKFUdldEV4cGVyaWVuY2VSZXNwb25zZRIgCgRiYXNlGAEgASgLMhIuY29yZS5CYXNlUmVzcG9uc2USMQoLZXhwZXJpZW5jZXMYAiADKAsyHC5waGlseXJhLkV4cGVyaWVuY2VXaXRoRmxhZ3MSFQoNb3ZlcmFsbF9zY29yZRgDIAEoBSJfChNHZXRFZHVjYXRpb25SZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0EhEKCXJlc3VtZV9pZBgCIAEoBRIUCgxlZHVjYXRpb25faWQYAyABKAUiaAoSRWR1Y2F0aW9uV2l0aEZsYWdzEiUKCWVkdWNhdGlvbhgBIAEoCzISLnBoaWx5cmEuRWR1Y2F0aW9uEg0KBXNjb3JlGAIgASgFEhwKBWZsYWdzGAMgAygLMg0ucGhpbHlyYS5GbGFnIoABChRHZXRFZHVjYXRpb25SZXNwb25zZRIgCgRiYXNlGAEgASgLMhIuY29yZS5CYXNlUmVzcG9uc2USLwoKZWR1Y2F0aW9ucxgCIAMoCzIbLnBoaWx5cmEuRWR1Y2F0aW9uV2l0aEZsYWdzEhUKDW92ZXJhbGxfc2NvcmUYAyABKAUiRgoQR2V0U2tpbGxzUmVxdWVzdBIfCgRiYXNlGAEgASgLMhEuY29yZS5CYXNlUmVxdWVzdBIRCglyZXN1bWVfaWQYAiABKAUiTQoOU2tpbGxXaXRoRmxhZ3MSEgoKc2tpbGxfbmFtZRgBIAEoCRISCgpza2lsbF90eXBlGAIgASgJEhMKC3NraWxsX2xldmVsGAMgASgJIosBChFHZXRTa2lsbHNSZXNwb25zZRIgCgRiYXNlGAEgASgLMhIuY29yZS5CYXNlUmVzcG9uc2USJwoGc2tpbGxzGAIgAygLMhcucGhpbHlyYS5Ta2lsbFdpdGhGbGFncxINCgVzY29yZRgDIAEoBRIcCgVmbGFncxgEIAMoCzINLnBoaWx5cmEuRmxhZypOCg5SZXN1bWVJdGVtVHlwZRIRCg1QRVJTT05BTF9JTkZPEAASDgoKRVhQRVJJRU5DRRABEg0KCUVEVUNBVElPThACEgoKBlNLSUxMUxADKm0KCEZsYWdUeXBlEgsKB01JU1NJTkcQABIQCgxGT1JNQVRfSVNTVUUQARIQCgxMRU5HVEhfSVNTVUUQAhIPCgtDT1VOVF9JU1NVRRADEhEKDUNPTlRFTlRfSVNTVUUQBBIMCghPUFRJT05BTBAFMvIICg1SZXN1bWVTZXJ2aWNlEkUKDENyZWF0ZVJlc3VtZRIcLnBoaWx5cmEuQ3JlYXRlUmVzdW1lUmVxdWVzdBoXLnBoaWx5cmEuUmVzdW1lUmVzcG9uc2USPwoJR2V0UmVzdW1lEhkucGhpbHlyYS5HZXRSZXN1bWVSZXF1ZXN0GhcucGhpbHlyYS5SZXN1bWVSZXNwb25zZRJFCgxVcGRhdGVSZXN1bWUSHC5waGlseXJhLlVwZGF0ZVJlc3VtZVJlcXVlc3QaFy5waGlseXJhLlJlc3VtZVJlc3BvbnNlEkgKC0xpc3RSZXN1bWVzEhsucGhpbHlyYS5MaXN0UmVzdW1lc1JlcXVlc3QaHC5waGlseXJhLkxpc3RSZXN1bWVzUmVzcG9uc2USQwoMRGVsZXRlUmVzdW1lEhwucGhpbHlyYS5EZWxldGVSZXN1bWVSZXF1ZXN0GhUuY29yZS5HZW5lcmljUmVzcG9uc2USSwoQRGVsZXRlUmVzdW1lSXRlbRIgLnBoaWx5cmEuRGVsZXRlUmVzdW1lSXRlbVJlcXVlc3QaFS5jb3JlLkdlbmVyaWNSZXNwb25zZRJUCg9HZXRQZXJzb25hbEluZm8SHy5waGlseXJhLkdldFBlcnNvbmFsSW5mb1JlcXVlc3QaIC5waGlseXJhLkdldFBlcnNvbmFsSW5mb1Jlc3BvbnNlEk4KDUdldEV4cGVyaWVuY2USHS5waGlseXJhLkdldEV4cGVyaWVuY2VSZXF1ZXN0Gh4ucGhpbHlyYS5HZXRFeHBlcmllbmNlUmVzcG9uc2USSwoMR2V0RWR1Y2F0aW9uEhwucGhpbHlyYS5HZXRFZHVjYXRpb25SZXF1ZXN0Gh0ucGhpbHlyYS5HZXRFZHVjYXRpb25SZXNwb25zZRJCCglHZXRTa2lsbHMSGS5waGlseXJhLkdldFNraWxsc1JlcXVlc3QaGi5waGlseXJhLkdldFNraWxsc1Jlc3BvbnNlEk8KElVwc2VydFBlcnNvbmFsSW5mbxIiLnBoaWx5cmEuVXBzZXJ0UGVyc29uYWxJbmZvUmVxdWVzdBoVLmNvcmUuR2VuZXJpY1Jlc3BvbnNlEksKEFVwc2VydEV4cGVyaWVuY2USIC5waGlseXJhLlVwc2VydEV4cGVyaWVuY2VSZXF1ZXN0GhUuY29yZS5HZW5lcmljUmVzcG9uc2USSQoPVXBzZXJ0RWR1Y2F0aW9uEh8ucGhpbHlyYS5VcHNlcnRFZHVjYXRpb25SZXF1ZXN0GhUuY29yZS5HZW5lcmljUmVzcG9uc2USQwoMVXBzZXJ0U2tpbGxzEhwucGhpbHlyYS5VcHNlcnRTa2lsbHNSZXF1ZXN0GhUuY29yZS5HZW5lcmljUmVzcG9uc2USUQoOR2VuZXJhdGVSZXN1bWUSHi5waGlseXJhLkdlbmVyYXRlUmVzdW1lUmVxdWVzdBofLnBoaWx5cmEuR2VuZXJhdGVSZXN1bWVSZXNwb25zZUITWhFwaGlseXJhL2FwaS9wcm90b2IGcHJvdG8z", [file_philyra_entity, file_core]);
 
 /**
  * @generated from message philyra.CreateResumeRequest
@@ -245,6 +245,38 @@ export const DeleteResumeRequestSchema: GenMessage<DeleteResumeRequest> = /*@__P
   messageDesc(file_philyra_resume, 3);
 
 /**
+ * @generated from message philyra.DeleteResumeItemRequest
+ */
+export type DeleteResumeItemRequest = Message<"philyra.DeleteResumeItemRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 resume_id = 2;
+   */
+  resumeId: number;
+
+  /**
+   * @generated from field: philyra.ResumeItemType item_type = 3;
+   */
+  itemType: ResumeItemType;
+
+  /**
+   * @generated from field: int32 item_id = 4;
+   */
+  itemId: number;
+};
+
+/**
+ * Describes the message philyra.DeleteResumeItemRequest.
+ * Use `create(DeleteResumeItemRequestSchema)` to create a new message.
+ */
+export const DeleteResumeItemRequestSchema: GenMessage<DeleteResumeItemRequest> = /*@__PURE__*/
+  messageDesc(file_philyra_resume, 4);
+
+/**
  * @generated from message philyra.ListResumesRequest
  */
 export type ListResumesRequest = Message<"philyra.ListResumesRequest"> & {
@@ -279,7 +311,7 @@ export type ListResumesRequest = Message<"philyra.ListResumesRequest"> & {
  * Use `create(ListResumesRequestSchema)` to create a new message.
  */
 export const ListResumesRequestSchema: GenMessage<ListResumesRequest> = /*@__PURE__*/
-  messageDesc(file_philyra_resume, 4);
+  messageDesc(file_philyra_resume, 5);
 
 /**
  * @generated from message philyra.ResumeResponse
@@ -301,7 +333,7 @@ export type ResumeResponse = Message<"philyra.ResumeResponse"> & {
  * Use `create(ResumeResponseSchema)` to create a new message.
  */
 export const ResumeResponseSchema: GenMessage<ResumeResponse> = /*@__PURE__*/
-  messageDesc(file_philyra_resume, 5);
+  messageDesc(file_philyra_resume, 6);
 
 /**
  * @generated from message philyra.ListResumesResponse
@@ -338,7 +370,7 @@ export type ListResumesResponse = Message<"philyra.ListResumesResponse"> & {
  * Use `create(ListResumesResponseSchema)` to create a new message.
  */
 export const ListResumesResponseSchema: GenMessage<ListResumesResponse> = /*@__PURE__*/
-  messageDesc(file_philyra_resume, 6);
+  messageDesc(file_philyra_resume, 7);
 
 /**
  * @generated from message philyra.GenerateResumeRequest
@@ -360,7 +392,7 @@ export type GenerateResumeRequest = Message<"philyra.GenerateResumeRequest"> & {
  * Use `create(GenerateResumeRequestSchema)` to create a new message.
  */
 export const GenerateResumeRequestSchema: GenMessage<GenerateResumeRequest> = /*@__PURE__*/
-  messageDesc(file_philyra_resume, 7);
+  messageDesc(file_philyra_resume, 8);
 
 /**
  * @generated from message philyra.GenerateResumeResponse
@@ -382,7 +414,592 @@ export type GenerateResumeResponse = Message<"philyra.GenerateResumeResponse"> &
  * Use `create(GenerateResumeResponseSchema)` to create a new message.
  */
 export const GenerateResumeResponseSchema: GenMessage<GenerateResumeResponse> = /*@__PURE__*/
-  messageDesc(file_philyra_resume, 8);
+  messageDesc(file_philyra_resume, 9);
+
+/**
+ * @generated from message philyra.UpsertPersonalInfoRequest
+ */
+export type UpsertPersonalInfoRequest = Message<"philyra.UpsertPersonalInfoRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 resume_id = 2;
+   */
+  resumeId: number;
+
+  /**
+   * @generated from field: string context = 3;
+   */
+  context: string;
+
+  /**
+   * @generated from field: philyra.PersonalInfo personal_info = 4;
+   */
+  personalInfo?: PersonalInfo;
+};
+
+/**
+ * Describes the message philyra.UpsertPersonalInfoRequest.
+ * Use `create(UpsertPersonalInfoRequestSchema)` to create a new message.
+ */
+export const UpsertPersonalInfoRequestSchema: GenMessage<UpsertPersonalInfoRequest> = /*@__PURE__*/
+  messageDesc(file_philyra_resume, 10);
+
+/**
+ * @generated from message philyra.UpsertExperienceRequest
+ */
+export type UpsertExperienceRequest = Message<"philyra.UpsertExperienceRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 resume_id = 2;
+   */
+  resumeId: number;
+
+  /**
+   * @generated from field: string context = 3;
+   */
+  context: string;
+
+  /**
+   * @generated from field: philyra.Experience experience = 4;
+   */
+  experience?: Experience;
+};
+
+/**
+ * Describes the message philyra.UpsertExperienceRequest.
+ * Use `create(UpsertExperienceRequestSchema)` to create a new message.
+ */
+export const UpsertExperienceRequestSchema: GenMessage<UpsertExperienceRequest> = /*@__PURE__*/
+  messageDesc(file_philyra_resume, 11);
+
+/**
+ * @generated from message philyra.UpsertEducationRequest
+ */
+export type UpsertEducationRequest = Message<"philyra.UpsertEducationRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 resume_id = 2;
+   */
+  resumeId: number;
+
+  /**
+   * @generated from field: string context = 3;
+   */
+  context: string;
+
+  /**
+   * @generated from field: philyra.Education education = 4;
+   */
+  education?: Education;
+};
+
+/**
+ * Describes the message philyra.UpsertEducationRequest.
+ * Use `create(UpsertEducationRequestSchema)` to create a new message.
+ */
+export const UpsertEducationRequestSchema: GenMessage<UpsertEducationRequest> = /*@__PURE__*/
+  messageDesc(file_philyra_resume, 12);
+
+/**
+ * @generated from message philyra.UpsertSkillsRequest
+ */
+export type UpsertSkillsRequest = Message<"philyra.UpsertSkillsRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 resume_id = 2;
+   */
+  resumeId: number;
+
+  /**
+   * @generated from field: string context = 3;
+   */
+  context: string;
+
+  /**
+   * @generated from field: repeated string skills = 4;
+   */
+  skills: string[];
+};
+
+/**
+ * Describes the message philyra.UpsertSkillsRequest.
+ * Use `create(UpsertSkillsRequestSchema)` to create a new message.
+ */
+export const UpsertSkillsRequestSchema: GenMessage<UpsertSkillsRequest> = /*@__PURE__*/
+  messageDesc(file_philyra_resume, 13);
+
+/**
+ * @generated from message philyra.Flag
+ */
+export type Flag = Message<"philyra.Flag"> & {
+  /**
+   * @generated from field: philyra.FlagType flag_type = 1;
+   */
+  flagType: FlagType;
+
+  /**
+   * e.g., "full_name", "email", "skills"
+   *
+   * @generated from field: string field_name = 2;
+   */
+  fieldName: string;
+
+  /**
+   * Human readable message (only if there's an issue)
+   *
+   * @generated from field: string message = 3;
+   */
+  message: string;
+
+  /**
+   * 0-100 score impact if fixed
+   *
+   * @generated from field: int32 score_impact = 4;
+   */
+  scoreImpact: number;
+
+  /**
+   * Whether this flag needs AI to generate content
+   *
+   * @generated from field: bool requires_ai = 5;
+   */
+  requiresAi: boolean;
+
+  /**
+   * 0-100 score for this specific field/aspect
+   *
+   * @generated from field: int32 score = 6;
+   */
+  score: number;
+};
+
+/**
+ * Describes the message philyra.Flag.
+ * Use `create(FlagSchema)` to create a new message.
+ */
+export const FlagSchema: GenMessage<Flag> = /*@__PURE__*/
+  messageDesc(file_philyra_resume, 14);
+
+/**
+ * @generated from message philyra.GetPersonalInfoRequest
+ */
+export type GetPersonalInfoRequest = Message<"philyra.GetPersonalInfoRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 resume_id = 2;
+   */
+  resumeId: number;
+};
+
+/**
+ * Describes the message philyra.GetPersonalInfoRequest.
+ * Use `create(GetPersonalInfoRequestSchema)` to create a new message.
+ */
+export const GetPersonalInfoRequestSchema: GenMessage<GetPersonalInfoRequest> = /*@__PURE__*/
+  messageDesc(file_philyra_resume, 15);
+
+/**
+ * @generated from message philyra.GetPersonalInfoResponse
+ */
+export type GetPersonalInfoResponse = Message<"philyra.GetPersonalInfoResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: philyra.PersonalInfo personal_info = 2;
+   */
+  personalInfo?: PersonalInfo;
+
+  /**
+   * Overall score for personal info section
+   *
+   * @generated from field: int32 score = 3;
+   */
+  score: number;
+
+  /**
+   * All flags for this section
+   *
+   * @generated from field: repeated philyra.Flag flags = 4;
+   */
+  flags: Flag[];
+};
+
+/**
+ * Describes the message philyra.GetPersonalInfoResponse.
+ * Use `create(GetPersonalInfoResponseSchema)` to create a new message.
+ */
+export const GetPersonalInfoResponseSchema: GenMessage<GetPersonalInfoResponse> = /*@__PURE__*/
+  messageDesc(file_philyra_resume, 16);
+
+/**
+ * @generated from message philyra.GetExperienceRequest
+ */
+export type GetExperienceRequest = Message<"philyra.GetExperienceRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 resume_id = 2;
+   */
+  resumeId: number;
+
+  /**
+   * Optional: get specific experience, if not provided get all
+   *
+   * @generated from field: int32 experience_id = 3;
+   */
+  experienceId: number;
+};
+
+/**
+ * Describes the message philyra.GetExperienceRequest.
+ * Use `create(GetExperienceRequestSchema)` to create a new message.
+ */
+export const GetExperienceRequestSchema: GenMessage<GetExperienceRequest> = /*@__PURE__*/
+  messageDesc(file_philyra_resume, 17);
+
+/**
+ * @generated from message philyra.ExperienceWithFlags
+ */
+export type ExperienceWithFlags = Message<"philyra.ExperienceWithFlags"> & {
+  /**
+   * @generated from field: philyra.Experience experience = 1;
+   */
+  experience?: Experience;
+
+  /**
+   * Score for this experience item
+   *
+   * @generated from field: int32 score = 2;
+   */
+  score: number;
+
+  /**
+   * All flags for this experience
+   *
+   * @generated from field: repeated philyra.Flag flags = 3;
+   */
+  flags: Flag[];
+};
+
+/**
+ * Describes the message philyra.ExperienceWithFlags.
+ * Use `create(ExperienceWithFlagsSchema)` to create a new message.
+ */
+export const ExperienceWithFlagsSchema: GenMessage<ExperienceWithFlags> = /*@__PURE__*/
+  messageDesc(file_philyra_resume, 18);
+
+/**
+ * @generated from message philyra.GetExperienceResponse
+ */
+export type GetExperienceResponse = Message<"philyra.GetExperienceResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: repeated philyra.ExperienceWithFlags experiences = 2;
+   */
+  experiences: ExperienceWithFlags[];
+
+  /**
+   * Overall score for experience section
+   *
+   * @generated from field: int32 overall_score = 3;
+   */
+  overallScore: number;
+};
+
+/**
+ * Describes the message philyra.GetExperienceResponse.
+ * Use `create(GetExperienceResponseSchema)` to create a new message.
+ */
+export const GetExperienceResponseSchema: GenMessage<GetExperienceResponse> = /*@__PURE__*/
+  messageDesc(file_philyra_resume, 19);
+
+/**
+ * @generated from message philyra.GetEducationRequest
+ */
+export type GetEducationRequest = Message<"philyra.GetEducationRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 resume_id = 2;
+   */
+  resumeId: number;
+
+  /**
+   * Optional: get specific education, if not provided get all
+   *
+   * @generated from field: int32 education_id = 3;
+   */
+  educationId: number;
+};
+
+/**
+ * Describes the message philyra.GetEducationRequest.
+ * Use `create(GetEducationRequestSchema)` to create a new message.
+ */
+export const GetEducationRequestSchema: GenMessage<GetEducationRequest> = /*@__PURE__*/
+  messageDesc(file_philyra_resume, 20);
+
+/**
+ * @generated from message philyra.EducationWithFlags
+ */
+export type EducationWithFlags = Message<"philyra.EducationWithFlags"> & {
+  /**
+   * @generated from field: philyra.Education education = 1;
+   */
+  education?: Education;
+
+  /**
+   * Score for this education item
+   *
+   * @generated from field: int32 score = 2;
+   */
+  score: number;
+
+  /**
+   * All flags for this education
+   *
+   * @generated from field: repeated philyra.Flag flags = 3;
+   */
+  flags: Flag[];
+};
+
+/**
+ * Describes the message philyra.EducationWithFlags.
+ * Use `create(EducationWithFlagsSchema)` to create a new message.
+ */
+export const EducationWithFlagsSchema: GenMessage<EducationWithFlags> = /*@__PURE__*/
+  messageDesc(file_philyra_resume, 21);
+
+/**
+ * @generated from message philyra.GetEducationResponse
+ */
+export type GetEducationResponse = Message<"philyra.GetEducationResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: repeated philyra.EducationWithFlags educations = 2;
+   */
+  educations: EducationWithFlags[];
+
+  /**
+   * Overall score for education section
+   *
+   * @generated from field: int32 overall_score = 3;
+   */
+  overallScore: number;
+};
+
+/**
+ * Describes the message philyra.GetEducationResponse.
+ * Use `create(GetEducationResponseSchema)` to create a new message.
+ */
+export const GetEducationResponseSchema: GenMessage<GetEducationResponse> = /*@__PURE__*/
+  messageDesc(file_philyra_resume, 22);
+
+/**
+ * @generated from message philyra.GetSkillsRequest
+ */
+export type GetSkillsRequest = Message<"philyra.GetSkillsRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 resume_id = 2;
+   */
+  resumeId: number;
+};
+
+/**
+ * Describes the message philyra.GetSkillsRequest.
+ * Use `create(GetSkillsRequestSchema)` to create a new message.
+ */
+export const GetSkillsRequestSchema: GenMessage<GetSkillsRequest> = /*@__PURE__*/
+  messageDesc(file_philyra_resume, 23);
+
+/**
+ * @generated from message philyra.SkillWithFlags
+ */
+export type SkillWithFlags = Message<"philyra.SkillWithFlags"> & {
+  /**
+   * @generated from field: string skill_name = 1;
+   */
+  skillName: string;
+
+  /**
+   * @generated from field: string skill_type = 2;
+   */
+  skillType: string;
+
+  /**
+   * @generated from field: string skill_level = 3;
+   */
+  skillLevel: string;
+};
+
+/**
+ * Describes the message philyra.SkillWithFlags.
+ * Use `create(SkillWithFlagsSchema)` to create a new message.
+ */
+export const SkillWithFlagsSchema: GenMessage<SkillWithFlags> = /*@__PURE__*/
+  messageDesc(file_philyra_resume, 24);
+
+/**
+ * @generated from message philyra.GetSkillsResponse
+ */
+export type GetSkillsResponse = Message<"philyra.GetSkillsResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: repeated philyra.SkillWithFlags skills = 2;
+   */
+  skills: SkillWithFlags[];
+
+  /**
+   * Overall score for skills section
+   *
+   * @generated from field: int32 score = 3;
+   */
+  score: number;
+
+  /**
+   * All flags for skills section
+   *
+   * @generated from field: repeated philyra.Flag flags = 4;
+   */
+  flags: Flag[];
+};
+
+/**
+ * Describes the message philyra.GetSkillsResponse.
+ * Use `create(GetSkillsResponseSchema)` to create a new message.
+ */
+export const GetSkillsResponseSchema: GenMessage<GetSkillsResponse> = /*@__PURE__*/
+  messageDesc(file_philyra_resume, 25);
+
+/**
+ * @generated from enum philyra.ResumeItemType
+ */
+export enum ResumeItemType {
+  /**
+   * @generated from enum value: PERSONAL_INFO = 0;
+   */
+  PERSONAL_INFO = 0,
+
+  /**
+   * @generated from enum value: EXPERIENCE = 1;
+   */
+  EXPERIENCE = 1,
+
+  /**
+   * @generated from enum value: EDUCATION = 2;
+   */
+  EDUCATION = 2,
+
+  /**
+   * @generated from enum value: SKILLS = 3;
+   */
+  SKILLS = 3,
+}
+
+/**
+ * Describes the enum philyra.ResumeItemType.
+ */
+export const ResumeItemTypeSchema: GenEnum<ResumeItemType> = /*@__PURE__*/
+  enumDesc(file_philyra_resume, 0);
+
+/**
+ * @generated from enum philyra.FlagType
+ */
+export enum FlagType {
+  /**
+   * Field is missing or empty
+   *
+   * @generated from enum value: MISSING = 0;
+   */
+  MISSING = 0,
+
+  /**
+   * Format is incorrect
+   *
+   * @generated from enum value: FORMAT_ISSUE = 1;
+   */
+  FORMAT_ISSUE = 1,
+
+  /**
+   * Too short/long
+   *
+   * @generated from enum value: LENGTH_ISSUE = 2;
+   */
+  LENGTH_ISSUE = 2,
+
+  /**
+   * Not enough items or too many
+   *
+   * @generated from enum value: COUNT_ISSUE = 3;
+   */
+  COUNT_ISSUE = 3,
+
+  /**
+   * Content quality needs improvement
+   *
+   * @generated from enum value: CONTENT_ISSUE = 4;
+   */
+  CONTENT_ISSUE = 4,
+
+  /**
+   * Optional field suggestion
+   *
+   * @generated from enum value: OPTIONAL = 5;
+   */
+  OPTIONAL = 5,
+}
+
+/**
+ * Describes the enum philyra.FlagType.
+ */
+export const FlagTypeSchema: GenEnum<FlagType> = /*@__PURE__*/
+  enumDesc(file_philyra_resume, 1);
 
 /**
  * @generated from service philyra.ResumeService
@@ -413,6 +1030,14 @@ export const ResumeService: GenService<{
     output: typeof ResumeResponseSchema;
   },
   /**
+   * @generated from rpc philyra.ResumeService.ListResumes
+   */
+  listResumes: {
+    methodKind: "unary";
+    input: typeof ListResumesRequestSchema;
+    output: typeof ListResumesResponseSchema;
+  },
+  /**
    * @generated from rpc philyra.ResumeService.DeleteResume
    */
   deleteResume: {
@@ -421,12 +1046,76 @@ export const ResumeService: GenService<{
     output: typeof GenericResponseSchema;
   },
   /**
-   * @generated from rpc philyra.ResumeService.ListResumes
+   * @generated from rpc philyra.ResumeService.DeleteResumeItem
    */
-  listResumes: {
+  deleteResumeItem: {
     methodKind: "unary";
-    input: typeof ListResumesRequestSchema;
-    output: typeof ListResumesResponseSchema;
+    input: typeof DeleteResumeItemRequestSchema;
+    output: typeof GenericResponseSchema;
+  },
+  /**
+   * @generated from rpc philyra.ResumeService.GetPersonalInfo
+   */
+  getPersonalInfo: {
+    methodKind: "unary";
+    input: typeof GetPersonalInfoRequestSchema;
+    output: typeof GetPersonalInfoResponseSchema;
+  },
+  /**
+   * @generated from rpc philyra.ResumeService.GetExperience
+   */
+  getExperience: {
+    methodKind: "unary";
+    input: typeof GetExperienceRequestSchema;
+    output: typeof GetExperienceResponseSchema;
+  },
+  /**
+   * @generated from rpc philyra.ResumeService.GetEducation
+   */
+  getEducation: {
+    methodKind: "unary";
+    input: typeof GetEducationRequestSchema;
+    output: typeof GetEducationResponseSchema;
+  },
+  /**
+   * @generated from rpc philyra.ResumeService.GetSkills
+   */
+  getSkills: {
+    methodKind: "unary";
+    input: typeof GetSkillsRequestSchema;
+    output: typeof GetSkillsResponseSchema;
+  },
+  /**
+   * @generated from rpc philyra.ResumeService.UpsertPersonalInfo
+   */
+  upsertPersonalInfo: {
+    methodKind: "unary";
+    input: typeof UpsertPersonalInfoRequestSchema;
+    output: typeof GenericResponseSchema;
+  },
+  /**
+   * @generated from rpc philyra.ResumeService.UpsertExperience
+   */
+  upsertExperience: {
+    methodKind: "unary";
+    input: typeof UpsertExperienceRequestSchema;
+    output: typeof GenericResponseSchema;
+  },
+  /**
+   * @generated from rpc philyra.ResumeService.UpsertEducation
+   */
+  upsertEducation: {
+    methodKind: "unary";
+    input: typeof UpsertEducationRequestSchema;
+    output: typeof GenericResponseSchema;
+  },
+  /**
+   * @generated from rpc philyra.ResumeService.UpsertSkills
+   */
+  upsertSkills: {
+    methodKind: "unary";
+    input: typeof UpsertSkillsRequestSchema;
+    output: typeof GenericResponseSchema;
   },
   /**
    * @generated from rpc philyra.ResumeService.GenerateResume
