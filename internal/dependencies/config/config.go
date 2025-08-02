@@ -6,44 +6,52 @@ var Config *AppConfig
 
 type AppConfig struct {
 	Hermes struct {
-		Url string `json:"url"`
-	} `json:"hermes"`
+		Url string `mapstructure:"url"`
+	} `mapstructure:"hermes"`
 	Mercury struct {
-		Url string `json:"url"`
-	} `json:"mercury"`
+		Url string `mapstructure:"url"`
+	} `mapstructure:"mercury"`
 	Plato struct {
-		Url string `json:"url"`
-	} `json:"plato"`
+		Url string `mapstructure:"url"`
+	} `mapstructure:"plato"`
 	Philyra struct {
-		Url string `json:"url"`
-	} `json:"philyra"`
+		Url string `mapstructure:"url"`
+	} `mapstructure:"philyra"`
 	Elastic struct {
-		Url   string `json:"url"`
-		Level string `json:"level"`
-	} `json:"elastic"`
+		Url   string `mapstructure:"url"`
+		Level string `mapstructure:"level"`
+	} `mapstructure:"elastic"`
 	Cookie struct {
-		Name     string `json:"name"`
-		Domain   string `json:"domain"`
-		Path     string `json:"path"`
-		Secure   bool   `json:"secure"`
-		HttpOnly bool   `json:"http_only"`
-	} `json:"cookie"`
+		Name     string `mapstructure:"name"`
+		Domain   string `mapstructure:"domain"`
+		Path     string `mapstructure:"path"`
+		Secure   bool   `mapstructure:"secure"`
+		HttpOnly bool   `mapstructure:"http_only"`
+	} `mapstructure:"cookie"`
 	JWT struct {
-		Secret         string `json:"secret"`
-		ExpiresInHours int    `json:"expiresInHours"`
-	} `json:"jwt"`
+		Secret         string `mapstructure:"secret"`
+		ExpiresInHours int    `mapstructure:"expiresInHours"`
+	} `mapstructure:"jwt"`
 	App struct {
-		Address string `json:"address"`
-		Name    string `json:"name"`
-		Key     string `json:"key"`
-		Port    int    `json:"port"`
-		Debug   bool   `json:"debug"`
-	} `json:"app"`
+		Address string `mapstructure:"address"`
+		Name    string `mapstructure:"name"`
+		Key     string `mapstructure:"key"`
+		Port    int    `mapstructure:"port"`
+		Debug   bool   `mapstructure:"debug"`
+	} `mapstructure:"app"`
 	CORS struct {
-		Domain  string   `json:"domain"`
-		Origins []string `json:"origins"`
-		Enabled bool     `json:"enabled"`
-	} `json:"cors"`
+		Domain  string   `mapstructure:"domain"`
+		Origins []string `mapstructure:"origins"`
+		Enabled bool     `mapstructure:"enabled"`
+	} `mapstructure:"cors"`
+	Auth0 struct {
+		Domain        string `mapstructure:"domain"`
+		ClientId      string `mapstructure:"client_id"`
+		ClientSecret  string `mapstructure:"client_secret"`
+		CallbackUrl   string `mapstructure:"callback_url"`
+		FrontendUrl   string `mapstructure:"frontend_url"`
+		SessionSecret string `mapstructure:"session_secret"`
+	} `mapstructure:"auth0"`
 }
 
 func Init() {

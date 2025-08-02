@@ -109,6 +109,10 @@ func LogResponseHandler(next http.Handler) http.Handler {
 		go func() {
 			ctx := r.Context()
 			baseReq := contextcore.GetBaseRequest(ctx)
+			if baseReq == nil {
+				log.Printf("Base request is nil, cannot log response")
+				return
+			}
 
 			referer := r.Header.Get("Referer")      // e.g. https://example.com/page
 			host := r.Host                          // e.g. api.myservice.com

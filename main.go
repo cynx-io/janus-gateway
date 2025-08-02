@@ -4,8 +4,10 @@ import (
 	"context"
 	"errors"
 	"github.com/cynx-io/cynx-core/src/logger"
+	"github.com/cynx-io/janus-gateway/internal/dependencies/auth0"
 	"github.com/cynx-io/janus-gateway/internal/dependencies/config"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/hermes"
+	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/janus"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/mercury"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/philyra"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/plato"
@@ -22,6 +24,7 @@ func main() {
 
 	// Load configuration
 	config.Init()
+	auth0.Init()
 
 	logLevel, err := logrus.ParseLevel(config.Config.Elastic.Level)
 	if err != nil {
@@ -34,7 +37,7 @@ func main() {
 		ServiceName:      "janus-gateway",
 	})
 
-	// Create user handler
+	janusHandler := janus.GatewayHandler{}
 	userHandler := hermes.NewUserHandler()
 	cryptoHandler := mercury.NewCryptoHandler()
 	resumeHandler := philyra.NewResumeHandler()
@@ -47,6 +50,8 @@ func main() {
 
 	// Create router
 	root := mux.NewRouter()
+	janusHandler.InjectRoutes(root)
+
 	root.Use(middleware.CORSMiddleware)
 
 	publicRouter := root.PathPrefix("").Subrouter()

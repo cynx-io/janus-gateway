@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package janus;
+
+option go_package = "gateway/api/proto";
+
+service GatewayService {
+  // Check if a username exists
+  rpc Login() returns () {}
+}
