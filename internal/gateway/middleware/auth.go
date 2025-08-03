@@ -1,12 +1,14 @@
 package middleware
 
 import (
-	"errors"
+	"context"
 	contextcore "github.com/cynx-io/cynx-core/src/context"
 	"github.com/cynx-io/cynx-core/src/logger"
 	"github.com/cynx-io/cynx-core/src/types/usertype"
-	"github.com/cynx-io/janus-gateway/internal/dependencies/config"
+	"github.com/cynx-io/janus-gateway/internal/dependencies/auth0"
+	"github.com/cynx-io/janus-gateway/internal/session"
 	"github.com/golang-jwt/jwt/v5"
+	"golang.org/x/oauth2"
 	"net/http"
 	"strconv"
 	"time"
@@ -19,134 +21,91 @@ type Claims struct {
 	UserType usertype.UserType `json:"user_type"`
 }
 
-func GenerateToken(claims *Claims) (string, error) {
-	claims.RegisteredClaims = jwt.RegisteredClaims{
-		ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(config.Config.JWT.ExpiresInHours) * time.Hour)),
-		IssuedAt:  jwt.NewNumericDate(time.Now()),
+func refreshToken(w http.ResponseWriter, r *http.Request, userSession *session.UserSession) error {
+	if userSession.RefreshToken == "" {
+		return &oauth2.RetrieveError{Response: &http.Response{StatusCode: 401}, Body: []byte("no refresh token")}
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString([]byte(config.Config.JWT.Secret))
+	tokenSource := auth0.Oauth2.TokenSource(context.Background(), &oauth2.Token{
+		RefreshToken: userSession.RefreshToken,
+	})
+
+	newToken, err := tokenSource.Token()
+	if err != nil {
+		return err
+	}
+
+	userSession.AccessToken = newToken.AccessToken
+	if newToken.RefreshToken != "" {
+		userSession.RefreshToken = newToken.RefreshToken
+	}
+	userSession.ExpiresAt = newToken.Expiry
+
+	return session.SetSession(w, r, userSession)
 }
 
 func PublicAuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
-		logger.Debug(ctx, ctx, "[PUBLIC AUTH] Processing request")
-		cookie, err := r.Cookie("token")
-		if err != nil {
-			if errors.Is(err, http.ErrNoCookie) {
-				// No token, proceed without auth
+		logger.Debug(ctx, "[PUBLIC AUTH] Processing request")
+
+		userSession, err := session.GetSession(r)
+		if err != nil || !userSession.Authenticated {
+			// No session, proceed without auth
+			next.ServeHTTP(w, r)
+			return
+		}
+
+		// Check if token needs refresh (5 min buffer)
+		if time.Now().Add(5 * time.Minute).After(userSession.ExpiresAt) {
+			if refreshErr := refreshToken(w, r, userSession); refreshErr != nil {
+				// Refresh failed, continue without auth
+				logger.Error(ctx, "[PUBLIC AUTH] Token refresh failed: "+refreshErr.Error())
 				next.ServeHTTP(w, r)
 				return
 			}
-			http.Error(w, "Bad Request", http.StatusBadRequest)
-			return
 		}
 
-		tokenStr := cookie.Value
-		claims := &Claims{}
+		// Add user details to ctx (convert string UserID to int32)
+		userID, _ := strconv.ParseInt(userSession.UserID, 10, 32)
+		ctx = contextcore.SetKey(ctx, contextcore.KeyUsername, userSession.Name)
+		ctx = contextcore.SetUserId(ctx, int32(userID))
+		ctx = contextcore.SetUserType(ctx, 1) // Default user type
 
-		token, err := jwt.ParseWithClaims(tokenStr, claims, func(token *jwt.Token) (interface{}, error) {
-			return []byte(config.Config.JWT.Secret), nil
-		})
-
-		if err != nil || !token.Valid {
-			// Invalid, continue without auth
-			next.ServeHTTP(w, r.WithContext(r.Context()))
-			return
-		}
-
-		// Add user details to ctx
-		ctx = contextcore.SetKey(r.Context(), contextcore.KeyUsername, claims.Username)
-		ctx = contextcore.SetUserId(ctx, claims.UserId)
-		ctx = contextcore.SetUserType(ctx, int32(claims.UserType))
-
-		logger.Debug(ctx, "[PUBLIC AUTH] Success set for: "+claims.Username+" (UserID: "+strconv.Itoa(int(claims.UserId))+")")
+		logger.Debug(ctx, "[PUBLIC AUTH] Success set for: "+userSession.Name+" (UserID: "+userSession.UserID+")")
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
 
 func PrivateAuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
 		ctx := r.Context()
 		logger.Debug(ctx, "[PRIVATE AUTH] Processing request")
 
-		cookie, err := r.Cookie("token")
-		if err != nil {
-			logger.Error(ctx, "[PRIVATE AUTH] Error getting cookie: "+err.Error())
-			if errors.Is(err, http.ErrNoCookie) {
-				// No Token - Unauthorized
-				http.Error(w, "Unauthorized, No Token in cookie", http.StatusUnauthorized)
+		userSession, err := session.GetSession(r)
+		if err != nil || !userSession.Authenticated {
+			logger.Error(ctx, "[PRIVATE AUTH] No valid session")
+			http.Error(w, "Unauthorized, No valid session", http.StatusUnauthorized)
+			return
+		}
+
+		// Check if token needs refresh (5 min buffer)
+		if time.Now().Add(5 * time.Minute).After(userSession.ExpiresAt) {
+			if refreshErr := refreshToken(w, r, userSession); refreshErr != nil {
+				logger.Error(ctx, "[PRIVATE AUTH] Token refresh failed: "+refreshErr.Error())
+				session.ClearSession(w, r)
+				http.Error(w, "Unauthorized, token refresh failed", http.StatusUnauthorized)
 				return
 			}
-			http.Error(w, "Bad Request", http.StatusBadRequest)
-			return
 		}
 
-		tokenStr := cookie.Value
-		claims := &Claims{}
+		// Add user details to ctx (convert string UserID to int32)
+		userID, _ := strconv.ParseInt(userSession.UserID, 10, 32)
+		ctx = contextcore.SetKey(ctx, contextcore.KeyUsername, userSession.Name)
+		ctx = contextcore.SetUserId(ctx, int32(userID))
+		ctx = contextcore.SetUserType(ctx, 1) // Default user type
 
-		token, err := jwt.ParseWithClaims(tokenStr, claims, func(token *jwt.Token) (interface{}, error) {
-			return []byte(config.Config.JWT.Secret), nil
-		})
-
-		if err != nil || !token.Valid {
-			logger.Error(ctx, "[PRIVATE AUTH] Invalid token: "+err.Error())
-			http.Error(w, "Unauthorized: "+err.Error(), http.StatusUnauthorized)
-			return
-		}
-
-		// Add user details to ctx
-		ctx = contextcore.SetKey(r.Context(), contextcore.KeyUsername, claims.Username)
-		ctx = contextcore.SetUserId(ctx, claims.UserId)
-		ctx = contextcore.SetUserType(ctx, int32(claims.UserType))
-
-		logger.Debug(ctx, "[PRIVATE AUTH] Success set for: ", claims.Username, " (UserID: ", claims.UserId, ")")
+		logger.Debug(ctx, "[PRIVATE AUTH] Success set for: "+userSession.Name+" (UserID: "+userSession.UserID+")")
 		next.ServeHTTP(w, r.WithContext(ctx))
-	})
-}
-func CORSMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		ctx := r.Context()
-		logger.Debug(ctx, "[CORS]: Processing request")
-
-		if !config.Config.CORS.Enabled {
-			next.ServeHTTP(w, r)
-			return
-		}
-
-		origin := r.Header.Get("Origin")
-		logger.Debug(ctx, "CORS Middleware: Origin: "+origin)
-
-		allowedOrigin := ""
-		if origin != "" {
-			for _, o := range config.Config.CORS.Origins {
-				logger.Debug(ctx, "CORS Middleware: Checking allowed origin: "+o)
-				if origin == o {
-					allowedOrigin = origin
-					break
-				}
-			}
-		}
-
-		if allowedOrigin != "" {
-			// Set only if origin is allowed, never '*'
-			w.Header().Set("Access-Control-Allow-Origin", allowedOrigin)
-			w.Header().Add("Vary", "Origin") // ensure caching varies by origin
-			w.Header().Set("Access-Control-Allow-Credentials", "true")
-			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-			w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, Connect-Protocol-Version")
-		}
-
-		// Handle preflight OPTIONS request early
-		if r.Method == "OPTIONS" {
-			w.WriteHeader(http.StatusOK)
-			return
-		}
-
-		logger.Debug(ctx, "[CORS] Success set for origin: "+allowedOrigin)
-		next.ServeHTTP(w, r)
 	})
 }

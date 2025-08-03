@@ -57,6 +57,9 @@ func (h *GatewayHandler) Auth0CallbackLogin(w http.ResponseWriter, r *http.Reque
 		Email:         claims["email"].(string),
 		Name:          claims["name"].(string),
 		Authenticated: true,
+		AccessToken:   token.AccessToken,
+		RefreshToken:  token.RefreshToken,
+		ExpiresAt:     token.Expiry,
 	}
 
 	err = session.SetSession(w, r, userSession)

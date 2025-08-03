@@ -8,6 +8,7 @@ import (
 	"github.com/gorilla/sessions"
 	"golang.org/x/oauth2"
 	"net/http"
+	"time"
 )
 
 var (
@@ -19,6 +20,7 @@ var (
 
 func Init() {
 	gob.Register(map[string]interface{}{})
+	gob.Register(time.Time{})
 
 	ctx := context.Background()
 	var err error

@@ -6,7 +6,6 @@ import (
 	"github.com/cynx-io/cynx-core/src/logger"
 	"github.com/cynx-io/janus-gateway/internal/dependencies/auth0"
 	"github.com/cynx-io/janus-gateway/internal/dependencies/config"
-	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/hermes"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/janus"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/mercury"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/philyra"
@@ -37,8 +36,7 @@ func main() {
 		ServiceName:      "janus-gateway",
 	})
 
-	janusHandler := janus.GatewayHandler{}
-	userHandler := hermes.NewUserHandler()
+	janusHandler := janus.NewGatewayHandler()
 	cryptoHandler := mercury.NewCryptoHandler()
 	resumeHandler := philyra.NewResumeHandler()
 
@@ -71,7 +69,6 @@ func main() {
 	privateRouter.Use(middleware.LogResponseHandler)
 
 	// Inject routes
-	userHandler.InjectRoutes(publicRouter, privateRouter)
 	cryptoHandler.InjectRoutes(publicRouter, privateRouter)
 	resumeHandler.InjectRoutes(publicRouter, privateRouter)
 	platoAnswerHandler.InjectRoutes(publicRouter, privateRouter)

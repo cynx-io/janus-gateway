@@ -4,13 +4,17 @@ import (
 	"encoding/gob"
 	"github.com/cynx-io/janus-gateway/internal/dependencies/auth0"
 	"net/http"
+	"time"
 )
 
 type UserSession struct {
-	UserID        string `json:"user_id"`
-	Email         string `json:"email"`
-	Name          string `json:"name"`
-	Authenticated bool   `json:"authenticated"`
+	UserID        string    `json:"user_id"`
+	Email         string    `json:"email"`
+	Name          string    `json:"name"`
+	Authenticated bool      `json:"authenticated"`
+	AccessToken   string    `json:"access_token"`
+	RefreshToken  string    `json:"refresh_token"`
+	ExpiresAt     time.Time `json:"expires_at"`
 }
 
 func init() {
@@ -37,9 +41,14 @@ func GetSession(r *http.Request) (*UserSession, error) {
 	if auth, ok := session.Values["authenticated"].(bool); ok {
 		userSession.Authenticated = auth
 	}
-	if state, ok := session.Values["state"].(string); ok && state != "" {
-		// Include state for OAuth flow validation
-		session.Values["state"] = state
+	if accessToken, ok := session.Values["access_token"].(string); ok {
+		userSession.AccessToken = accessToken
+	}
+	if refreshToken, ok := session.Values["refresh_token"].(string); ok {
+		userSession.RefreshToken = refreshToken
+	}
+	if expiresAt, ok := session.Values["expires_at"].(time.Time); ok {
+		userSession.ExpiresAt = expiresAt
 	}
 
 	return userSession, nil
@@ -55,6 +64,9 @@ func SetSession(w http.ResponseWriter, r *http.Request, userSession *UserSession
 	session.Values["email"] = userSession.Email
 	session.Values["name"] = userSession.Name
 	session.Values["authenticated"] = userSession.Authenticated
+	session.Values["access_token"] = userSession.AccessToken
+	session.Values["refresh_token"] = userSession.RefreshToken
+	session.Values["expires_at"] = userSession.ExpiresAt
 
 	return session.Save(r, w)
 }
