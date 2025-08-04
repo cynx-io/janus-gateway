@@ -3,6 +3,7 @@ package session
 import (
 	"encoding/gob"
 	"github.com/cynx-io/janus-gateway/internal/dependencies/auth0"
+	"github.com/cynx-io/janus-gateway/internal/helper"
 	"net/http"
 	"time"
 )
@@ -22,7 +23,11 @@ func init() {
 }
 
 func GetSession(r *http.Request) (*UserSession, error) {
-	session, err := auth0.Store.Get(r, "auth-session")
+	siteKey, err := helper.GetSiteKey(r)
+	if err != nil {
+		return nil, err
+	}
+	session, err := auth0.Store[siteKey].Get(r, "auth-session")
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +60,11 @@ func GetSession(r *http.Request) (*UserSession, error) {
 }
 
 func SetSession(w http.ResponseWriter, r *http.Request, userSession *UserSession) error {
-	session, err := auth0.Store.Get(r, "auth-session")
+	siteKey, err := helper.GetSiteKey(r)
+	if err != nil {
+		return err
+	}
+	session, err := auth0.Store[siteKey].Get(r, "auth-session")
 	if err != nil {
 		return err
 	}
@@ -72,7 +81,11 @@ func SetSession(w http.ResponseWriter, r *http.Request, userSession *UserSession
 }
 
 func SetState(w http.ResponseWriter, r *http.Request, state string) error {
-	session, err := auth0.Store.Get(r, "auth-session")
+	siteKey, err := helper.GetSiteKey(r)
+	if err != nil {
+		return err
+	}
+	session, err := auth0.Store[siteKey].Get(r, "auth-session")
 	if err != nil {
 		return err
 	}
@@ -82,7 +95,11 @@ func SetState(w http.ResponseWriter, r *http.Request, state string) error {
 }
 
 func GetState(r *http.Request) (string, error) {
-	session, err := auth0.Store.Get(r, "auth-session")
+	siteKey, err := helper.GetSiteKey(r)
+	if err != nil {
+		return "", err
+	}
+	session, err := auth0.Store[siteKey].Get(r, "auth-session")
 	if err != nil {
 		return "", err
 	}
@@ -94,7 +111,11 @@ func GetState(r *http.Request) (string, error) {
 }
 
 func ClearSession(w http.ResponseWriter, r *http.Request) error {
-	session, err := auth0.Store.Get(r, "auth-session")
+	siteKey, err := helper.GetSiteKey(r)
+	if err != nil {
+		return err
+	}
+	session, err := auth0.Store[siteKey].Get(r, "auth-session")
 	if err != nil {
 		return err
 	}

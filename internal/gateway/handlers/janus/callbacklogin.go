@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"github.com/cynx-io/janus-gateway/internal/dependencies/auth0"
 	"github.com/cynx-io/janus-gateway/internal/dependencies/config"
+	"github.com/cynx-io/janus-gateway/internal/helper"
 	"github.com/cynx-io/janus-gateway/internal/session"
 	"net/http"
 )
@@ -28,7 +29,12 @@ func (h *GatewayHandler) Auth0CallbackLogin(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	token, err := auth0.Oauth2.Exchange(context.Background(), code)
+	siteKey, err := helper.GetSiteKey(r)
+	if err != nil {
+		http.Error(w, "Failed to get site key: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	token, err := auth0.Oauth2[siteKey].Exchange(context.Background(), code)
 	if err != nil {
 		http.Error(w, "Failed to exchange code: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -40,7 +46,7 @@ func (h *GatewayHandler) Auth0CallbackLogin(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	idToken, err := auth0.Verifier.Verify(context.Background(), rawIDToken)
+	idToken, err := auth0.Verifier[siteKey].Verify(context.Background(), rawIDToken)
 	if err != nil {
 		http.Error(w, "Failed to verify ID Token: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -68,8 +74,8 @@ func (h *GatewayHandler) Auth0CallbackLogin(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	if config.Config.Auth0.FrontendUrl != "" {
-		http.Redirect(w, r, config.Config.Auth0.FrontendUrl, http.StatusTemporaryRedirect)
+	if config.Config.Sites.Get(siteKey).Auth0.FrontendUrl != "" {
+		http.Redirect(w, r, config.Config.Sites.Get(siteKey).Auth0.FrontendUrl, http.StatusTemporaryRedirect)
 		return
 	}
 

@@ -27,11 +27,7 @@
     "expiresInHours": 168
   },
   "cors": {
-    "enabled": true,
-    "origins": ["http://localhost:3000"],
-    "methods": ["POST", "OPTIONS"],
-    "headers": ["Content-Type", "Authorization"],
-    "credentials": true
+    "enabled": true
   },
   "cookie": {
     "name": "token",
@@ -39,5 +35,15 @@
     "path": "/",
     "http_only": true,
     "secure": true
+  },
+  "sites": {
+    "makeadle": {
+      "url": ["https://makeadle.com", "https://www.makeadle.com"],
+      "domain": ".makeadle.com"
+    },
+    "rizzume": {
+      "url": ["https://rizzume.app", "https://www.rizzume.app"],
+      "domain": ".rizzume.app"
+    }
   }
 }

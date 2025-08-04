@@ -1,7 +1,9 @@
 package middleware
 
 import (
+	"context"
 	"github.com/cynx-io/cynx-core/src/logger"
+	"github.com/cynx-io/janus-gateway/internal/constant"
 	"github.com/cynx-io/janus-gateway/internal/dependencies/config"
 	"net/http"
 )
@@ -20,14 +22,21 @@ func CORSMiddleware(next http.Handler) http.Handler {
 		logger.Debug(ctx, "CORS Middleware: Origin: "+origin)
 
 		allowedOrigin := ""
+		var siteKey constant.SiteKey
 		if origin != "" {
-			for _, o := range config.Config.CORS.Origins {
-				logger.Debug(ctx, "CORS Middleware: Checking allowed origin: "+o)
-				if origin == o {
-					allowedOrigin = origin
-					break
+			config.Config.Sites.Iterate(func(key constant.SiteKey, siteConfig config.SiteConfig) {
+				logger.Debug(ctx, "CORS Middleware: Checking site: "+key)
+				if allowedOrigin != "" {
+					return
 				}
-			}
+				for _, o := range siteConfig.Urls {
+					if origin == o {
+						allowedOrigin = origin
+						siteKey = key
+						break
+					}
+				}
+			})
 		}
 
 		if allowedOrigin != "" {
@@ -46,6 +55,7 @@ func CORSMiddleware(next http.Handler) http.Handler {
 		}
 
 		logger.Debug(ctx, "[CORS] Success set for origin: "+allowedOrigin)
-		next.ServeHTTP(w, r)
+
+		next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), constant.ContextKeySiteKey, siteKey)))
 	})
 }

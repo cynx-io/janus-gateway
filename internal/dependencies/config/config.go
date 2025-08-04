@@ -1,6 +1,9 @@
 package config
 
-import "github.com/cynx-io/cynx-core/src/configuration"
+import (
+	"github.com/cynx-io/cynx-core/src/configuration"
+	"github.com/cynx-io/janus-gateway/internal/constant"
+)
 
 var Config *AppConfig
 
@@ -40,18 +43,45 @@ type AppConfig struct {
 		Debug   bool   `mapstructure:"debug"`
 	} `mapstructure:"app"`
 	CORS struct {
-		Domain  string   `mapstructure:"domain"`
-		Origins []string `mapstructure:"origins"`
-		Enabled bool     `mapstructure:"enabled"`
+		Enabled bool `mapstructure:"enabled"`
 	} `mapstructure:"cors"`
+	Sites SitesConfig `mapstructure:"sites"`
 	Auth0 struct {
-		Domain        string `mapstructure:"domain"`
+		Domain string `mapstructure:"domain"`
+	} `mapstructure:"auth0"`
+}
+
+type SitesConfig struct {
+	Makeadle SiteConfig `mapstructure:"makeadle"`
+	Rizzume  SiteConfig `mapstructure:"rizzume"`
+}
+
+type SiteConfig struct {
+	Auth0 struct {
 		ClientId      string `mapstructure:"client_id"`
 		ClientSecret  string `mapstructure:"client_secret"`
 		CallbackUrl   string `mapstructure:"callback_url"`
 		FrontendUrl   string `mapstructure:"frontend_url"`
 		SessionSecret string `mapstructure:"session_secret"`
 	} `mapstructure:"auth0"`
+	Urls   []string `mapstructure:"urls"`
+	Domain string   `mapstructure:"domain"`
+}
+
+func (s SitesConfig) Iterate(fn func(constant.SiteKey, SiteConfig)) {
+	fn(constant.SiteMakeadle, s.Makeadle)
+	fn(constant.SiteRizzume, s.Rizzume)
+}
+
+func (s SitesConfig) Get(siteKey constant.SiteKey) SiteConfig {
+	switch siteKey {
+	case constant.SiteMakeadle:
+		return s.Makeadle
+	case constant.SiteRizzume:
+		return s.Rizzume
+	default:
+		return SiteConfig{}
+	}
 }
 
 func Init() {

@@ -6,6 +6,7 @@ import (
 	"github.com/cynx-io/cynx-core/src/logger"
 	"github.com/cynx-io/cynx-core/src/types/usertype"
 	"github.com/cynx-io/janus-gateway/internal/dependencies/auth0"
+	"github.com/cynx-io/janus-gateway/internal/helper"
 	"github.com/cynx-io/janus-gateway/internal/session"
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/oauth2"
@@ -26,7 +27,8 @@ func refreshToken(w http.ResponseWriter, r *http.Request, userSession *session.U
 		return &oauth2.RetrieveError{Response: &http.Response{StatusCode: 401}, Body: []byte("no refresh token")}
 	}
 
-	tokenSource := auth0.Oauth2.TokenSource(context.Background(), &oauth2.Token{
+	siteKey, err := helper.GetSiteKey(r)
+	tokenSource := auth0.Oauth2[siteKey].TokenSource(context.Background(), &oauth2.Token{
 		RefreshToken: userSession.RefreshToken,
 	})
 
