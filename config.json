@@ -38,11 +38,13 @@
   },
   "sites": {
     "makeadle": {
-      "url": ["https://makeadle.com", "https://www.makeadle.com"],
+      "urls": ["https://makeadle.com", "https://www.makeadle.com"],
+      "api_url": "https://api.makeadle.com",
       "domain": ".makeadle.com"
     },
     "rizzume": {
-      "url": ["https://rizzume.app", "https://www.rizzume.app"],
+      "urls": ["https://rizzume.app", "https://www.rizzume.app"],
+      "api_url": "https://api.rizzume.app",
       "domain": ".rizzume.app"
     }
   }

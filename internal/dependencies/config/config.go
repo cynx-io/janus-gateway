@@ -65,6 +65,7 @@ type SiteConfig struct {
 		SessionSecret string `mapstructure:"session_secret"`
 	} `mapstructure:"auth0"`
 	Urls   []string `mapstructure:"urls"`
+	ApiUrl string   `mapstructure:"api_url"`
 	Domain string   `mapstructure:"domain"`
 }
 

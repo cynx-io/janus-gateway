@@ -23,7 +23,10 @@ func CORSMiddleware(next http.Handler) http.Handler {
 
 		allowedOrigin := ""
 		var siteKey constant.SiteKey
+
+		// Check Origin header for CORS requests
 		if origin != "" {
+			logger.Debug(ctx, "CORS Middleware: Origin: "+origin)
 			config.Config.Sites.Iterate(func(key constant.SiteKey, siteConfig config.SiteConfig) {
 				logger.Debug(ctx, "CORS Middleware: Checking site: "+key)
 				if allowedOrigin != "" {
@@ -35,6 +38,19 @@ func CORSMiddleware(next http.Handler) http.Handler {
 						siteKey = key
 						break
 					}
+				}
+			})
+		} else {
+			// Check host for direct API calls (no Origin header)
+			host := "https://" + r.Host
+			logger.Debug(ctx, "CORS Middleware: Host: "+host)
+			config.Config.Sites.Iterate(func(key constant.SiteKey, siteConfig config.SiteConfig) {
+				logger.Debug(ctx, "CORS Middleware: Checking API URL for site: "+key)
+				if siteKey != "" {
+					return
+				}
+				if host == siteConfig.ApiUrl {
+					siteKey = key
 				}
 			})
 		}
@@ -55,6 +71,13 @@ func CORSMiddleware(next http.Handler) http.Handler {
 		}
 
 		logger.Debug(ctx, "[CORS] Success set for origin: "+allowedOrigin)
+
+		// Site key is required - reject requests without valid origin
+		if siteKey == "" {
+			logger.Debug(ctx, "[CORS] No matching site found for origin: "+origin)
+			w.WriteHeader(http.StatusForbidden)
+			return
+		}
 
 		next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), constant.ContextKeySiteKey, siteKey)))
 	})
