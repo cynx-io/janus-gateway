@@ -2,7 +2,7 @@
 
 # Get the directory relative to the script location
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DIR="$SCRIPT_DIR/../web"
+DIR="$SCRIPT_DIR/../gen/web"
 
 # Function to clean a single file
 clean_file() {

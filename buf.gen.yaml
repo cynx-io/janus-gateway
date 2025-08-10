@@ -1,17 +1,32 @@
 # File: buf.gen.yaml (in project root)
 
-version: v1
+version: v2
+managed:
+  enabled: true
+inputs:
+  - directory: .
+  - module: buf.build/cynx/cynx-core:v0.0.32
 plugins:
-  - name: go
+  - local: protoc-gen-go
     out: api/proto/gen
-    opt: [paths=source_relative]
-  - name: go-grpc
+    opt:
+      - paths=source_relative
+  - local: protoc-gen-go-grpc
     out: api/proto/gen
-    opt: [paths=source_relative]
-  - name: validate
+    opt:
+      - paths=source_relative
+  - local: protoc-gen-validate
     out: api/proto/gen
-    opt: [paths=source_relative, lang=go]
-  - name: es
-    out: web/gen
-    opt: [target=ts]
+    opt:
+      - paths=source_relative
+      - lang=go
+  - local: protoc-gen-es
+    out: gen/web
+    opt:
+      - target=ts
     strategy: directory
+  - remote: buf.build/grpc/kotlin
+    out: gen/kotlin
+    opt:
+      - grpcKotlinStubs=true
+      - grpcDescriptors=true
