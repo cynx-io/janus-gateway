@@ -6,4 +6,4 @@ build:
 deps:
   - buf.build/bufbuild/protovalidate
   - buf.build/googleapis/googleapis
-  - buf.build/cynx/cynx-core:v0.0.32
+  - buf.build/cynx/cynx-core:v0.0.36

@@ -12,16 +12,16 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file hermes/object.proto.
  */
 export const file_hermes_object: GenFile = /*@__PURE__*/
-  fileDesc("ChNoZXJtZXMvb2JqZWN0LnByb3RvEgZoZXJtZXMiggIKBFVzZXISCgoCaWQYASABKAkSEAoIYXV0aDBfaWQYAiABKAkSDQoFZW1haWwYAyABKAkSDAoEbmFtZRgEIAEoCRIZChFzdWJzY3JpcHRpb25fdGllchgFIAEoCRIuCgpjcmVhdGVkX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIxCg1sYXN0X2xvZ2luX2F0GAggASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIRCglpc19hY3RpdmUYCSABKAhCEloQaGVybWVzL2FwaS9wcm90b2IGcHJvdG8z", [file_google_protobuf_timestamp]);
+  fileDesc("ChNoZXJtZXMvb2JqZWN0LnByb3RvEgZoZXJtZXMiggIKBFVzZXISCgoCaWQYASABKAUSEAoIYXV0aDBfaWQYAiABKAkSDQoFZW1haWwYAyABKAkSDAoEbmFtZRgEIAEoCRIZChFzdWJzY3JpcHRpb25fdGllchgFIAEoCRIuCgpjcmVhdGVkX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIxCg1sYXN0X2xvZ2luX2F0GAggASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIRCglpc19hY3RpdmUYCSABKAhCEloQaGVybWVzL2FwaS9wcm90b2IGcHJvdG8z", [file_google_protobuf_timestamp]);
 
 /**
  * @generated from message hermes.User
  */
 export type User = Message<"hermes.User"> & {
   /**
-   * @generated from field: string id = 1;
+   * @generated from field: int32 id = 1;
    */
-  id: string;
+  id: number;
 
   /**
    * @generated from field: string auth0_id = 2;
