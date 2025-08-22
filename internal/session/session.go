@@ -110,6 +110,50 @@ func GetState(r *http.Request) (string, error) {
 	return "", nil
 }
 
+func SetRedirectURL(w http.ResponseWriter, r *http.Request, redirectURL string) error {
+	siteKey, err := helper.GetSiteKey(r)
+	if err != nil {
+		return err
+	}
+	session, err := auth0.Store[siteKey].Get(r, "auth-session")
+	if err != nil {
+		return err
+	}
+
+	session.Values["redirect_url"] = redirectURL
+	return session.Save(r, w)
+}
+
+func GetRedirectURL(r *http.Request) (string, error) {
+	siteKey, err := helper.GetSiteKey(r)
+	if err != nil {
+		return "", err
+	}
+	session, err := auth0.Store[siteKey].Get(r, "auth-session")
+	if err != nil {
+		return "", err
+	}
+
+	if redirectURL, ok := session.Values["redirect_url"].(string); ok {
+		return redirectURL, nil
+	}
+	return "", nil
+}
+
+func ClearRedirectURL(w http.ResponseWriter, r *http.Request) error {
+	siteKey, err := helper.GetSiteKey(r)
+	if err != nil {
+		return err
+	}
+	session, err := auth0.Store[siteKey].Get(r, "auth-session")
+	if err != nil {
+		return err
+	}
+
+	delete(session.Values, "redirect_url")
+	return session.Save(r, w)
+}
+
 func ClearSession(w http.ResponseWriter, r *http.Request) error {
 	siteKey, err := helper.GetSiteKey(r)
 	if err != nil {

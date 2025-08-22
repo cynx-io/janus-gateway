@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	gen "github.com/cynx-io/cynx-core/proto/gen"
+	"github.com/cynx-io/cynx-core/src/logger"
 	proto "github.com/cynx-io/janus-gateway/api/proto/gen/hermes"
 	"github.com/cynx-io/janus-gateway/internal/dependencies/auth0"
 	"github.com/cynx-io/janus-gateway/internal/dependencies/config"
@@ -98,8 +99,20 @@ func (h *GatewayHandler) Auth0CallbackLogin(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	if config.Config.Sites.Get(siteKey).Auth0.FrontendUrl != "" {
-		http.Redirect(w, r, config.Config.Sites.Get(siteKey).Auth0.FrontendUrl, http.StatusTemporaryRedirect)
+	redirectURL, err := session.GetRedirectURL(r)
+	if err != nil || redirectURL == "" {
+		siteKey, _ := helper.GetSiteKey(r)
+		redirectURL = config.Config.Sites.Get(siteKey).Auth0.FrontendUrl
+	}
+
+	err = session.ClearRedirectURL(w, r)
+	if err != nil {
+		logger.Error(r.Context(), "Failed to clear redirect URL: ", err)
+		return
+	}
+
+	if redirectURL != "" {
+		http.Redirect(w, r, redirectURL, http.StatusTemporaryRedirect)
 		return
 	}
 
