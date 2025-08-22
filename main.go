@@ -6,6 +6,7 @@ import (
 	"github.com/cynx-io/cynx-core/src/logger"
 	"github.com/cynx-io/janus-gateway/internal/dependencies/auth0"
 	"github.com/cynx-io/janus-gateway/internal/dependencies/config"
+	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/ananke"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/janus"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/mercury"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/philyra"
@@ -48,6 +49,8 @@ func main() {
 	platoModeHandler := plato.NewModeHandler()
 	platoTopicHandler := plato.NewTopicHandler()
 
+	anankePreorderHandler := ananke.NewPreorderHandler()
+
 	// Create router
 	root := mux.NewRouter()
 	janusHandler.InjectRoutes(root)
@@ -80,6 +83,7 @@ func main() {
 	platoDailyGameHandler.InjectRoutes(publicRouter, privateRouter)
 	platoModeHandler.InjectRoutes(publicRouter, privateRouter)
 	platoTopicHandler.InjectRoutes(publicRouter, privateRouter)
+	anankePreorderHandler.InjectRoutes(publicRouter, privateRouter)
 
 	address := ":" + strconv.Itoa(config.Config.App.Port)
 

@@ -18,6 +18,12 @@
   "philyra": {
     "url": "devspace:31505"
   },
+  "plutus": {
+    "url": "devspace:31506"
+  },
+  "ananke": {
+    "url": "devspace:31507"
+  },
   "elastic": {
     "url": "http://elasticsearch.cynx.buzz/",
     "level": "debug"

@@ -83,7 +83,7 @@ func (h *GatewayHandler) Auth0CallbackLogin(w http.ResponseWriter, r *http.Reque
 	}
 
 	userSession := &session.UserSession{
-		UserID:        userResp.User.Id,
+		UserID:        string(userResp.User.Id),
 		Email:         userResp.User.Email,
 		Name:          userResp.User.Name,
 		Authenticated: true,

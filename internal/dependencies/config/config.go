@@ -25,6 +25,12 @@ type AppConfig struct {
 	Philyra struct {
 		Url string `mapstructure:"url"`
 	} `mapstructure:"philyra"`
+	Plutus struct {
+		Url string `mapstructure:"url"`
+	} `mapstructure:"plutus"`
+	Ananke struct {
+		Url string `mapstructure:"url"`
+	} `mapstructure:"Ananke"`
 	Auth0 struct {
 		Domain string `mapstructure:"domain"`
 	} `mapstructure:"auth0"`
