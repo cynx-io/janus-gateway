@@ -52,6 +52,11 @@
       "urls": ["https://rizzume.app", "https://www.rizzume.app","https://local.rizzume.app"],
       "api_url": "https://api.rizzume.app",
       "domain": ".rizzume.app"
+    },
+    "perintis": {
+      "urls": ["https://perintis.app", "https://www.perintis.app","https://local.perintis.app", "https://course.perintis.app", "https://dashboard.perintis.app"],
+      "api_url": "https://api.perintis.app",
+      "domain": ".perintis.app"
     }
   }
 }

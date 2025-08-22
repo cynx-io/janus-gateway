@@ -60,6 +60,7 @@ type AppConfig struct {
 type SitesConfig struct {
 	Makeadle SiteConfig `mapstructure:"makeadle"`
 	Rizzume  SiteConfig `mapstructure:"rizzume"`
+	Perintis SiteConfig `mapstructure:"perintis"`
 }
 
 type SiteConfig struct {
@@ -78,6 +79,7 @@ type SiteConfig struct {
 func (s SitesConfig) Iterate(fn func(constant.SiteKey, SiteConfig)) {
 	fn(constant.SiteMakeadle, s.Makeadle)
 	fn(constant.SiteRizzume, s.Rizzume)
+	fn(constant.SitePerintis, s.Perintis)
 }
 
 func (s SitesConfig) Get(siteKey constant.SiteKey) SiteConfig {
@@ -86,6 +88,8 @@ func (s SitesConfig) Get(siteKey constant.SiteKey) SiteConfig {
 		return s.Makeadle
 	case constant.SiteRizzume:
 		return s.Rizzume
+	case constant.SitePerintis:
+		return s.Perintis
 	default:
 		return SiteConfig{}
 	}
