@@ -9,13 +9,13 @@ import (
 )
 
 type UserSession struct {
+	ExpiresAt     time.Time `json:"expires_at"`
 	UserID        string    `json:"user_id"`
 	Email         string    `json:"email"`
 	Name          string    `json:"name"`
-	Authenticated bool      `json:"authenticated"`
 	AccessToken   string    `json:"access_token"`
 	RefreshToken  string    `json:"refresh_token"`
-	ExpiresAt     time.Time `json:"expires_at"`
+	Authenticated bool      `json:"authenticated"`
 }
 
 func init() {

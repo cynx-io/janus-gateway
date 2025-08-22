@@ -27,7 +27,7 @@ func refreshToken(w http.ResponseWriter, r *http.Request, userSession *session.U
 		return &oauth2.RetrieveError{Response: &http.Response{StatusCode: 401}, Body: []byte("no refresh token")}
 	}
 
-	siteKey, err := helper.GetSiteKey(r)
+	siteKey, _ := helper.GetSiteKey(r)
 	tokenSource := auth0.Oauth2[siteKey].TokenSource(context.Background(), &oauth2.Token{
 		RefreshToken: userSession.RefreshToken,
 	})
@@ -95,7 +95,9 @@ func PrivateAuthMiddleware(next http.Handler) http.Handler {
 		if time.Now().Add(5 * time.Minute).After(userSession.ExpiresAt) {
 			if refreshErr := refreshToken(w, r, userSession); refreshErr != nil {
 				logger.Error(ctx, "[PRIVATE AUTH] Token refresh failed: "+refreshErr.Error())
-				session.ClearSession(w, r)
+				if clearErr := session.ClearSession(w, r); clearErr != nil {
+					logger.Error(ctx, "[PRIVATE AUTH] Failed to clear session: "+clearErr.Error())
+				}
 				http.Error(w, "Unauthorized, token refresh failed", http.StatusUnauthorized)
 				return
 			}

@@ -39,6 +39,8 @@ func main() {
 	janusHandler := janus.NewGatewayHandler()
 	cryptoHandler := mercury.NewCryptoHandler()
 	resumeHandler := philyra.NewResumeHandler()
+	careerProfileHandler := philyra.NewCareerProfileHandler()
+	autoFillHandler := philyra.NewAutoFillHandler()
 
 	platoAnswerHandler := plato.NewAnswerHandler()
 	platoAnswerCategoryHandler := plato.NewAnswerCategoryHandler()
@@ -71,6 +73,8 @@ func main() {
 	// Inject routes
 	cryptoHandler.InjectRoutes(publicRouter, privateRouter)
 	resumeHandler.InjectRoutes(publicRouter, privateRouter)
+	careerProfileHandler.InjectRoutes(publicRouter, privateRouter)
+	autoFillHandler.InjectRoutes(publicRouter, privateRouter)
 	platoAnswerHandler.InjectRoutes(publicRouter, privateRouter)
 	platoAnswerCategoryHandler.InjectRoutes(publicRouter, privateRouter)
 	platoDailyGameHandler.InjectRoutes(publicRouter, privateRouter)

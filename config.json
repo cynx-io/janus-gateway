@@ -43,7 +43,7 @@
       "domain": ".makeadle.com"
     },
     "rizzume": {
-      "urls": ["https://rizzume.app", "https://www.rizzume.app"],
+      "urls": ["https://rizzume.app", "https://www.rizzume.app","https://local.rizzume.app"],
       "api_url": "https://api.rizzume.app",
       "domain": ".rizzume.app"
     }

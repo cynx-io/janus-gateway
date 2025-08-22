@@ -60,7 +60,6 @@ func (h *ResumeHandler) GetResume(w http.ResponseWriter, r *http.Request) {
 		log.Printf("[DEBUG] GetResume - Base request is nil!")
 	}
 
-
 	resp, err := h.client.GetResume(r.Context(), &req)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

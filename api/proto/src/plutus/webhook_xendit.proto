@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package plutus;
+
+option go_package = "plutus/api/proto";
+
+import "google/protobuf/timestamp.proto";
+import "plutus/object.proto";
+import "core.proto";
+
+service WebhookXenditService {
+  rpc PaymentSessionCompleted(WebhookXenditPaymentSessionRequest) returns (core.GenericResponse) {}
+  rpc PaymentSessionExpired(WebhookXenditPaymentSessionRequest) returns (core.GenericResponse) {}
+}
+
+message WebhookXenditPaymentSessionRequest {
+  string event = 1;
+  string business_id = 2;
+  google.protobuf.Timestamp created = 3;
+  PaymentSessionWebhookData data = 4;
+}
+
+message PaymentSessionWebhookData {
+  string id = 1;
+  repeated string allowed_payment_channels = 2;
+  float amount = 3;
+  ChannelProperties channel_properties = 4;
+  string country = 5;
+  google.protobuf.Timestamp created = 6;
+  string currency = 7;
+  string customer_id = 8;
+  string description = 9;
+  google.protobuf.Timestamp expires_at = 10;
+  string locale = 11;
+  map<string, string> metadata = 12;
+  string mode = 13;
+  string payment_link_url = 14;
+  string payment_request_id = 15;
+  string payment_token_id = 16;
+  string reference_id = 17;
+  string success_return_url = 18;
+  string cancel_return_url = 19;
+  string session_type = 20;
+  string status = 21;
+  google.protobuf.Timestamp updated = 22;
+}
+
+message ChannelProperties {
+  CardsProperties cards = 1;
+}
+
+message CardsProperties {
+  repeated string bin_whitelist = 1;
+  string mid_label = 2;
+  string cardonfile_type = 3;
+}

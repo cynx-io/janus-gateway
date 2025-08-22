@@ -3,6 +3,8 @@ package janus
 import (
 	"context"
 	"encoding/json"
+	gen "github.com/cynx-io/cynx-core/proto/gen"
+	proto "github.com/cynx-io/janus-gateway/api/proto/gen/hermes"
 	"github.com/cynx-io/janus-gateway/internal/dependencies/auth0"
 	"github.com/cynx-io/janus-gateway/internal/dependencies/config"
 	"github.com/cynx-io/janus-gateway/internal/helper"
@@ -58,10 +60,32 @@ func (h *GatewayHandler) Auth0CallbackLogin(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
+	req := proto.UpsertUserRequest{
+		Base: &gen.BaseRequest{},
+	}
+	req.Auth0Id = claims["sub"].(string)
+	req.Email = claims["email"].(string)
+	name := claims["name"].(string)
+	req.Name = &name
+	isActive := true
+	req.IsActive = &isActive
+
+	userResp, err := h.userClient.UpsertUser(r.Context(), &req)
+
+	if err != nil {
+		http.Error(w, "Failed to upsert user: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if userResp == nil || userResp.User == nil {
+		http.Error(w, "User not found in response", http.StatusInternalServerError)
+		return
+	}
+
 	userSession := &session.UserSession{
-		UserID:        claims["sub"].(string),
-		Email:         claims["email"].(string),
-		Name:          claims["name"].(string),
+		UserID:        userResp.User.Id,
+		Email:         userResp.User.Email,
+		Name:          userResp.User.Name,
 		Authenticated: true,
 		AccessToken:   token.AccessToken,
 		RefreshToken:  token.RefreshToken,
@@ -85,5 +109,8 @@ func (h *GatewayHandler) Auth0CallbackLogin(w http.ResponseWriter, r *http.Reque
 		"user":    userSession,
 		"message": "Login successful",
 	}
-	json.NewEncoder(w).Encode(response)
+	if err := json.NewEncoder(w).Encode(response); err != nil {
+		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		return
+	}
 }

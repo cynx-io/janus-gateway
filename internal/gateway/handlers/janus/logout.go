@@ -47,5 +47,8 @@ func (h *GatewayHandler) Auth0Logout(w http.ResponseWriter, r *http.Request) {
 		"logout_url": logoutURL + "?" + params.Encode(),
 	}
 
-	json.NewEncoder(w).Encode(response)
+	if err := json.NewEncoder(w).Encode(response); err != nil {
+		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		return
+	}
 }

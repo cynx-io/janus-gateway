@@ -1,0 +1,211 @@
+syntax = "proto3";
+
+package philyra;
+
+option go_package = "philyra/api/proto";
+
+import "core.proto";
+import "google/protobuf/timestamp.proto";
+import "philyra/career_profile.proto";
+
+// ============================================================================
+// AutoFill Service for Job Application Extension
+// ============================================================================
+
+service AutoFillService {
+    rpc AnalyzeForm(AnalyzeFormRequest) returns (AnalyzeFormResponse);
+}
+
+// ============================================================================
+// AutoFill Service Messages
+// ============================================================================
+
+// Form Analysis Messages
+message AnalyzeFormRequest {
+    core.BaseRequest base = 1;
+    FormAnalysis form_data = 2;
+    CareerProfile career_profile = 3;
+    AnalysisType analysis_type = 4;
+    bool include_custom_answers = 5;
+    int32 max_custom_answer_length = 6;
+    string target_company = 7;
+    string target_role = 8;
+}
+
+message AnalyzeFormResponse {
+    core.BaseResponse base = 1;
+    repeated FieldMapping mappings = 2;
+    repeated string unmapped_fields = 3;
+    repeated CustomQuestion custom_questions = 4;
+    FormType form_type = 5;
+    int32 estimated_fill_time = 6;
+    float processing_time = 7;
+    string api_version = 8;
+    repeated RecommendedAction recommended_actions = 9;
+}
+
+// Submission Tracking Messages
+// Submission tracking messages removed for MVP
+
+// Analytics messages removed for MVP
+
+// ============================================================================
+// AutoFill Entity Definitions
+// ============================================================================
+
+// Form Analysis Entities
+message FormField {
+    string id = 1;
+    ElementType element_type = 2;
+    string input_type = 3;
+    string name = 4;
+    string label = 5;
+    string placeholder = 6;
+    repeated string options = 7;
+    bool required = 8;
+    string current_value = 9;
+    string aria_label = 10;
+    repeated string class_list = 11;
+    string parent_context = 12;
+}
+
+message FormAnalysis {
+    string url = 1;
+    string domain = 2;
+    string form_title = 3;
+    string job_title = 4;
+    string company_name = 5;
+    repeated FormField fields = 6;
+    string form_context = 7;
+    google.protobuf.Timestamp detection_timestamp = 8;
+}
+
+message FieldMapping {
+    string field_id = 1;
+    DataType data_type = 2;
+    string value = 3;
+    float confidence = 4;
+    string reasoning = 5;
+}
+
+message CustomQuestion {
+    string field_id = 1;
+    string question = 2;
+    string suggested_answer = 3;
+    float confidence = 4;
+    QuestionCategory category = 5;
+}
+
+message RecommendedAction {
+    ActionType action = 1;
+    string reason = 2;
+    repeated string affected_fields = 3;
+}
+
+// Profile entities are now handled by CareerProfile in career_profile.proto
+
+// Analytics entities removed for MVP
+
+message ProfileConflict {
+    string field = 1;
+    string local_value = 2;
+    string remote_value = 3;
+}
+
+// Submission tracking entities removed for MVP
+
+// ============================================================================
+// AutoFill Enums
+// ============================================================================
+
+enum ElementType {
+    ELEMENT_TYPE_UNSPECIFIED = 0;
+    ELEMENT_TYPE_INPUT = 1;
+    ELEMENT_TYPE_TEXTAREA = 2;
+    ELEMENT_TYPE_SELECT = 3;
+    ELEMENT_TYPE_RADIO = 4;
+    ELEMENT_TYPE_CHECKBOX = 5;
+}
+
+enum AnalysisType {
+    ANALYSIS_TYPE_UNSPECIFIED = 0;
+    ANALYSIS_TYPE_STANDARD = 1;
+    ANALYSIS_TYPE_DETAILED = 2;
+    ANALYSIS_TYPE_CUSTOM_QUESTIONS_ONLY = 3;
+}
+
+enum FormType {
+    FORM_TYPE_UNSPECIFIED = 0;
+    FORM_TYPE_BASIC = 1;
+    FORM_TYPE_DETAILED = 2;
+    FORM_TYPE_ATS = 3;
+    FORM_TYPE_CUSTOM = 4;
+}
+
+enum SyncType {
+    SYNC_TYPE_UNSPECIFIED = 0;
+    SYNC_TYPE_FULL = 1;
+    SYNC_TYPE_INCREMENTAL = 2;
+}
+
+enum DataType {
+    DATA_TYPE_UNSPECIFIED = 0;
+    DATA_TYPE_PERSONAL_FIRST_NAME = 1;
+    DATA_TYPE_PERSONAL_LAST_NAME = 2;
+    DATA_TYPE_PERSONAL_EMAIL = 3;
+    DATA_TYPE_PERSONAL_PHONE = 4;
+    DATA_TYPE_PERSONAL_ADDRESS = 5;
+    DATA_TYPE_PERSONAL_CITY = 6;
+    DATA_TYPE_PERSONAL_STATE = 7;
+    DATA_TYPE_PERSONAL_ZIP_CODE = 8;
+    DATA_TYPE_PERSONAL_COUNTRY = 9;
+    DATA_TYPE_PROFESSIONAL_CURRENT_COMPANY = 10;
+    DATA_TYPE_PROFESSIONAL_CURRENT_TITLE = 11;
+    DATA_TYPE_PROFESSIONAL_YEARS_EXPERIENCE = 12;
+    DATA_TYPE_PROFESSIONAL_LINKEDIN_URL = 13;
+    DATA_TYPE_PROFESSIONAL_PORTFOLIO_URL = 14;
+    DATA_TYPE_PROFESSIONAL_GITHUB_URL = 15;
+    DATA_TYPE_PREFERENCES_SALARY_RANGE = 16;
+    DATA_TYPE_PREFERENCES_WORK_AUTHORIZATION = 17;
+    DATA_TYPE_PREFERENCES_WILLING_TO_RELOCATE = 18;
+    DATA_TYPE_PREFERENCES_REMOTE_WORK_PREFERENCE = 19;
+    DATA_TYPE_PREFERENCES_PREFERRED_START_DATE = 20;
+    DATA_TYPE_DOCUMENTS_RESUME = 21;
+    DATA_TYPE_DOCUMENTS_COVER_LETTER = 22;
+    DATA_TYPE_CUSTOM_QUESTION = 23;
+    DATA_TYPE_UNKNOWN = 24;
+}
+
+enum QuestionCategory {
+    QUESTION_CATEGORY_UNSPECIFIED = 0;
+    QUESTION_CATEGORY_MOTIVATION = 1;
+    QUESTION_CATEGORY_EXPERIENCE = 2;
+    QUESTION_CATEGORY_SKILLS = 3;
+    QUESTION_CATEGORY_AVAILABILITY = 4;
+    QUESTION_CATEGORY_OTHER = 5;
+}
+
+enum ActionType {
+    ACTION_TYPE_UNSPECIFIED = 0;
+    ACTION_TYPE_FILL_NOW = 1;
+    ACTION_TYPE_REVIEW_REQUIRED = 2;
+    ACTION_TYPE_MANUAL_INPUT_NEEDED = 3;
+}
+
+enum WorkAuthorizationType {
+    WORK_AUTHORIZATION_TYPE_UNSPECIFIED = 0;
+    WORK_AUTHORIZATION_TYPE_CITIZEN = 1;
+    WORK_AUTHORIZATION_TYPE_PERMANENT_RESIDENT = 2;
+    WORK_AUTHORIZATION_TYPE_VISA_REQUIRED = 3;
+    WORK_AUTHORIZATION_TYPE_STUDENT_VISA = 4;
+}
+
+enum RemoteWorkPreference {
+    REMOTE_WORK_PREFERENCE_UNSPECIFIED = 0;
+    REMOTE_WORK_PREFERENCE_REMOTE = 1;
+    REMOTE_WORK_PREFERENCE_HYBRID = 2;
+    REMOTE_WORK_PREFERENCE_ON_SITE = 3;
+    REMOTE_WORK_PREFERENCE_FLEXIBLE = 4;
+}
+
+// EventType enum removed for MVP (was only used for analytics)

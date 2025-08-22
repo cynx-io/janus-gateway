@@ -6,6 +6,7 @@ option go_package = "philyra/api/proto";
 
 import "philyra/entity.proto";
 import "core.proto";
+import "google/protobuf/timestamp.proto";
 
 service ResumeService {
     rpc CreateResume(CreateResumeRequest) returns (ResumeResponse);

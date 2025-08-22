@@ -12,46 +12,56 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file hermes/object.proto.
  */
 export const file_hermes_object: GenFile = /*@__PURE__*/
-  fileDesc("ChNoZXJtZXMvb2JqZWN0LnByb3RvEgZoZXJtZXMiwwEKBFVzZXISCgoCaWQYASABKAUSEAoIdXNlcm5hbWUYAiABKAkSDAoEY29pbhgDIAEoBRIRCgl1c2VyX3R5cGUYBCABKAUSGAoQdXNlcl90eXBlX3N0cmluZxgFIAEoCRIwCgxjcmVhdGVkX2RhdGUYCiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEjAKDHVwZGF0ZWRfZGF0ZRgLIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBCEloQaGVybWVzL2FwaS9wcm90b2IGcHJvdG8z", [file_google_protobuf_timestamp]);
+  fileDesc("ChNoZXJtZXMvb2JqZWN0LnByb3RvEgZoZXJtZXMiggIKBFVzZXISCgoCaWQYASABKAkSEAoIYXV0aDBfaWQYAiABKAkSDQoFZW1haWwYAyABKAkSDAoEbmFtZRgEIAEoCRIZChFzdWJzY3JpcHRpb25fdGllchgFIAEoCRIuCgpjcmVhdGVkX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIxCg1sYXN0X2xvZ2luX2F0GAggASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIRCglpc19hY3RpdmUYCSABKAhCEloQaGVybWVzL2FwaS9wcm90b2IGcHJvdG8z", [file_google_protobuf_timestamp]);
 
 /**
  * @generated from message hermes.User
  */
 export type User = Message<"hermes.User"> & {
   /**
-   * @generated from field: int32 id = 1;
+   * @generated from field: string id = 1;
    */
-  id: number;
+  id: string;
 
   /**
-   * @generated from field: string username = 2;
+   * @generated from field: string auth0_id = 2;
    */
-  username: string;
+  auth0Id: string;
 
   /**
-   * @generated from field: int32 coin = 3;
+   * @generated from field: string email = 3;
    */
-  coin: number;
+  email: string;
 
   /**
-   * @generated from field: int32 user_type = 4;
+   * @generated from field: string name = 4;
    */
-  userType: number;
+  name: string;
 
   /**
-   * @generated from field: string user_type_string = 5;
+   * @generated from field: string subscription_tier = 5;
    */
-  userTypeString: string;
+  subscriptionTier: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp created_date = 10;
+   * @generated from field: google.protobuf.Timestamp created_at = 6;
    */
-  createdDate?: Timestamp;
+  createdAt?: Timestamp;
 
   /**
-   * @generated from field: google.protobuf.Timestamp updated_date = 11;
+   * @generated from field: google.protobuf.Timestamp updated_at = 7;
    */
-  updatedDate?: Timestamp;
+  updatedAt?: Timestamp;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp last_login_at = 8;
+   */
+  lastLoginAt?: Timestamp;
+
+  /**
+   * @generated from field: bool is_active = 9;
+   */
+  isActive: boolean;
 };
 
 /**

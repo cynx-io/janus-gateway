@@ -1,0 +1,237 @@
+syntax = "proto3";
+
+package philyra;
+
+option go_package = "philyra/api/proto";
+
+import "core.proto";
+import "google/protobuf/timestamp.proto";
+
+// Career Profile Service - Unified profile management for all job-related activities
+service CareerProfileService {
+  rpc GetCareerProfile(GetCareerProfileRequest) returns (GetCareerProfileResponse);
+  rpc SyncCareerProfile(SyncCareerProfileRequest) returns (SyncCareerProfileResponse);
+  rpc UpdatePersonalInfo(UpdateCareerPersonalInfoRequest) returns (UpdateCareerPersonalInfoResponse);
+  rpc UpdateProfessionalInfo(UpdateCareerProfessionalInfoRequest) returns (UpdateCareerProfessionalInfoResponse);
+  rpc UpdateJobPreferences(UpdateCareerJobPreferencesRequest) returns (UpdateCareerJobPreferencesResponse);
+  rpc UpdateUserDocuments(UpdateCareerDocumentsRequest) returns (UpdateCareerDocumentsResponse);
+  rpc UpdateCustomResponses(UpdateCareerCustomResponsesRequest) returns (UpdateCareerCustomResponsesResponse);
+  // Migration functionality removed for MVP
+}
+
+// Main Career Profile structure - unified profile for all job-related activities
+message CareerProfile {
+  CareerProfileMetadata metadata = 1;
+  CareerPersonalInfo personal = 2;
+  CareerProfessionalInfo professional = 3;
+  CareerJobPreferences preferences = 4;
+  CareerDocuments documents = 5;
+  CareerCustomResponses responses = 6;
+}
+
+// Profile metadata with comprehensive tracking
+message CareerProfileMetadata {
+  google.protobuf.Timestamp created_at = 1;
+  google.protobuf.Timestamp updated_at = 2;
+  google.protobuf.Timestamp last_sync_at = 3;
+  string version = 4;
+  string profile_id = 5;
+  string source = 6; // autofill, manual, resume_import, etc.
+  int32 sync_count = 7;
+}
+
+// Enhanced personal information combining both profiles
+message CareerPersonalInfo {
+  string first_name = 1;
+  string last_name = 2;
+  string email = 3;
+  string phone = 4;
+  string address = 5;
+  string city = 6;
+  string state = 7;
+  string zip_code = 8;
+  string country = 9;
+  string linkedin_url = 10;
+  string website = 11;
+  string github_url = 12; // Added from professional context
+  string portfolio_url = 13; // Added from professional context
+}
+
+// Comprehensive professional information with detailed experience tracking
+message CareerProfessionalInfo {
+  string current_company = 1;
+  string current_title = 2;
+  string industry = 3;
+  int32 years_experience = 4;
+  string linkedin_url = 5;
+  string portfolio_url = 6;
+  string github_url = 7;
+  repeated string skills = 8;
+  repeated CareerWorkExperience experience = 9;
+  repeated CareerEducation education = 10;
+  repeated string certifications = 11;
+}
+
+// Detailed work experience with achievements tracking
+message CareerWorkExperience {
+  string company = 1;
+  string title = 2;
+  string location = 3;
+  google.protobuf.Timestamp start_date = 4;
+  google.protobuf.Timestamp end_date = 5;
+  string description = 6;
+  repeated string achievements = 7;
+  bool is_current = 8;
+}
+
+// Education with comprehensive details
+message CareerEducation {
+  string institution = 1;
+  string degree = 2;
+  string field_of_study = 3;
+  string location = 4;
+  google.protobuf.Timestamp graduation_date = 5;
+  string gpa = 6;
+  repeated string achievements = 7;
+}
+
+// Enhanced job preferences combining both models
+message CareerJobPreferences {
+  CareerSalaryRange salary_range = 1;
+  CareerWorkAuthorizationType work_authorization = 2;
+  CareerRemoteWorkPreference remote_work_preference = 3;
+  string preferred_start_date = 4;
+  string notice_period = 5;
+  repeated string preferred_locations = 6;
+  repeated string preferred_industries = 7;
+  repeated string job_types = 8;
+  bool willing_to_relocate = 9;
+}
+
+// Enhanced salary range with currency and period
+message CareerSalaryRange {
+  int32 min = 1;
+  int32 max = 2;
+  string currency = 3;
+  string period = 4; // annual, hourly, etc.
+}
+
+// Comprehensive document storage
+message CareerDocuments {
+  bytes resume_file = 1;
+  string resume_url = 2;
+  string cover_letter_template = 3;
+  repeated string certifications = 4;
+  repeated string portfolio_links = 5;
+}
+
+// Enhanced custom responses for applications
+message CareerCustomResponses {
+  string why_interested = 1;
+  string strengths_weaknesses = 2;
+  string career_goals = 3;
+  string availability = 4;
+  map<string, string> additional_responses = 5;
+}
+
+// Work authorization types
+enum CareerWorkAuthorizationType {
+  CAREER_WORK_AUTHORIZATION_TYPE_UNSPECIFIED = 0;
+  CAREER_WORK_AUTHORIZATION_TYPE_CITIZEN = 1;
+  CAREER_WORK_AUTHORIZATION_TYPE_PERMANENT_RESIDENT = 2;
+  CAREER_WORK_AUTHORIZATION_TYPE_VISA_REQUIRED = 3;
+  CAREER_WORK_AUTHORIZATION_TYPE_STUDENT_VISA = 4;
+}
+
+// Remote work preferences
+enum CareerRemoteWorkPreference {
+  CAREER_REMOTE_WORK_PREFERENCE_UNSPECIFIED = 0;
+  CAREER_REMOTE_WORK_PREFERENCE_REMOTE = 1;
+  CAREER_REMOTE_WORK_PREFERENCE_HYBRID = 2;
+  CAREER_REMOTE_WORK_PREFERENCE_ON_SITE = 3;
+  CAREER_REMOTE_WORK_PREFERENCE_FLEXIBLE = 4;
+}
+
+// Request/Response messages for Career Profile operations
+message GetCareerProfileRequest {
+  core.BaseRequest base = 1;
+}
+
+message GetCareerProfileResponse {
+  core.BaseResponse base = 1;
+  CareerProfile profile = 2;
+}
+
+message SyncCareerProfileRequest {
+  core.BaseRequest base = 1;
+  CareerProfile profile = 2;
+  ConflictResolutionStrategy strategy = 3;
+}
+
+message SyncCareerProfileResponse {
+  core.BaseResponse base = 1;
+  CareerProfile profile = 2;
+  google.protobuf.Timestamp last_sync = 3;
+  repeated string conflicts_resolved = 4;
+}
+
+message UpdateCareerPersonalInfoRequest {
+  core.BaseRequest base = 1;
+  CareerPersonalInfo personal = 2;
+}
+
+message UpdateCareerPersonalInfoResponse {
+  core.BaseResponse base = 1;
+  CareerPersonalInfo personal = 2;
+}
+
+message UpdateCareerProfessionalInfoRequest {
+  core.BaseRequest base = 1;
+  CareerProfessionalInfo professional = 2;
+}
+
+message UpdateCareerProfessionalInfoResponse {
+  core.BaseResponse base = 1;
+  CareerProfessionalInfo professional = 2;
+}
+
+message UpdateCareerJobPreferencesRequest {
+  core.BaseRequest base = 1;
+  CareerJobPreferences preferences = 2;
+}
+
+message UpdateCareerJobPreferencesResponse {
+  core.BaseResponse base = 1;
+  CareerJobPreferences preferences = 2;
+}
+
+message UpdateCareerDocumentsRequest {
+  core.BaseRequest base = 1;
+  CareerDocuments documents = 2;
+}
+
+message UpdateCareerDocumentsResponse {
+  core.BaseResponse base = 1;
+  CareerDocuments documents = 2;
+}
+
+message UpdateCareerCustomResponsesRequest {
+  core.BaseRequest base = 1;
+  CareerCustomResponses responses = 2;
+}
+
+message UpdateCareerCustomResponsesResponse {
+  core.BaseResponse base = 1;
+  CareerCustomResponses responses = 2;
+}
+
+// Migration messages removed for MVP
+
+// Conflict resolution strategy for profile syncing
+enum ConflictResolutionStrategy {
+  CONFLICT_RESOLUTION_STRATEGY_UNSPECIFIED = 0;
+  CONFLICT_RESOLUTION_STRATEGY_CLIENT_WINS = 1;
+  CONFLICT_RESOLUTION_STRATEGY_SERVER_WINS = 2;
+  CONFLICT_RESOLUTION_STRATEGY_MERGE = 3;
+  CONFLICT_RESOLUTION_STRATEGY_MANUAL = 4;
+}

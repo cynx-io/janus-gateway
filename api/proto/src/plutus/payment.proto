@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package plutus;
+
+option go_package = "plutus/api/proto";
+
+import "google/protobuf/timestamp.proto";
+import "core.proto";
+import "plutus/object.proto";
+
+service PaymentService {
+  rpc CreatePaymentInvoice(CreatePaymentInvoiceRequest) returns (PaymentInvoiceResponse) {}
+  rpc GetPaymentInvoiceById(GetPaymentInvoiceByIdRequest) returns (PaymentInvoiceResponse) {}
+  rpc GetPaymentInvoiceByExternalId(GetPaymentInvoiceByExternalIdRequest) returns (PaymentInvoiceResponse) {}
+  rpc GetPaymentInvoiceByRequestId(GetPaymentInvoiceByRequestIdRequest) returns (PaymentInvoiceResponse) {}
+}
+
+message GetPaymentInvoiceByIdRequest {
+  core.BaseRequest base = 1;
+  int32 id = 2;
+}
+
+message GetPaymentInvoiceByExternalIdRequest {
+  core.BaseRequest base = 1;
+  string external_id = 2;
+}
+
+message GetPaymentInvoiceByRequestIdRequest {
+  core.BaseRequest base = 1;
+  string request_id = 2;
+}
+
+message CreatePaymentInvoiceRequest {
+  core.BaseRequest base = 1;
+  int32 user_id = 2;
+  float amount = 3;
+  string currency = 4;
+  string description = 5;
+  string success_return_url = 6;
+  string failure_return_url = 7;
+  int32 duration_in_seconds = 8;
+  PaymentFeature payment_feature = 9;
+}
+
+message PaymentInvoiceResponse {
+  core.BaseResponse base = 1;
+  PaymentInvoice payment = 2;
+}

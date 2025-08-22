@@ -5,7 +5,7 @@ go 1.24.3
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.6-20250613105001-9f2d3c737feb.1
 	github.com/coreos/go-oidc/v3 v3.15.0
-	github.com/cynx-io/cynx-core v0.0.32
+	github.com/cynx-io/cynx-core v0.0.35
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/mux v1.8.1

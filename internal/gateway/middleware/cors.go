@@ -33,6 +33,7 @@ func CORSMiddleware(next http.Handler) http.Handler {
 					return
 				}
 				for _, o := range siteConfig.Urls {
+					logger.Debug(ctx, "CORS Middleware: Checking url: "+o)
 					if origin == o {
 						allowedOrigin = origin
 						siteKey = key
@@ -55,6 +56,7 @@ func CORSMiddleware(next http.Handler) http.Handler {
 			})
 		}
 
+		logger.Debug(ctx, "[CORS] Allowed origin: "+allowedOrigin)
 		if allowedOrigin != "" {
 			// Set only if origin is allowed, never '*'
 			w.Header().Set("Access-Control-Allow-Origin", allowedOrigin)

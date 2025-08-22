@@ -8,6 +8,11 @@ import (
 var Config *AppConfig
 
 type AppConfig struct {
+	Sites   SitesConfig `mapstructure:"sites"`
+	Elastic struct {
+		Url   string `mapstructure:"url"`
+		Level string `mapstructure:"level"`
+	} `mapstructure:"elastic"`
 	Hermes struct {
 		Url string `mapstructure:"url"`
 	} `mapstructure:"hermes"`
@@ -20,10 +25,9 @@ type AppConfig struct {
 	Philyra struct {
 		Url string `mapstructure:"url"`
 	} `mapstructure:"philyra"`
-	Elastic struct {
-		Url   string `mapstructure:"url"`
-		Level string `mapstructure:"level"`
-	} `mapstructure:"elastic"`
+	Auth0 struct {
+		Domain string `mapstructure:"domain"`
+	} `mapstructure:"auth0"`
 	Cookie struct {
 		Name     string `mapstructure:"name"`
 		Domain   string `mapstructure:"domain"`
@@ -45,10 +49,6 @@ type AppConfig struct {
 	CORS struct {
 		Enabled bool `mapstructure:"enabled"`
 	} `mapstructure:"cors"`
-	Sites SitesConfig `mapstructure:"sites"`
-	Auth0 struct {
-		Domain string `mapstructure:"domain"`
-	} `mapstructure:"auth0"`
 }
 
 type SitesConfig struct {
@@ -64,9 +64,9 @@ type SiteConfig struct {
 		FrontendUrl   string `mapstructure:"frontend_url"`
 		SessionSecret string `mapstructure:"session_secret"`
 	} `mapstructure:"auth0"`
-	Urls   []string `mapstructure:"urls"`
 	ApiUrl string   `mapstructure:"api_url"`
 	Domain string   `mapstructure:"domain"`
+	Urls   []string `mapstructure:"urls"`
 }
 
 func (s SitesConfig) Iterate(fn func(constant.SiteKey, SiteConfig)) {
