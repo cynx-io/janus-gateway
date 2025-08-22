@@ -7,7 +7,7 @@ import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import { file_plutus_object } from "./object_pb";
-import type { GenericResponseSchema } from "../core_pb";
+import type { BaseRequest, GenericResponseSchema } from "../core_pb";
 import { file_core } from "../core_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -15,224 +15,140 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file plutus/webhook_xendit.proto.
  */
 export const file_plutus_webhook_xendit: GenFile = /*@__PURE__*/
-  fileDesc("ChtwbHV0dXMvd2ViaG9va194ZW5kaXQucHJvdG8SBnBsdXR1cyKmAQoiV2ViaG9va1hlbmRpdFBheW1lbnRTZXNzaW9uUmVxdWVzdBINCgVldmVudBgBIAEoCRITCgtidXNpbmVzc19pZBgCIAEoCRIrCgdjcmVhdGVkGAMgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIvCgRkYXRhGAQgASgLMiEucGx1dHVzLlBheW1lbnRTZXNzaW9uV2ViaG9va0RhdGEivAUKGVBheW1lbnRTZXNzaW9uV2ViaG9va0RhdGESCgoCaWQYASABKAkSIAoYYWxsb3dlZF9wYXltZW50X2NoYW5uZWxzGAIgAygJEg4KBmFtb3VudBgDIAEoAhI1ChJjaGFubmVsX3Byb3BlcnRpZXMYBCABKAsyGS5wbHV0dXMuQ2hhbm5lbFByb3BlcnRpZXMSDwoHY291bnRyeRgFIAEoCRIrCgdjcmVhdGVkGAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIQCghjdXJyZW5jeRgHIAEoCRITCgtjdXN0b21lcl9pZBgIIAEoCRITCgtkZXNjcmlwdGlvbhgJIAEoCRIuCgpleHBpcmVzX2F0GAogASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIOCgZsb2NhbGUYCyABKAkSQQoIbWV0YWRhdGEYDCADKAsyLy5wbHV0dXMuUGF5bWVudFNlc3Npb25XZWJob29rRGF0YS5NZXRhZGF0YUVudHJ5EgwKBG1vZGUYDSABKAkSGAoQcGF5bWVudF9saW5rX3VybBgOIAEoCRIaChJwYXltZW50X3JlcXVlc3RfaWQYDyABKAkSGAoQcGF5bWVudF90b2tlbl9pZBgQIAEoCRIUCgxyZWZlcmVuY2VfaWQYESABKAkSGgoSc3VjY2Vzc19yZXR1cm5fdXJsGBIgASgJEhkKEWNhbmNlbF9yZXR1cm5fdXJsGBMgASgJEhQKDHNlc3Npb25fdHlwZRgUIAEoCRIOCgZzdGF0dXMYFSABKAkSKwoHdXBkYXRlZBgWIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAaLwoNTWV0YWRhdGFFbnRyeRILCgNrZXkYASABKAkSDQoFdmFsdWUYAiABKAk6AjgBIjsKEUNoYW5uZWxQcm9wZXJ0aWVzEiYKBWNhcmRzGAEgASgLMhcucGx1dHVzLkNhcmRzUHJvcGVydGllcyJUCg9DYXJkc1Byb3BlcnRpZXMSFQoNYmluX3doaXRlbGlzdBgBIAMoCRIRCgltaWRfbGFiZWwYAiABKAkSFwoPY2FyZG9uZmlsZV90eXBlGAMgASgJMtQBChRXZWJob29rWGVuZGl0U2VydmljZRJeChdQYXltZW50U2Vzc2lvbkNvbXBsZXRlZBIqLnBsdXR1cy5XZWJob29rWGVuZGl0UGF5bWVudFNlc3Npb25SZXF1ZXN0GhUuY29yZS5HZW5lcmljUmVzcG9uc2UiABJcChVQYXltZW50U2Vzc2lvbkV4cGlyZWQSKi5wbHV0dXMuV2ViaG9va1hlbmRpdFBheW1lbnRTZXNzaW9uUmVxdWVzdBoVLmNvcmUuR2VuZXJpY1Jlc3BvbnNlIgBCEloQcGx1dHVzL2FwaS9wcm90b2IGcHJvdG8z", [file_google_protobuf_timestamp, file_plutus_object, file_core]);
+  fileDesc("ChtwbHV0dXMvd2ViaG9va194ZW5kaXQucHJvdG8SBnBsdXR1cyLCBAobSGFuZGxlUGF5bWVudEludm9pY2VSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0EgoKAmlkGAIgASgJEhMKC2V4dGVybmFsX2lkGAMgASgJEg8KB3VzZXJfaWQYBCABKAkSDwoHaXNfaGlnaBgFIAEoCBIWCg5wYXltZW50X21ldGhvZBgGIAEoCRIOCgZzdGF0dXMYByABKAkSFQoNbWVyY2hhbnRfbmFtZRgIIAEoCRIOCgZhbW91bnQYCSABKAUSEwoLcGFpZF9hbW91bnQYCiABKAUSEQoJYmFua19jb2RlGAsgASgJEisKB3BhaWRfYXQYDCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEhMKC3BheWVyX2VtYWlsGA0gASgJEhMKC2Rlc2NyaXB0aW9uGA4gASgJEiAKGGFkanVzdGVkX3JlY2VpdmVkX2Ftb3VudBgPIAEoBRIYChBmZWVzX3BhaWRfYW1vdW50GBAgASgFEisKB3VwZGF0ZWQYESABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEisKB2NyZWF0ZWQYEiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEhAKCGN1cnJlbmN5GBMgASgJEhcKD3BheW1lbnRfY2hhbm5lbBgUIAEoCRIbChNwYXltZW50X2Rlc3RpbmF0aW9uGBUgASgJEhMKC3dlYmhvb2tfa2V5GBYgASgJMmwKFFdlYmhvb2tYZW5kaXRTZXJ2aWNlElQKFEhhbmRsZVBheW1lbnRJbnZvaWNlEiMucGx1dHVzLkhhbmRsZVBheW1lbnRJbnZvaWNlUmVxdWVzdBoVLmNvcmUuR2VuZXJpY1Jlc3BvbnNlIgBCEloQcGx1dHVzL2FwaS9wcm90b2IGcHJvdG8z", [file_google_protobuf_timestamp, file_plutus_object, file_core]);
 
 /**
- * @generated from message plutus.WebhookXenditPaymentSessionRequest
+ * @generated from message plutus.HandlePaymentInvoiceRequest
  */
-export type WebhookXenditPaymentSessionRequest = Message<"plutus.WebhookXenditPaymentSessionRequest"> & {
+export type HandlePaymentInvoiceRequest = Message<"plutus.HandlePaymentInvoiceRequest"> & {
   /**
-   * @generated from field: string event = 1;
+   * @generated from field: core.BaseRequest base = 1;
    */
-  event: string;
+  base?: BaseRequest;
 
   /**
-   * @generated from field: string business_id = 2;
-   */
-  businessId: string;
-
-  /**
-   * @generated from field: google.protobuf.Timestamp created = 3;
-   */
-  created?: Timestamp;
-
-  /**
-   * @generated from field: plutus.PaymentSessionWebhookData data = 4;
-   */
-  data?: PaymentSessionWebhookData;
-};
-
-/**
- * Describes the message plutus.WebhookXenditPaymentSessionRequest.
- * Use `create(WebhookXenditPaymentSessionRequestSchema)` to create a new message.
- */
-export const WebhookXenditPaymentSessionRequestSchema: GenMessage<WebhookXenditPaymentSessionRequest> = /*@__PURE__*/
-  messageDesc(file_plutus_webhook_xendit, 0);
-
-/**
- * @generated from message plutus.PaymentSessionWebhookData
- */
-export type PaymentSessionWebhookData = Message<"plutus.PaymentSessionWebhookData"> & {
-  /**
-   * @generated from field: string id = 1;
+   * @generated from field: string id = 2;
    */
   id: string;
 
   /**
-   * @generated from field: repeated string allowed_payment_channels = 2;
+   * @generated from field: string external_id = 3;
    */
-  allowedPaymentChannels: string[];
+  externalId: string;
 
   /**
-   * @generated from field: float amount = 3;
+   * @generated from field: string user_id = 4;
    */
-  amount: number;
+  userId: string;
 
   /**
-   * @generated from field: plutus.ChannelProperties channel_properties = 4;
+   * @generated from field: bool is_high = 5;
    */
-  channelProperties?: ChannelProperties;
+  isHigh: boolean;
 
   /**
-   * @generated from field: string country = 5;
+   * @generated from field: string payment_method = 6;
    */
-  country: string;
+  paymentMethod: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp created = 6;
-   */
-  created?: Timestamp;
-
-  /**
-   * @generated from field: string currency = 7;
-   */
-  currency: string;
-
-  /**
-   * @generated from field: string customer_id = 8;
-   */
-  customerId: string;
-
-  /**
-   * @generated from field: string description = 9;
-   */
-  description: string;
-
-  /**
-   * @generated from field: google.protobuf.Timestamp expires_at = 10;
-   */
-  expiresAt?: Timestamp;
-
-  /**
-   * @generated from field: string locale = 11;
-   */
-  locale: string;
-
-  /**
-   * @generated from field: map<string, string> metadata = 12;
-   */
-  metadata: { [key: string]: string };
-
-  /**
-   * @generated from field: string mode = 13;
-   */
-  mode: string;
-
-  /**
-   * @generated from field: string payment_link_url = 14;
-   */
-  paymentLinkUrl: string;
-
-  /**
-   * @generated from field: string payment_request_id = 15;
-   */
-  paymentRequestId: string;
-
-  /**
-   * @generated from field: string payment_token_id = 16;
-   */
-  paymentTokenId: string;
-
-  /**
-   * @generated from field: string reference_id = 17;
-   */
-  referenceId: string;
-
-  /**
-   * @generated from field: string success_return_url = 18;
-   */
-  successReturnUrl: string;
-
-  /**
-   * @generated from field: string cancel_return_url = 19;
-   */
-  cancelReturnUrl: string;
-
-  /**
-   * @generated from field: string session_type = 20;
-   */
-  sessionType: string;
-
-  /**
-   * @generated from field: string status = 21;
+   * @generated from field: string status = 7;
    */
   status: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp updated = 22;
+   * @generated from field: string merchant_name = 8;
+   */
+  merchantName: string;
+
+  /**
+   * @generated from field: int32 amount = 9;
+   */
+  amount: number;
+
+  /**
+   * @generated from field: int32 paid_amount = 10;
+   */
+  paidAmount: number;
+
+  /**
+   * @generated from field: string bank_code = 11;
+   */
+  bankCode: string;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp paid_at = 12;
+   */
+  paidAt?: Timestamp;
+
+  /**
+   * @generated from field: string payer_email = 13;
+   */
+  payerEmail: string;
+
+  /**
+   * @generated from field: string description = 14;
+   */
+  description: string;
+
+  /**
+   * @generated from field: int32 adjusted_received_amount = 15;
+   */
+  adjustedReceivedAmount: number;
+
+  /**
+   * @generated from field: int32 fees_paid_amount = 16;
+   */
+  feesPaidAmount: number;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp updated = 17;
    */
   updated?: Timestamp;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp created = 18;
+   */
+  created?: Timestamp;
+
+  /**
+   * @generated from field: string currency = 19;
+   */
+  currency: string;
+
+  /**
+   * @generated from field: string payment_channel = 20;
+   */
+  paymentChannel: string;
+
+  /**
+   * @generated from field: string payment_destination = 21;
+   */
+  paymentDestination: string;
+
+  /**
+   * @generated from field: string webhook_key = 22;
+   */
+  webhookKey: string;
 };
 
 /**
- * Describes the message plutus.PaymentSessionWebhookData.
- * Use `create(PaymentSessionWebhookDataSchema)` to create a new message.
+ * Describes the message plutus.HandlePaymentInvoiceRequest.
+ * Use `create(HandlePaymentInvoiceRequestSchema)` to create a new message.
  */
-export const PaymentSessionWebhookDataSchema: GenMessage<PaymentSessionWebhookData> = /*@__PURE__*/
-  messageDesc(file_plutus_webhook_xendit, 1);
-
-/**
- * @generated from message plutus.ChannelProperties
- */
-export type ChannelProperties = Message<"plutus.ChannelProperties"> & {
-  /**
-   * @generated from field: plutus.CardsProperties cards = 1;
-   */
-  cards?: CardsProperties;
-};
-
-/**
- * Describes the message plutus.ChannelProperties.
- * Use `create(ChannelPropertiesSchema)` to create a new message.
- */
-export const ChannelPropertiesSchema: GenMessage<ChannelProperties> = /*@__PURE__*/
-  messageDesc(file_plutus_webhook_xendit, 2);
-
-/**
- * @generated from message plutus.CardsProperties
- */
-export type CardsProperties = Message<"plutus.CardsProperties"> & {
-  /**
-   * @generated from field: repeated string bin_whitelist = 1;
-   */
-  binWhitelist: string[];
-
-  /**
-   * @generated from field: string mid_label = 2;
-   */
-  midLabel: string;
-
-  /**
-   * @generated from field: string cardonfile_type = 3;
-   */
-  cardonfileType: string;
-};
-
-/**
- * Describes the message plutus.CardsProperties.
- * Use `create(CardsPropertiesSchema)` to create a new message.
- */
-export const CardsPropertiesSchema: GenMessage<CardsProperties> = /*@__PURE__*/
-  messageDesc(file_plutus_webhook_xendit, 3);
+export const HandlePaymentInvoiceRequestSchema: GenMessage<HandlePaymentInvoiceRequest> = /*@__PURE__*/
+  messageDesc(file_plutus_webhook_xendit, 0);
 
 /**
  * @generated from service plutus.WebhookXenditService
  */
 export const WebhookXenditService: GenService<{
   /**
-   * @generated from rpc plutus.WebhookXenditService.PaymentSessionCompleted
+   * @generated from rpc plutus.WebhookXenditService.HandlePaymentInvoice
    */
-  paymentSessionCompleted: {
+  handlePaymentInvoice: {
     methodKind: "unary";
-    input: typeof WebhookXenditPaymentSessionRequestSchema;
-    output: typeof GenericResponseSchema;
-  },
-  /**
-   * @generated from rpc plutus.WebhookXenditService.PaymentSessionExpired
-   */
-  paymentSessionExpired: {
-    methodKind: "unary";
-    input: typeof WebhookXenditPaymentSessionRequestSchema;
+    input: typeof HandlePaymentInvoiceRequestSchema;
     output: typeof GenericResponseSchema;
   },
 }> = /*@__PURE__*/

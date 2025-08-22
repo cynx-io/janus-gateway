@@ -11,6 +11,7 @@ import (
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/mercury"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/philyra"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/plato"
+	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/plutus"
 	"github.com/cynx-io/janus-gateway/internal/gateway/middleware"
 	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
@@ -51,9 +52,12 @@ func main() {
 
 	anankePreorderHandler := ananke.NewPreorderHandler()
 
+	plutusWebhookXenditHandler := plutus.NewWebhookXenditHandler()
+
 	// Create router
 	root := mux.NewRouter()
 	janusHandler.InjectRoutes(root)
+	plutusWebhookXenditHandler.InjectRoutes(root)
 
 	root.Use(middleware.CORSMiddleware)
 
