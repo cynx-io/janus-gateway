@@ -60,7 +60,7 @@ proto-clean:
 
 proto-gen:
 	@echo "Generating proto files..."
-	cd . && buf generate
+	cd . && buf generate --include-imports
 	@bash ./scripts/clean-tsproto.sh
 
 proto: proto-clean proto-gen
