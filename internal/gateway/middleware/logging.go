@@ -19,6 +19,7 @@ func LogRequestHandler(next http.Handler) http.Handler {
 		requestBody := r.Body
 		var bodyBytes []byte
 
+		logger.Debug(ctx, "[LOG REQ] Processing request for ", r.Method, " ", r.URL.Path)
 		if requestBody != nil && requestBody != http.NoBody {
 			var err error
 			bodyBytes, err = io.ReadAll(requestBody)
@@ -29,6 +30,7 @@ func LogRequestHandler(next http.Handler) http.Handler {
 			r.Body = io.NopCloser(bytes.NewReader(bodyBytes))
 		}
 
+		logger.Debug(ctx, "[LOG REQ] Go Processing request for ", r.Method, " ", r.URL.Path)
 		go func() {
 
 			referer := r.Header.Get("Referer")      // e.g. https://example.com/page
@@ -73,6 +75,7 @@ func LogRequestHandler(next http.Handler) http.Handler {
 		}()
 
 		// pass request along
+		logger.Debug(ctx, "[LOG REQ] Serving Http request for ", r.Method, " ", r.URL.Path)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
@@ -102,8 +105,10 @@ func LogResponseHandler(next http.Handler) http.Handler {
 		// wrap the writer
 		cw := newCaptureWriter(w)
 
+		logger.Debug(r.Context(), "[LOG RESP] Processing response for ", r.Method, " ", r.URL.Path)
 		// let the handler run and write to our captureWriter
 		next.ServeHTTP(cw, r)
+		logger.Debug(r.Context(), "[LOG RESP] Finished response for ", r.Method, " ", r.URL.Path)
 		finishedAt := time.Now()
 
 		go func() {
