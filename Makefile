@@ -81,3 +81,9 @@ build_and_push:
 		--push \
 		.
 
+build_and_push_prod:
+	docker buildx build \
+		--platform linux/amd64 \
+		--tag derwin334/janus-gateway-prod:latest \
+		--push \
+		.

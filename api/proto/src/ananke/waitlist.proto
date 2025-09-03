@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package ananke;
+
+option go_package = "ananke/api/proto";
+
+import "google/protobuf/timestamp.proto";
+import "core.proto";
+import "ananke/object.proto";
+
+service WaitlistService {
+  rpc RegisterWaitlist(RegisterWaitlistRequest) returns (WaitlistResponse) {}
+}
+
+message RegisterWaitlistRequest {
+  core.BaseRequest base = 1;
+  string email = 2;
+  string recaptcha_token = 3;
+  int32 waitlist_type_id = 4;
+}
+
+message WaitlistResponse {
+  core.BaseResponse base = 1;
+  Waitlist waitlist = 2;
+}

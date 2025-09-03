@@ -51,6 +51,7 @@ func main() {
 	platoTopicHandler := plato.NewTopicHandler()
 
 	anankePreorderHandler := ananke.NewPreorderHandler()
+	anankeWaitlistHandler := ananke.NewWaitlistHandler()
 
 	plutusWebhookXenditHandler := plutus.NewWebhookXenditHandler()
 
@@ -88,6 +89,7 @@ func main() {
 	platoModeHandler.InjectRoutes(publicRouter, privateRouter)
 	platoTopicHandler.InjectRoutes(publicRouter, privateRouter)
 	anankePreorderHandler.InjectRoutes(publicRouter, privateRouter)
+	anankeWaitlistHandler.InjectRoutes(publicRouter, privateRouter)
 
 	address := ":" + strconv.Itoa(config.Config.App.Port)
 

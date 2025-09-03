@@ -14,7 +14,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file ananke/object.proto.
  */
 export const file_ananke_object: GenFile = /*@__PURE__*/
-  fileDesc("ChNhbmFua2Uvb2JqZWN0LnByb3RvEgZhbmFua2UipwIKCFByZW9yZGVyEgoKAmlkGAEgASgFEhoKEnBheW1lbnRfaW52b2ljZV9pZBgCIAEoCRI1ChJ0cmFuc2FjdGlvbl9zdGF0dXMYAyABKA4yGS5hbmFua2UuVHJhbnNhY3Rpb25TdGF0dXMSGAoQcGF5bWVudF9saW5rX3VybBgEIAEoCRIuCgpleHBpcmVzX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIOCgZhbW91bnQYByABKAISEAoIY3VycmVuY3kYCCABKAkSEwoLZGVzY3JpcHRpb24YCSABKAkSEAoIcHJvdmlkZXIYCiABKAkSGAoQcHJlb3JkZXJfdHlwZV9pZBgLIAEoBRIPCgd1c2VyX2lkGAwgASgFItIBCgxQcmVvcmRlclR5cGUSCgoCaWQYASABKAUSDAoEbmFtZRgCIAEoCRITCgtkZXNjcmlwdGlvbhgDIAEoCRIOCgZhbW91bnQYBCABKAISEAoIY3VycmVuY3kYBSABKAkSJwoMY2hhbm5lbF90eXBlGAYgASgOMhEuY29yZS5DaGFubmVsVHlwZRIrCg1hY3RpdmVfc3RhdHVzGAcgASgOMhQuYW5hbmtlLkFjdGl2ZVN0YXR1cxIbChNkdXJhdGlvbl9pbl9zZWNvbmRzGAggASgFKigKDEFjdGl2ZVN0YXR1cxIMCghJTkFDVElWRRAAEgoKBkFDVElWRRABKnQKEVRyYW5zYWN0aW9uU3RhdHVzEh4KGlRSQU5TQUNUSU9OX1NUQVRVU19QRU5ESU5HEAASIAocVFJBTlNBQ1RJT05fU1RBVFVTX0NPTVBMRVRFRBABEh0KGVRSQU5TQUNUSU9OX1NUQVRVU19GQUlMRUQQAkISWhBhbmFua2UvYXBpL3Byb3RvYgZwcm90bzM", [file_google_protobuf_timestamp, file_core]);
+  fileDesc("ChNhbmFua2Uvb2JqZWN0LnByb3RvEgZhbmFua2UipwIKCFByZW9yZGVyEgoKAmlkGAEgASgFEhoKEnBheW1lbnRfaW52b2ljZV9pZBgCIAEoCRI1ChJ0cmFuc2FjdGlvbl9zdGF0dXMYAyABKA4yGS5hbmFua2UuVHJhbnNhY3Rpb25TdGF0dXMSGAoQcGF5bWVudF9saW5rX3VybBgEIAEoCRIuCgpleHBpcmVzX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIOCgZhbW91bnQYByABKAISEAoIY3VycmVuY3kYCCABKAkSEwoLZGVzY3JpcHRpb24YCSABKAkSEAoIcHJvdmlkZXIYCiABKAkSGAoQcHJlb3JkZXJfdHlwZV9pZBgLIAEoBRIPCgd1c2VyX2lkGAwgASgFIj8KCFdhaXRsaXN0EgoKAmlkGAEgASgFEg0KBWVtYWlsGAIgASgJEhgKEHdhaXRsaXN0X3R5cGVfaWQYAyABKAUikwEKDFdhaXRsaXN0VHlwZRIKCgJpZBgBIAEoBRIMCgRuYW1lGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEicKDGNoYW5uZWxfdHlwZRgEIAEoDjIRLmNvcmUuQ2hhbm5lbFR5cGUSKwoNYWN0aXZlX3N0YXR1cxgFIAEoDjIULmFuYW5rZS5BY3RpdmVTdGF0dXMi0gEKDFByZW9yZGVyVHlwZRIKCgJpZBgBIAEoBRIMCgRuYW1lGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEg4KBmFtb3VudBgEIAEoAhIQCghjdXJyZW5jeRgFIAEoCRInCgxjaGFubmVsX3R5cGUYBiABKA4yES5jb3JlLkNoYW5uZWxUeXBlEisKDWFjdGl2ZV9zdGF0dXMYByABKA4yFC5hbmFua2UuQWN0aXZlU3RhdHVzEhsKE2R1cmF0aW9uX2luX3NlY29uZHMYCCABKAUqKAoMQWN0aXZlU3RhdHVzEgwKCElOQUNUSVZFEAASCgoGQUNUSVZFEAEqdAoRVHJhbnNhY3Rpb25TdGF0dXMSHgoaVFJBTlNBQ1RJT05fU1RBVFVTX1BFTkRJTkcQABIgChxUUkFOU0FDVElPTl9TVEFUVVNfQ09NUExFVEVEEAESHQoZVFJBTlNBQ1RJT05fU1RBVFVTX0ZBSUxFRBACQhJaEGFuYW5rZS9hcGkvcHJvdG9iBnByb3RvMw", [file_google_protobuf_timestamp, file_core]);
 
 /**
  * @generated from message ananke.Preorder
@@ -84,6 +84,70 @@ export const PreorderSchema: GenMessage<Preorder> = /*@__PURE__*/
   messageDesc(file_ananke_object, 0);
 
 /**
+ * @generated from message ananke.Waitlist
+ */
+export type Waitlist = Message<"ananke.Waitlist"> & {
+  /**
+   * @generated from field: int32 id = 1;
+   */
+  id: number;
+
+  /**
+   * @generated from field: string email = 2;
+   */
+  email: string;
+
+  /**
+   * @generated from field: int32 waitlist_type_id = 3;
+   */
+  waitlistTypeId: number;
+};
+
+/**
+ * Describes the message ananke.Waitlist.
+ * Use `create(WaitlistSchema)` to create a new message.
+ */
+export const WaitlistSchema: GenMessage<Waitlist> = /*@__PURE__*/
+  messageDesc(file_ananke_object, 1);
+
+/**
+ * @generated from message ananke.WaitlistType
+ */
+export type WaitlistType = Message<"ananke.WaitlistType"> & {
+  /**
+   * @generated from field: int32 id = 1;
+   */
+  id: number;
+
+  /**
+   * @generated from field: string name = 2;
+   */
+  name: string;
+
+  /**
+   * @generated from field: string description = 3;
+   */
+  description: string;
+
+  /**
+   * @generated from field: core.ChannelType channel_type = 4;
+   */
+  channelType: ChannelType;
+
+  /**
+   * @generated from field: ananke.ActiveStatus active_status = 5;
+   */
+  activeStatus: ActiveStatus;
+};
+
+/**
+ * Describes the message ananke.WaitlistType.
+ * Use `create(WaitlistTypeSchema)` to create a new message.
+ */
+export const WaitlistTypeSchema: GenMessage<WaitlistType> = /*@__PURE__*/
+  messageDesc(file_ananke_object, 2);
+
+/**
  * @generated from message ananke.PreorderType
  */
 export type PreorderType = Message<"ananke.PreorderType"> & {
@@ -133,7 +197,7 @@ export type PreorderType = Message<"ananke.PreorderType"> & {
  * Use `create(PreorderTypeSchema)` to create a new message.
  */
 export const PreorderTypeSchema: GenMessage<PreorderType> = /*@__PURE__*/
-  messageDesc(file_ananke_object, 1);
+  messageDesc(file_ananke_object, 3);
 
 /**
  * @generated from enum ananke.ActiveStatus

@@ -22,6 +22,20 @@ message Preorder {
   int32 user_id = 12;
 }
 
+message Waitlist {
+  int32 id = 1;
+  string email = 2;
+  int32 waitlist_type_id = 3;
+}
+
+message WaitlistType {
+  int32 id = 1;
+  string name = 2;
+  string description = 3;
+  core.ChannelType channel_type = 4;
+  ActiveStatus active_status = 5;
+}
+
 message PreorderType {
   int32 id = 1;
   string name = 2;

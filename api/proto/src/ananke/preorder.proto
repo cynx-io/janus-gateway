@@ -28,7 +28,7 @@ message GetLatestCompletedOrPendingPreorderRequest {
 
 message ChangePreorderStatusByInvoiceIdRequest {
   core.BaseRequest base = 1;
-  int32 invoice_id = 2;
+  string invoice_id = 2;
   TransactionStatus transaction_status = 3;
 }
 
