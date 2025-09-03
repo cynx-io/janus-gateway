@@ -31,6 +31,9 @@ type AppConfig struct {
 	Ananke struct {
 		Url string `mapstructure:"url"`
 	} `mapstructure:"Ananke"`
+	Athena struct {
+		Url string `mapstructure:"url"`
+	} `mapstructure:"athena"`
 	Auth0 struct {
 		Domain string `mapstructure:"domain"`
 	} `mapstructure:"auth0"`

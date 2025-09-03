@@ -7,6 +7,7 @@ import (
 	"github.com/cynx-io/janus-gateway/internal/dependencies/auth0"
 	"github.com/cynx-io/janus-gateway/internal/dependencies/config"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/ananke"
+	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/athena"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/janus"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/mercury"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/philyra"
@@ -55,6 +56,8 @@ func main() {
 
 	plutusWebhookXenditHandler := plutus.NewWebhookXenditHandler()
 
+	athenaIdeaHandler := athena.NewIdeaHandler()
+
 	// Create router
 	root := mux.NewRouter()
 	janusHandler.InjectRoutes(root)
@@ -90,6 +93,7 @@ func main() {
 	platoTopicHandler.InjectRoutes(publicRouter, privateRouter)
 	anankePreorderHandler.InjectRoutes(publicRouter, privateRouter)
 	anankeWaitlistHandler.InjectRoutes(publicRouter, privateRouter)
+	athenaIdeaHandler.InjectRoutes(publicRouter, privateRouter)
 
 	address := ":" + strconv.Itoa(config.Config.App.Port)
 

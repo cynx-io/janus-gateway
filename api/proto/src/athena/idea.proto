@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package athena;
+
+option go_package = "athena/api/proto";
+
+import "google/protobuf/timestamp.proto";
+import "core.proto";
+import "athena/object.proto";
+import "athena/enum.proto";
+
+service IdeaService {
+  rpc ValidateIdea(ValidateIdeaRequest) returns (ValidateIdeaResponse) {}
+}
+
+message ValidateIdeaRequest {
+  core.BaseRequest base = 1;
+  string prompt = 2;
+}
+
+message ValidateIdeaResponse {
+  core.BaseResponse base = 1;
+
+  InputAnalysis input = 6;
+  ValidationScore validation_score = 7;
+  TrendAnalysis trend_analysis = 8;
+  MarketData market_data = 9;
+  CommunitySignals community_signals = 10;
+  CompetitionAnalysis competition_analysis = 11;
+  ProblemValidation problem_validation = 12;
+  BootstrapMetrics bootstrap_metrics = 13;
+  Recommendation recommendation = 14;
+}
+
+message InputAnalysis {
+  string original_idea = 1;
+  repeated string processed_keywords = 2;
+  repeated string tags = 3;
+  string market_type = 4;
+  int32 complexity_level = 5;
+}
+
+message ValidationScore {
+  int32 overall_score = 1;
+  int32 trend_momentum = 2;
+  int32 market_demand = 3;
+  int32 competition_level = 4;
+  int32 bootstrap_viability = 5;
+}
+
+message TrendAnalysis {
+  TrendDirection direction = 1;
+  int32 momentum_score = 2;
+  int32 growth_rate_6m = 3;
+  int32 growth_rate_12m = 4;
+  int32 sustainability_score = 5;
+  int32 peak_interest_month = 6;
+}
+
+message MarketData {
+  int32 search_volume_monthly = 1;
+  SearchVolumeTrend search_volume_trend = 2;
+  double cpc_average = 3;
+  CompetitionLevel competition_intensity = 4;
+  int32 keyword_difficulty = 5;
+  CommercialIntent commercial_intent = 6;
+}
+
+message CommunitySignals {
+  int32 hackernews_mentions = 1;
+  int32 hackernews_sentiment = 2;
+  int32 github_repositories = 3;
+  int32 github_stars_total = 4;
+  int32 github_activity_score = 5;
+  int32 reddit_discussions = 6;
+  int32 reddit_engagement = 7;
+}
+
+message CompetitionAnalysis {
+  SaturationLevel saturation_level = 1;
+  int32 competitor_count = 2;
+  int32 market_leaders = 3;
+  int32 avg_domain_authority = 4;
+  int32 entry_difficulty = 5;
+  int32 differentiation_opportunity = 6;
+}
+
+message ProblemValidation {
+  Severity pain_level = 1;        // Using existing Severity enum values
+  Frequency frequency = 2;         // Using existing Frequency enum values
+  int32 current_solution_satisfaction = 3;
+  int32 willingness_to_pay = 4;
+  int32 urgency = 5;
+  int32 market_education_required = 6;
+}
+
+message BootstrapMetrics {
+  int32 time_to_first_dollar_days = 1;
+  int32 customer_acquisition_difficulty = 2;
+  int32 revenue_potential_monthly = 3;
+  int32 break_even_customers = 4;
+  int32 bootstrap_feasibility = 5;
+}
+
+message Recommendation {
+  Verdict verdict = 1;
+  int32 confidence_level = 2;
+  RiskLevel risk_level = 3;
+  int32 timeline_weeks = 4;
+  int32 budget_required = 5;
+}
