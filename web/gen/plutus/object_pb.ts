@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file plutus/object.proto.
  */
 export const file_plutus_object: GenFile = /*@__PURE__*/
-  fileDesc("ChNwbHV0dXMvb2JqZWN0LnByb3RvEgZwbHV0dXMizAIKDlBheW1lbnRJbnZvaWNlEgoKAmlkGAEgASgJEhMKC2V4dGVybmFsX2lkGAIgASgJEhIKCnJlcXVlc3RfaWQYAyABKAkSLAoGc3RhdHVzGAQgASgOMhwucGx1dHVzLlBheW1lbnRJbnZvaWNlU3RhdHVzEhgKEHBheW1lbnRfbGlua191cmwYBSABKAkSLgoKZXhwaXJlc19hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASDgoGYW1vdW50GAcgASgCEhAKCGN1cnJlbmN5GAggASgJEhMKC2Rlc2NyaXB0aW9uGAkgASgJEhAKCHByb3ZpZGVyGAogASgJEhMKC2N1c3RvbWVyX2lkGAsgASgFEi8KD3BheW1lbnRfZmVhdHVyZRgMIAEoDjIWLnBsdXR1cy5QYXltZW50RmVhdHVyZSo+ChRQYXltZW50SW52b2ljZVN0YXR1cxILCgdQRU5ESU5HEAASDQoJQ09NUExFVEVEEAESCgoGRkFJTEVEEAIqHgoOUGF5bWVudEZlYXR1cmUSDAoIUFJFT1JERVIQAEISWhBwbHV0dXMvYXBpL3Byb3RvYgZwcm90bzM", [file_google_protobuf_timestamp, file_core]);
+  fileDesc("ChNwbHV0dXMvb2JqZWN0LnByb3RvEgZwbHV0dXMizAIKDlBheW1lbnRJbnZvaWNlEgoKAmlkGAEgASgJEhMKC2V4dGVybmFsX2lkGAIgASgJEhIKCnJlcXVlc3RfaWQYAyABKAkSLAoGc3RhdHVzGAQgASgOMhwucGx1dHVzLlBheW1lbnRJbnZvaWNlU3RhdHVzEhgKEHBheW1lbnRfbGlua191cmwYBSABKAkSLgoKZXhwaXJlc19hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASDgoGYW1vdW50GAcgASgCEhAKCGN1cnJlbmN5GAggASgJEhMKC2Rlc2NyaXB0aW9uGAkgASgJEhAKCHByb3ZpZGVyGAogASgJEhMKC2N1c3RvbWVyX2lkGAsgASgFEi8KD3BheW1lbnRfZmVhdHVyZRgMIAEoDjIWLnBsdXR1cy5QYXltZW50RmVhdHVyZSLLAQoMVG9rZW5JbnZvaWNlEgoKAmlkGAEgASgFEg8KB3VzZXJfaWQYAiABKAUSIgoVcHJvZHVjdF9wcmljZV9saXN0X2lkGAMgASgJSACIAQESEQoJaXNfdG9wX3VwGAQgASgIEh4KFnByZXZpb3VzX3Rva2VuX2JhbGFuY2UYBSABKAISGQoRbmV3X3Rva2VuX2JhbGFuY2UYBiABKAISEgoKdG9rZW5fdXNlZBgHIAEoAkIYChZfcHJvZHVjdF9wcmljZV9saXN0X2lkIm8KDlRva2VuUHJpY2VMaXN0EgoKAmlkGAEgASgFEgwKBG5hbWUYAiABKAkSEwoLZGVzY3JpcHRpb24YAyABKAkSDQoFdG9rZW4YBCABKAISDQoFcHJpY2UYBSABKAISEAoIY3VycmVuY3kYBiABKAkiegoQUHJvZHVjdFByaWNlTGlzdBIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEg0KBXRva2VuGAQgASgCEigKC2Rlbm9taW5hdG9yGAUgASgOMhMucGx1dHVzLkRlbm9taW5hdG9yIjEKB0JhbGFuY2USDwoHdXNlcl9pZBgCIAEoBRIVCg10b2tlbl9iYWxhbmNlGAMgASgCKhcKC0Rlbm9taW5hdG9yEggKBE9OQ0UQACo+ChRQYXltZW50SW52b2ljZVN0YXR1cxILCgdQRU5ESU5HEAASDQoJQ09NUExFVEVEEAESCgoGRkFJTEVEEAIqMAoOUGF5bWVudEZlYXR1cmUSDAoIUFJFT1JERVIQABIQCgxUT0tFTl9UT1BfVVAQAUISWhBwbHV0dXMvYXBpL3Byb3RvYgZwcm90bzM", [file_google_protobuf_timestamp, file_core]);
 
 /**
  * @generated from message plutus.PaymentInvoice
@@ -88,6 +88,170 @@ export const PaymentInvoiceSchema: GenMessage<PaymentInvoice> = /*@__PURE__*/
   messageDesc(file_plutus_object, 0);
 
 /**
+ * @generated from message plutus.TokenInvoice
+ */
+export type TokenInvoice = Message<"plutus.TokenInvoice"> & {
+  /**
+   * @generated from field: int32 id = 1;
+   */
+  id: number;
+
+  /**
+   * @generated from field: int32 user_id = 2;
+   */
+  userId: number;
+
+  /**
+   * @generated from field: optional string product_price_list_id = 3;
+   */
+  productPriceListId?: string;
+
+  /**
+   * @generated from field: bool is_top_up = 4;
+   */
+  isTopUp: boolean;
+
+  /**
+   * @generated from field: float previous_token_balance = 5;
+   */
+  previousTokenBalance: number;
+
+  /**
+   * @generated from field: float new_token_balance = 6;
+   */
+  newTokenBalance: number;
+
+  /**
+   * @generated from field: float token_used = 7;
+   */
+  tokenUsed: number;
+};
+
+/**
+ * Describes the message plutus.TokenInvoice.
+ * Use `create(TokenInvoiceSchema)` to create a new message.
+ */
+export const TokenInvoiceSchema: GenMessage<TokenInvoice> = /*@__PURE__*/
+  messageDesc(file_plutus_object, 1);
+
+/**
+ * @generated from message plutus.TokenPriceList
+ */
+export type TokenPriceList = Message<"plutus.TokenPriceList"> & {
+  /**
+   * @generated from field: int32 id = 1;
+   */
+  id: number;
+
+  /**
+   * @generated from field: string name = 2;
+   */
+  name: string;
+
+  /**
+   * @generated from field: string description = 3;
+   */
+  description: string;
+
+  /**
+   * @generated from field: float token = 4;
+   */
+  token: number;
+
+  /**
+   * @generated from field: float price = 5;
+   */
+  price: number;
+
+  /**
+   * @generated from field: string currency = 6;
+   */
+  currency: string;
+};
+
+/**
+ * Describes the message plutus.TokenPriceList.
+ * Use `create(TokenPriceListSchema)` to create a new message.
+ */
+export const TokenPriceListSchema: GenMessage<TokenPriceList> = /*@__PURE__*/
+  messageDesc(file_plutus_object, 2);
+
+/**
+ * @generated from message plutus.ProductPriceList
+ */
+export type ProductPriceList = Message<"plutus.ProductPriceList"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: string name = 2;
+   */
+  name: string;
+
+  /**
+   * @generated from field: string description = 3;
+   */
+  description: string;
+
+  /**
+   * @generated from field: float token = 4;
+   */
+  token: number;
+
+  /**
+   * @generated from field: plutus.Denominator denominator = 5;
+   */
+  denominator: Denominator;
+};
+
+/**
+ * Describes the message plutus.ProductPriceList.
+ * Use `create(ProductPriceListSchema)` to create a new message.
+ */
+export const ProductPriceListSchema: GenMessage<ProductPriceList> = /*@__PURE__*/
+  messageDesc(file_plutus_object, 3);
+
+/**
+ * @generated from message plutus.Balance
+ */
+export type Balance = Message<"plutus.Balance"> & {
+  /**
+   * @generated from field: int32 user_id = 2;
+   */
+  userId: number;
+
+  /**
+   * @generated from field: float token_balance = 3;
+   */
+  tokenBalance: number;
+};
+
+/**
+ * Describes the message plutus.Balance.
+ * Use `create(BalanceSchema)` to create a new message.
+ */
+export const BalanceSchema: GenMessage<Balance> = /*@__PURE__*/
+  messageDesc(file_plutus_object, 4);
+
+/**
+ * @generated from enum plutus.Denominator
+ */
+export enum Denominator {
+  /**
+   * @generated from enum value: ONCE = 0;
+   */
+  ONCE = 0,
+}
+
+/**
+ * Describes the enum plutus.Denominator.
+ */
+export const DenominatorSchema: GenEnum<Denominator> = /*@__PURE__*/
+  enumDesc(file_plutus_object, 0);
+
+/**
  * @generated from enum plutus.PaymentInvoiceStatus
  */
 export enum PaymentInvoiceStatus {
@@ -111,7 +275,7 @@ export enum PaymentInvoiceStatus {
  * Describes the enum plutus.PaymentInvoiceStatus.
  */
 export const PaymentInvoiceStatusSchema: GenEnum<PaymentInvoiceStatus> = /*@__PURE__*/
-  enumDesc(file_plutus_object, 0);
+  enumDesc(file_plutus_object, 1);
 
 /**
  * @generated from enum plutus.PaymentFeature
@@ -121,11 +285,16 @@ export enum PaymentFeature {
    * @generated from enum value: PREORDER = 0;
    */
   PREORDER = 0,
+
+  /**
+   * @generated from enum value: TOKEN_TOP_UP = 1;
+   */
+  TOKEN_TOP_UP = 1,
 }
 
 /**
  * Describes the enum plutus.PaymentFeature.
  */
 export const PaymentFeatureSchema: GenEnum<PaymentFeature> = /*@__PURE__*/
-  enumDesc(file_plutus_object, 1);
+  enumDesc(file_plutus_object, 2);
 

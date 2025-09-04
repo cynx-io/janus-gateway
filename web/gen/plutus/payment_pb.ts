@@ -5,9 +5,9 @@
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
-import type { BaseRequest, BaseResponse } from "../core_pb";
+import type { BaseRequest, BaseResponse, GenericRequestSchema } from "../core_pb";
 import { file_core } from "../core_pb";
-import type { PaymentFeature, PaymentInvoice } from "./object_pb";
+import type { Balance, PaymentFeature, PaymentInvoice, ProductPriceList, TokenInvoice, TokenPriceList } from "./object_pb";
 import { file_plutus_object } from "./object_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -15,7 +15,215 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file plutus/payment.proto.
  */
 export const file_plutus_payment: GenFile = /*@__PURE__*/
-  fileDesc("ChRwbHV0dXMvcGF5bWVudC5wcm90bxIGcGx1dHVzIksKHEdldFBheW1lbnRJbnZvaWNlQnlJZFJlcXVlc3QSHwoEYmFzZRgBIAEoCzIRLmNvcmUuQmFzZVJlcXVlc3QSCgoCaWQYAiABKAUiXAokR2V0UGF5bWVudEludm9pY2VCeUV4dGVybmFsSWRSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0EhMKC2V4dGVybmFsX2lkGAIgASgJIloKI0dldFBheW1lbnRJbnZvaWNlQnlSZXF1ZXN0SWRSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0EhIKCnJlcXVlc3RfaWQYAiABKAkijAIKG0NyZWF0ZVBheW1lbnRJbnZvaWNlUmVxdWVzdBIfCgRiYXNlGAEgASgLMhEuY29yZS5CYXNlUmVxdWVzdBIPCgd1c2VyX2lkGAIgASgFEg4KBmFtb3VudBgDIAEoAhIQCghjdXJyZW5jeRgEIAEoCRITCgtkZXNjcmlwdGlvbhgFIAEoCRIaChJzdWNjZXNzX3JldHVybl91cmwYBiABKAkSGgoSZmFpbHVyZV9yZXR1cm5fdXJsGAcgASgJEhsKE2R1cmF0aW9uX2luX3NlY29uZHMYCCABKAUSLwoPcGF5bWVudF9mZWF0dXJlGAkgASgOMhYucGx1dHVzLlBheW1lbnRGZWF0dXJlImMKFlBheW1lbnRJbnZvaWNlUmVzcG9uc2USIAoEYmFzZRgBIAEoCzISLmNvcmUuQmFzZVJlc3BvbnNlEicKB3BheW1lbnQYAiABKAsyFi5wbHV0dXMuUGF5bWVudEludm9pY2UysAMKDlBheW1lbnRTZXJ2aWNlEl0KFENyZWF0ZVBheW1lbnRJbnZvaWNlEiMucGx1dHVzLkNyZWF0ZVBheW1lbnRJbnZvaWNlUmVxdWVzdBoeLnBsdXR1cy5QYXltZW50SW52b2ljZVJlc3BvbnNlIgASXwoVR2V0UGF5bWVudEludm9pY2VCeUlkEiQucGx1dHVzLkdldFBheW1lbnRJbnZvaWNlQnlJZFJlcXVlc3QaHi5wbHV0dXMuUGF5bWVudEludm9pY2VSZXNwb25zZSIAEm8KHUdldFBheW1lbnRJbnZvaWNlQnlFeHRlcm5hbElkEiwucGx1dHVzLkdldFBheW1lbnRJbnZvaWNlQnlFeHRlcm5hbElkUmVxdWVzdBoeLnBsdXR1cy5QYXltZW50SW52b2ljZVJlc3BvbnNlIgASbQocR2V0UGF5bWVudEludm9pY2VCeVJlcXVlc3RJZBIrLnBsdXR1cy5HZXRQYXltZW50SW52b2ljZUJ5UmVxdWVzdElkUmVxdWVzdBoeLnBsdXR1cy5QYXltZW50SW52b2ljZVJlc3BvbnNlIgBCEloQcGx1dHVzL2FwaS9wcm90b2IGcHJvdG8z", [file_google_protobuf_timestamp, file_core, file_plutus_object]);
+  fileDesc("ChRwbHV0dXMvcGF5bWVudC5wcm90bxIGcGx1dHVzIksKHEdldFRva2VuUHJpY2VMaXN0QnlJZFJlcXVlc3QSHwoEYmFzZRgBIAEoCzIRLmNvcmUuQmFzZVJlcXVlc3QSCgoCaWQYAiABKAUibAoWVG9rZW5QcmljZUxpc3RSZXNwb25zZRIgCgRiYXNlGAEgASgLMhIuY29yZS5CYXNlUmVzcG9uc2USMAoQdG9rZW5fcHJpY2VfbGlzdBgCIAEoCzIWLnBsdXR1cy5Ub2tlblByaWNlTGlzdCJNCh5HZXRQcm9kdWN0UHJpY2VMaXN0QnlJZFJlcXVlc3QSHwoEYmFzZRgBIAEoCzIRLmNvcmUuQmFzZVJlcXVlc3QSCgoCaWQYAiABKAkicgoYUHJvZHVjdFByaWNlTGlzdFJlc3BvbnNlEiAKBGJhc2UYASABKAsyEi5jb3JlLkJhc2VSZXNwb25zZRI0ChJwcm9kdWN0X3ByaWNlX2xpc3QYAiABKAsyGC5wbHV0dXMuUHJvZHVjdFByaWNlTGlzdCJxChpUb2tlblByaWNlTGlzdExpc3RSZXNwb25zZRIgCgRiYXNlGAEgASgLMhIuY29yZS5CYXNlUmVzcG9uc2USMQoRdG9rZW5fcHJpY2VfbGlzdHMYAiADKAsyFi5wbHV0dXMuVG9rZW5QcmljZUxpc3QiVQoPQmFsYW5jZVJlc3BvbnNlEiAKBGJhc2UYASABKAsyEi5jb3JlLkJhc2VSZXNwb25zZRIgCgdiYWxhbmNlGAIgASgLMg8ucGx1dHVzLkJhbGFuY2UiZQoUVG9rZW5JbnZvaWNlUmVzcG9uc2USIAoEYmFzZRgBIAEoCzISLmNvcmUuQmFzZVJlc3BvbnNlEisKDXRva2VuX2ludm9pY2UYAiABKAsyFC5wbHV0dXMuVG9rZW5JbnZvaWNlIosBChNUb3BVcEJhbGFuY2VSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0EhsKE3Rva2VuX3ByaWNlX2xpc3RfaWQYAiABKAUSGgoSc3VjY2Vzc19yZXR1cm5fdXJsGAMgASgJEhoKEmZhaWx1cmVfcmV0dXJuX3VybBgEIAEoCSJYChZQdXJjaGFzZVByb2R1Y3RSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0Eh0KFXByb2R1Y3RfcHJpY2VfbGlzdF9pZBgCIAEoCSJLChxHZXRQYXltZW50SW52b2ljZUJ5SWRSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0EgoKAmlkGAIgASgFIlwKJEdldFBheW1lbnRJbnZvaWNlQnlFeHRlcm5hbElkUmVxdWVzdBIfCgRiYXNlGAEgASgLMhEuY29yZS5CYXNlUmVxdWVzdBITCgtleHRlcm5hbF9pZBgCIAEoCSJaCiNHZXRQYXltZW50SW52b2ljZUJ5UmVxdWVzdElkUmVxdWVzdBIfCgRiYXNlGAEgASgLMhEuY29yZS5CYXNlUmVxdWVzdBISCgpyZXF1ZXN0X2lkGAIgASgJIowCChtDcmVhdGVQYXltZW50SW52b2ljZVJlcXVlc3QSHwoEYmFzZRgBIAEoCzIRLmNvcmUuQmFzZVJlcXVlc3QSDwoHdXNlcl9pZBgCIAEoBRIOCgZhbW91bnQYAyABKAISEAoIY3VycmVuY3kYBCABKAkSEwoLZGVzY3JpcHRpb24YBSABKAkSGgoSc3VjY2Vzc19yZXR1cm5fdXJsGAYgASgJEhoKEmZhaWx1cmVfcmV0dXJuX3VybBgHIAEoCRIbChNkdXJhdGlvbl9pbl9zZWNvbmRzGAggASgFEi8KD3BheW1lbnRfZmVhdHVyZRgJIAEoDjIWLnBsdXR1cy5QYXltZW50RmVhdHVyZSJjChZQYXltZW50SW52b2ljZVJlc3BvbnNlEiAKBGJhc2UYASABKAsyEi5jb3JlLkJhc2VSZXNwb25zZRInCgdwYXltZW50GAIgASgLMhYucGx1dHVzLlBheW1lbnRJbnZvaWNlMqsHCg5QYXltZW50U2VydmljZRJQChJMaXN0VG9rZW5QcmljZUxpc3QSFC5jb3JlLkdlbmVyaWNSZXF1ZXN0GiIucGx1dHVzLlRva2VuUHJpY2VMaXN0TGlzdFJlc3BvbnNlIgASXwoVR2V0VG9rZW5QcmljZUxpc3RCeUlkEiQucGx1dHVzLkdldFRva2VuUHJpY2VMaXN0QnlJZFJlcXVlc3QaHi5wbHV0dXMuVG9rZW5QcmljZUxpc3RSZXNwb25zZSIAEmUKF0dldFByb2R1Y3RQcmljZUxpc3RCeUlkEiYucGx1dHVzLkdldFByb2R1Y3RQcmljZUxpc3RCeUlkUmVxdWVzdBogLnBsdXR1cy5Qcm9kdWN0UHJpY2VMaXN0UmVzcG9uc2UiABI9CgpHZXRCYWxhbmNlEhQuY29yZS5HZW5lcmljUmVxdWVzdBoXLnBsdXR1cy5CYWxhbmNlUmVzcG9uc2UiABJNCgxUb3BVcEJhbGFuY2USGy5wbHV0dXMuVG9wVXBCYWxhbmNlUmVxdWVzdBoeLnBsdXR1cy5QYXltZW50SW52b2ljZVJlc3BvbnNlIgASUQoPUHVyY2hhc2VQcm9kdWN0Eh4ucGx1dHVzLlB1cmNoYXNlUHJvZHVjdFJlcXVlc3QaHC5wbHV0dXMuVG9rZW5JbnZvaWNlUmVzcG9uc2UiABJdChRDcmVhdGVQYXltZW50SW52b2ljZRIjLnBsdXR1cy5DcmVhdGVQYXltZW50SW52b2ljZVJlcXVlc3QaHi5wbHV0dXMuUGF5bWVudEludm9pY2VSZXNwb25zZSIAEl8KFUdldFBheW1lbnRJbnZvaWNlQnlJZBIkLnBsdXR1cy5HZXRQYXltZW50SW52b2ljZUJ5SWRSZXF1ZXN0Gh4ucGx1dHVzLlBheW1lbnRJbnZvaWNlUmVzcG9uc2UiABJvCh1HZXRQYXltZW50SW52b2ljZUJ5RXh0ZXJuYWxJZBIsLnBsdXR1cy5HZXRQYXltZW50SW52b2ljZUJ5RXh0ZXJuYWxJZFJlcXVlc3QaHi5wbHV0dXMuUGF5bWVudEludm9pY2VSZXNwb25zZSIAEm0KHEdldFBheW1lbnRJbnZvaWNlQnlSZXF1ZXN0SWQSKy5wbHV0dXMuR2V0UGF5bWVudEludm9pY2VCeVJlcXVlc3RJZFJlcXVlc3QaHi5wbHV0dXMuUGF5bWVudEludm9pY2VSZXNwb25zZSIAQhJaEHBsdXR1cy9hcGkvcHJvdG9iBnByb3RvMw", [file_google_protobuf_timestamp, file_core, file_plutus_object]);
+
+/**
+ * @generated from message plutus.GetTokenPriceListByIdRequest
+ */
+export type GetTokenPriceListByIdRequest = Message<"plutus.GetTokenPriceListByIdRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 id = 2;
+   */
+  id: number;
+};
+
+/**
+ * Describes the message plutus.GetTokenPriceListByIdRequest.
+ * Use `create(GetTokenPriceListByIdRequestSchema)` to create a new message.
+ */
+export const GetTokenPriceListByIdRequestSchema: GenMessage<GetTokenPriceListByIdRequest> = /*@__PURE__*/
+  messageDesc(file_plutus_payment, 0);
+
+/**
+ * @generated from message plutus.TokenPriceListResponse
+ */
+export type TokenPriceListResponse = Message<"plutus.TokenPriceListResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: plutus.TokenPriceList token_price_list = 2;
+   */
+  tokenPriceList?: TokenPriceList;
+};
+
+/**
+ * Describes the message plutus.TokenPriceListResponse.
+ * Use `create(TokenPriceListResponseSchema)` to create a new message.
+ */
+export const TokenPriceListResponseSchema: GenMessage<TokenPriceListResponse> = /*@__PURE__*/
+  messageDesc(file_plutus_payment, 1);
+
+/**
+ * @generated from message plutus.GetProductPriceListByIdRequest
+ */
+export type GetProductPriceListByIdRequest = Message<"plutus.GetProductPriceListByIdRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: string id = 2;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message plutus.GetProductPriceListByIdRequest.
+ * Use `create(GetProductPriceListByIdRequestSchema)` to create a new message.
+ */
+export const GetProductPriceListByIdRequestSchema: GenMessage<GetProductPriceListByIdRequest> = /*@__PURE__*/
+  messageDesc(file_plutus_payment, 2);
+
+/**
+ * @generated from message plutus.ProductPriceListResponse
+ */
+export type ProductPriceListResponse = Message<"plutus.ProductPriceListResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: plutus.ProductPriceList product_price_list = 2;
+   */
+  productPriceList?: ProductPriceList;
+};
+
+/**
+ * Describes the message plutus.ProductPriceListResponse.
+ * Use `create(ProductPriceListResponseSchema)` to create a new message.
+ */
+export const ProductPriceListResponseSchema: GenMessage<ProductPriceListResponse> = /*@__PURE__*/
+  messageDesc(file_plutus_payment, 3);
+
+/**
+ * @generated from message plutus.TokenPriceListListResponse
+ */
+export type TokenPriceListListResponse = Message<"plutus.TokenPriceListListResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: repeated plutus.TokenPriceList token_price_lists = 2;
+   */
+  tokenPriceLists: TokenPriceList[];
+};
+
+/**
+ * Describes the message plutus.TokenPriceListListResponse.
+ * Use `create(TokenPriceListListResponseSchema)` to create a new message.
+ */
+export const TokenPriceListListResponseSchema: GenMessage<TokenPriceListListResponse> = /*@__PURE__*/
+  messageDesc(file_plutus_payment, 4);
+
+/**
+ * @generated from message plutus.BalanceResponse
+ */
+export type BalanceResponse = Message<"plutus.BalanceResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: plutus.Balance balance = 2;
+   */
+  balance?: Balance;
+};
+
+/**
+ * Describes the message plutus.BalanceResponse.
+ * Use `create(BalanceResponseSchema)` to create a new message.
+ */
+export const BalanceResponseSchema: GenMessage<BalanceResponse> = /*@__PURE__*/
+  messageDesc(file_plutus_payment, 5);
+
+/**
+ * @generated from message plutus.TokenInvoiceResponse
+ */
+export type TokenInvoiceResponse = Message<"plutus.TokenInvoiceResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: plutus.TokenInvoice token_invoice = 2;
+   */
+  tokenInvoice?: TokenInvoice;
+};
+
+/**
+ * Describes the message plutus.TokenInvoiceResponse.
+ * Use `create(TokenInvoiceResponseSchema)` to create a new message.
+ */
+export const TokenInvoiceResponseSchema: GenMessage<TokenInvoiceResponse> = /*@__PURE__*/
+  messageDesc(file_plutus_payment, 6);
+
+/**
+ * @generated from message plutus.TopUpBalanceRequest
+ */
+export type TopUpBalanceRequest = Message<"plutus.TopUpBalanceRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 token_price_list_id = 2;
+   */
+  tokenPriceListId: number;
+
+  /**
+   * @generated from field: string success_return_url = 3;
+   */
+  successReturnUrl: string;
+
+  /**
+   * @generated from field: string failure_return_url = 4;
+   */
+  failureReturnUrl: string;
+};
+
+/**
+ * Describes the message plutus.TopUpBalanceRequest.
+ * Use `create(TopUpBalanceRequestSchema)` to create a new message.
+ */
+export const TopUpBalanceRequestSchema: GenMessage<TopUpBalanceRequest> = /*@__PURE__*/
+  messageDesc(file_plutus_payment, 7);
+
+/**
+ * @generated from message plutus.PurchaseProductRequest
+ */
+export type PurchaseProductRequest = Message<"plutus.PurchaseProductRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: string product_price_list_id = 2;
+   */
+  productPriceListId: string;
+};
+
+/**
+ * Describes the message plutus.PurchaseProductRequest.
+ * Use `create(PurchaseProductRequestSchema)` to create a new message.
+ */
+export const PurchaseProductRequestSchema: GenMessage<PurchaseProductRequest> = /*@__PURE__*/
+  messageDesc(file_plutus_payment, 8);
 
 /**
  * @generated from message plutus.GetPaymentInvoiceByIdRequest
@@ -37,7 +245,7 @@ export type GetPaymentInvoiceByIdRequest = Message<"plutus.GetPaymentInvoiceById
  * Use `create(GetPaymentInvoiceByIdRequestSchema)` to create a new message.
  */
 export const GetPaymentInvoiceByIdRequestSchema: GenMessage<GetPaymentInvoiceByIdRequest> = /*@__PURE__*/
-  messageDesc(file_plutus_payment, 0);
+  messageDesc(file_plutus_payment, 9);
 
 /**
  * @generated from message plutus.GetPaymentInvoiceByExternalIdRequest
@@ -59,7 +267,7 @@ export type GetPaymentInvoiceByExternalIdRequest = Message<"plutus.GetPaymentInv
  * Use `create(GetPaymentInvoiceByExternalIdRequestSchema)` to create a new message.
  */
 export const GetPaymentInvoiceByExternalIdRequestSchema: GenMessage<GetPaymentInvoiceByExternalIdRequest> = /*@__PURE__*/
-  messageDesc(file_plutus_payment, 1);
+  messageDesc(file_plutus_payment, 10);
 
 /**
  * @generated from message plutus.GetPaymentInvoiceByRequestIdRequest
@@ -81,7 +289,7 @@ export type GetPaymentInvoiceByRequestIdRequest = Message<"plutus.GetPaymentInvo
  * Use `create(GetPaymentInvoiceByRequestIdRequestSchema)` to create a new message.
  */
 export const GetPaymentInvoiceByRequestIdRequestSchema: GenMessage<GetPaymentInvoiceByRequestIdRequest> = /*@__PURE__*/
-  messageDesc(file_plutus_payment, 2);
+  messageDesc(file_plutus_payment, 11);
 
 /**
  * @generated from message plutus.CreatePaymentInvoiceRequest
@@ -138,7 +346,7 @@ export type CreatePaymentInvoiceRequest = Message<"plutus.CreatePaymentInvoiceRe
  * Use `create(CreatePaymentInvoiceRequestSchema)` to create a new message.
  */
 export const CreatePaymentInvoiceRequestSchema: GenMessage<CreatePaymentInvoiceRequest> = /*@__PURE__*/
-  messageDesc(file_plutus_payment, 3);
+  messageDesc(file_plutus_payment, 12);
 
 /**
  * @generated from message plutus.PaymentInvoiceResponse
@@ -160,12 +368,60 @@ export type PaymentInvoiceResponse = Message<"plutus.PaymentInvoiceResponse"> & 
  * Use `create(PaymentInvoiceResponseSchema)` to create a new message.
  */
 export const PaymentInvoiceResponseSchema: GenMessage<PaymentInvoiceResponse> = /*@__PURE__*/
-  messageDesc(file_plutus_payment, 4);
+  messageDesc(file_plutus_payment, 13);
 
 /**
  * @generated from service plutus.PaymentService
  */
 export const PaymentService: GenService<{
+  /**
+   * @generated from rpc plutus.PaymentService.ListTokenPriceList
+   */
+  listTokenPriceList: {
+    methodKind: "unary";
+    input: typeof GenericRequestSchema;
+    output: typeof TokenPriceListListResponseSchema;
+  },
+  /**
+   * @generated from rpc plutus.PaymentService.GetTokenPriceListById
+   */
+  getTokenPriceListById: {
+    methodKind: "unary";
+    input: typeof GetTokenPriceListByIdRequestSchema;
+    output: typeof TokenPriceListResponseSchema;
+  },
+  /**
+   * @generated from rpc plutus.PaymentService.GetProductPriceListById
+   */
+  getProductPriceListById: {
+    methodKind: "unary";
+    input: typeof GetProductPriceListByIdRequestSchema;
+    output: typeof ProductPriceListResponseSchema;
+  },
+  /**
+   * @generated from rpc plutus.PaymentService.GetBalance
+   */
+  getBalance: {
+    methodKind: "unary";
+    input: typeof GenericRequestSchema;
+    output: typeof BalanceResponseSchema;
+  },
+  /**
+   * @generated from rpc plutus.PaymentService.TopUpBalance
+   */
+  topUpBalance: {
+    methodKind: "unary";
+    input: typeof TopUpBalanceRequestSchema;
+    output: typeof PaymentInvoiceResponseSchema;
+  },
+  /**
+   * @generated from rpc plutus.PaymentService.PurchaseProduct
+   */
+  purchaseProduct: {
+    methodKind: "unary";
+    input: typeof PurchaseProductRequestSchema;
+    output: typeof TokenInvoiceResponseSchema;
+  },
   /**
    * @generated from rpc plutus.PaymentService.CreatePaymentInvoice
    */

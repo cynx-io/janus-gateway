@@ -10,27 +10,19 @@ import "athena/object.proto";
 import "athena/enum.proto";
 
 service IdeaService {
-  rpc ValidateIdea(ValidateIdeaRequest) returns (ValidateIdeaResponse) {}
+  rpc InitiateIdea(InitiateIdeaRequest) returns (InitiateIdeaResponse) {}
+  rpc GetValidationScore(GetValidationScoreRequest) returns (GetValidationScoreResponse) {}
+  rpc GetTrendAnalysis(GetTrendAnalysisRequest) returns (GetTrendAnalysisResponse) {}
+  rpc GetMarketData(GetMarketDataRequest) returns (GetMarketDataResponse) {}
+  rpc GetCommunitySignals(GetCommunitySignalsRequest) returns (GetCommunitySignalsResponse) {}
+  rpc GetCompetitionAnalysis(GetCompetitionAnalysisRequest) returns (GetCompetitionAnalysisResponse) {}
+  rpc GetProblemValidation(GetProblemValidationRequest) returns (GetProblemValidationResponse) {}
+  rpc GetBootstrapMetrics(GetBootstrapMetricsRequest) returns (GetBootstrapMetricsResponse) {}
+  rpc GetRecommendation(GetRecommendationRequest) returns (GetRecommendationResponse) {}
+  rpc GetChartData(GetChartDataRequest) returns (GetChartDataResponse) {}
+  rpc GetRedditInsights(GetRedditInsightsRequest) returns (GetRedditInsightsResponse) {}
 }
 
-message ValidateIdeaRequest {
-  core.BaseRequest base = 1;
-  string prompt = 2;
-}
-
-message ValidateIdeaResponse {
-  core.BaseResponse base = 1;
-
-  InputAnalysis input = 6;
-  ValidationScore validation_score = 7;
-  TrendAnalysis trend_analysis = 8;
-  MarketData market_data = 9;
-  CommunitySignals community_signals = 10;
-  CompetitionAnalysis competition_analysis = 11;
-  ProblemValidation problem_validation = 12;
-  BootstrapMetrics bootstrap_metrics = 13;
-  Recommendation recommendation = 14;
-}
 
 message InputAnalysis {
   string original_idea = 1;
@@ -108,4 +100,133 @@ message Recommendation {
   RiskLevel risk_level = 3;
   int32 timeline_weeks = 4;
   int32 budget_required = 5;
+}
+
+// InitiateIdea endpoint - performs steps 1 & 2 and saves to database
+message InitiateIdeaRequest {
+  core.BaseRequest base = 1;
+  string prompt = 2;
+}
+
+message InitiateIdeaResponse {
+  core.BaseResponse base = 1;
+  int32 idea_id = 2;
+  InputAnalysis input = 3;
+}
+
+// Step 3 individual endpoints
+message GetValidationScoreRequest {
+  core.BaseRequest base = 1;
+  int32 idea_id = 2;
+}
+
+message GetValidationScoreResponse {
+  core.BaseResponse base = 1;
+  optional ValidationScore validation_score = 2;
+  Requirement requirement = 3;
+}
+
+message GetTrendAnalysisRequest {
+  core.BaseRequest base = 1;
+  int32 idea_id = 2;
+}
+
+message Requirement {
+  bool require_login = 1;
+  float token_generate_price = 2;
+  string product_price_list_id = 3;
+}
+
+message GetTrendAnalysisResponse {
+  core.BaseResponse base = 1;
+  optional TrendAnalysis trend_analysis = 2;
+  Requirement requirement = 3;
+}
+
+message GetMarketDataRequest {
+  core.BaseRequest base = 1;
+  int32 idea_id = 2;
+}
+
+message GetMarketDataResponse {
+  core.BaseResponse base = 1;
+  optional MarketData market_data = 2;
+  Requirement requirement = 3;
+}
+
+message GetCommunitySignalsRequest {
+  core.BaseRequest base = 1;
+  int32 idea_id = 2;
+}
+
+message GetCommunitySignalsResponse {
+  core.BaseResponse base = 1;
+  optional CommunitySignals community_signals = 2;
+  Requirement requirement = 3;
+}
+
+message GetCompetitionAnalysisRequest {
+  core.BaseRequest base = 1;
+  int32 idea_id = 2;
+}
+
+message GetCompetitionAnalysisResponse {
+  core.BaseResponse base = 1;
+  optional CompetitionAnalysis competition_analysis = 2;
+  Requirement requirement = 3;
+}
+
+message GetProblemValidationRequest {
+  core.BaseRequest base = 1;
+  int32 idea_id = 2;
+}
+
+message GetProblemValidationResponse {
+  core.BaseResponse base = 1;
+  optional ProblemValidation problem_validation = 2;
+  Requirement requirement = 3;
+}
+
+message GetBootstrapMetricsRequest {
+  core.BaseRequest base = 1;
+  int32 idea_id = 2;
+}
+
+message GetBootstrapMetricsResponse {
+  core.BaseResponse base = 1;
+  optional BootstrapMetrics bootstrap_metrics = 2;
+  Requirement requirement = 3;
+}
+
+message GetRecommendationRequest {
+  core.BaseRequest base = 1;
+  int32 idea_id = 2;
+}
+
+message GetRecommendationResponse {
+  core.BaseResponse base = 1;
+  optional Recommendation recommendation = 2;
+  Requirement requirement = 3;
+}
+
+message GetChartDataRequest {
+  core.BaseRequest base = 1;
+  int32 idea_id = 2;
+}
+
+message GetChartDataResponse {
+  core.BaseResponse base = 1;
+  optional ChartData charts = 2;
+  Requirement requirement = 3;
+}
+
+message GetRedditInsightsRequest {
+  core.BaseRequest base = 1;
+  int32 idea_id = 2;
+}
+
+message GetRedditInsightsResponse {
+  core.BaseResponse base = 1;
+  optional RedditInsights reddit_insights = 2;
+  Requirement requirement = 3;
 }

@@ -55,6 +55,7 @@ func main() {
 	anankeWaitlistHandler := ananke.NewWaitlistHandler()
 
 	plutusWebhookXenditHandler := plutus.NewWebhookXenditHandler()
+	plutusPaymentHandler := plutus.NewPaymentHandler()
 
 	athenaIdeaHandler := athena.NewIdeaHandler()
 
@@ -94,6 +95,7 @@ func main() {
 	anankePreorderHandler.InjectRoutes(publicRouter, privateRouter)
 	anankeWaitlistHandler.InjectRoutes(publicRouter, privateRouter)
 	athenaIdeaHandler.InjectRoutes(publicRouter, privateRouter)
+	plutusPaymentHandler.InjectRoutes(publicRouter, privateRouter)
 
 	address := ":" + strconv.Itoa(config.Config.App.Port)
 

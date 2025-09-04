@@ -7,7 +7,63 @@ package athena;
 option go_package = "athena/api/proto";
 
 import "core.proto";
+import "athena/enum.proto";
 
 message Idea {
   int32 id = 1;
+}
+
+// Chart data for various metrics
+message ChartData {
+  repeated ChartDataPoint trend_chart = 1;
+  repeated ChartDataPoint market_demand_chart = 2;
+  repeated ChartDataPoint competition_chart = 3;
+  repeated ChartDataPoint engagement_chart = 4;
+}
+
+message ChartDataPoint {
+  string label = 1;      // e.g., "Jan 2024", "Week 1", etc.
+  double value = 2;      // The data value
+  google.protobuf.Timestamp timestamp = 3; // Optional timestamp
+}
+
+// Reddit post details
+message RedditPost {
+  string title = 1;
+  string url = 2;
+  string subreddit = 3;
+  int32 score = 4;       // upvotes - downvotes
+  int32 comments_count = 5;
+  double engagement_ratio = 6; // comments/score ratio
+  string author = 7;
+  google.protobuf.Timestamp created_at = 8;
+  string snippet = 9;    // First 200 chars of content
+  PostType post_type = 10;     // Type classification
+  repeated string pain_points = 11;  // Extracted pain points
+  repeated string solution_requests = 12; // Solution/advice requests
+}
+
+// Reddit insights extracted from posts
+message RedditInsights {
+  repeated RedditPost top_posts = 1;
+  repeated PainPoint pain_points = 2;
+  repeated SolutionRequest solution_requests = 3;
+  int32 total_pain_mentions = 4;
+  int32 total_solution_requests = 5;
+}
+
+message PainPoint {
+  string description = 1;
+  int32 frequency = 2;      // How many times mentioned
+  double severity_score = 3; // 0-10 severity rating
+  repeated string related_posts = 4; // URLs of posts mentioning this
+  repeated string keywords = 5; // Key terms related to this pain
+}
+
+message SolutionRequest {
+  string request = 1;
+  int32 frequency = 2;      // How many times requested
+  double urgency_score = 3; // 0-10 urgency rating
+  repeated string related_posts = 4; // URLs of posts with this request
+  repeated string suggested_features = 5; // What users want
 }

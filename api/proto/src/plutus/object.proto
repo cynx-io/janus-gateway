@@ -23,6 +23,42 @@ message PaymentInvoice {
   PaymentFeature payment_feature = 12;
 }
 
+message TokenInvoice {
+  int32 id = 1;
+  int32 user_id = 2;
+  optional string product_price_list_id = 3;
+  bool is_top_up = 4;
+  float previous_token_balance = 5;
+  float new_token_balance = 6;
+  float token_used = 7;
+}
+
+message TokenPriceList {
+  int32 id = 1;
+  string name = 2;
+  string description = 3;
+  float token= 4;
+  float price = 5;
+  string currency = 6;
+}
+
+message ProductPriceList {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  float token = 4;
+  Denominator denominator = 5;
+}
+
+message Balance{
+  int32 user_id = 2;
+  float token_balance = 3;
+}
+
+enum Denominator {
+  ONCE = 0;
+}
+
 enum PaymentInvoiceStatus {
   PENDING = 0;
   COMPLETED = 1;
@@ -31,4 +67,5 @@ enum PaymentInvoiceStatus {
 
 enum PaymentFeature {
   PREORDER = 0;
+  TOKEN_TOP_UP = 1;
 }
