@@ -28,8 +28,14 @@ func (h *GatewayHandler) Auth0Logout(w http.ResponseWriter, r *http.Request) {
 	logoutURL := "https://" + config.Config.Auth0.Domain + "v2/logout"
 	params := url.Values{}
 	params.Add("client_id", config.Config.Sites.Get(siteKey).Auth0.ClientId)
-	if config.Config.Sites.Get(siteKey).Auth0.FrontendUrl != "" {
-		params.Add("returnTo", config.Config.Sites.Get(siteKey).Auth0.FrontendUrl)
+
+	// Use frontend-provided returnTo if available, otherwise use config default
+	returnTo := r.URL.Query().Get("returnTo")
+	if returnTo == "" {
+		returnTo = config.Config.Sites.Get(siteKey).Auth0.FrontendUrl
+	}
+	if returnTo != "" {
+		params.Add("returnTo", returnTo)
 	}
 
 	// Check if client wants to redirect to Auth0 logout
