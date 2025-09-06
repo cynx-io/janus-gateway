@@ -10,11 +10,11 @@ import (
 
 type UserSession struct {
 	ExpiresAt     time.Time `json:"expires_at"`
-	UserID        string    `json:"user_id"`
 	Email         string    `json:"email"`
 	Name          string    `json:"name"`
 	AccessToken   string    `json:"access_token"`
 	RefreshToken  string    `json:"refresh_token"`
+	UserID        int32     `json:"user_id"`
 	Authenticated bool      `json:"authenticated"`
 }
 
@@ -34,7 +34,7 @@ func GetSession(r *http.Request) (*UserSession, error) {
 
 	userSession := &UserSession{}
 
-	if userID, ok := session.Values["user_id"].(string); ok {
+	if userID, ok := session.Values["user_id"].(int32); ok {
 		userSession.UserID = userID
 	}
 	if email, ok := session.Values["email"].(string); ok {

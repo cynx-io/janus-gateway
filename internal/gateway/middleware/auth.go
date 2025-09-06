@@ -11,7 +11,6 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/oauth2"
 	"net/http"
-	"strconv"
 	"time"
 )
 
@@ -69,12 +68,11 @@ func PublicAuthMiddleware(next http.Handler) http.Handler {
 		}
 
 		// Add user details to ctx (convert string UserID to int32)
-		userID, _ := strconv.ParseInt(userSession.UserID, 10, 32)
 		ctx = contextcore.SetKey(ctx, contextcore.KeyUsername, userSession.Name)
-		ctx = contextcore.SetUserId(ctx, int32(userID))
+		ctx = contextcore.SetUserId(ctx, userSession.UserID)
 		ctx = contextcore.SetUserType(ctx, 1) // Default user type
 
-		logger.Debug(ctx, "[PUBLIC AUTH] Success set for: "+userSession.Name+" (UserID: "+userSession.UserID+")")
+		logger.Debug(ctx, "[PUBLIC AUTH] Success set for: "+userSession.Name+" (UserID: "+string(userSession.UserID)+")")
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
@@ -104,12 +102,11 @@ func PrivateAuthMiddleware(next http.Handler) http.Handler {
 		}
 
 		// Add user details to ctx (convert string UserID to int32)
-		userID, _ := strconv.ParseInt(userSession.UserID, 10, 32)
 		ctx = contextcore.SetKey(ctx, contextcore.KeyUsername, userSession.Name)
-		ctx = contextcore.SetUserId(ctx, int32(userID))
+		ctx = contextcore.SetUserId(ctx, userSession.UserID)
 		ctx = contextcore.SetUserType(ctx, 1) // Default user type
 
-		logger.Debug(ctx, "[PRIVATE AUTH] Success set for: "+userSession.Name+" (UserID: "+userSession.UserID+")")
+		logger.Debug(ctx, "[PRIVATE AUTH] Success set for: "+userSession.Name+" (UserID: "+string(userSession.UserID)+")")
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

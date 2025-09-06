@@ -11,6 +11,7 @@ import "athena/enum.proto";
 
 service IdeaService {
   rpc InitiateIdea(InitiateIdeaRequest) returns (InitiateIdeaResponse) {}
+  rpc GenerateIdeas(GenerateIdeasRequest) returns (GenerateIdeasResponse) {}
   rpc GetValidationScore(GetValidationScoreRequest) returns (GetValidationScoreResponse) {}
   rpc GetTrendAnalysis(GetTrendAnalysisRequest) returns (GetTrendAnalysisResponse) {}
   rpc GetMarketData(GetMarketDataRequest) returns (GetMarketDataResponse) {}
@@ -19,10 +20,26 @@ service IdeaService {
   rpc GetProblemValidation(GetProblemValidationRequest) returns (GetProblemValidationResponse) {}
   rpc GetBootstrapMetrics(GetBootstrapMetricsRequest) returns (GetBootstrapMetricsResponse) {}
   rpc GetRecommendation(GetRecommendationRequest) returns (GetRecommendationResponse) {}
-  rpc GetChartData(GetChartDataRequest) returns (GetChartDataResponse) {}
+  rpc GetTrendChart(GetTrendChartRequest) returns (GetTrendChartResponse) {}
+  rpc GetMarketDemandChart(GetMarketDemandChartRequest) returns (GetMarketDemandChartResponse) {}
+  rpc GetCompetitionChart(GetCompetitionChartRequest) returns (GetCompetitionChartResponse) {}
+  rpc GetEngagementChart(GetEngagementChartRequest) returns (GetEngagementChartResponse) {}
   rpc GetRedditInsights(GetRedditInsightsRequest) returns (GetRedditInsightsResponse) {}
+  rpc GetGithubInsights(GetGithubInsightsRequest) returns (GetGithubInsightsResponse) {}
+  rpc GetHackerNewsInsights(GetHackerNewsInsightsRequest) returns (GetHackerNewsInsightsResponse) {}
+  rpc GetInputAnalysis(GetInputAnalysisRequest) returns (GetInputAnalysisResponse) {}
 }
 
+message GetInputAnalysisRequest {
+  core.BaseRequest base = 1;
+  int32 idea_id = 2;
+}
+
+message GetInputAnalysisResponse {
+  core.BaseResponse base = 1;
+  optional InputAnalysis input_analysis = 2;
+  Metadata metadata = 3;
+}
 
 message InputAnalysis {
   string original_idea = 1;
@@ -118,115 +135,208 @@ message InitiateIdeaResponse {
 message GetValidationScoreRequest {
   core.BaseRequest base = 1;
   int32 idea_id = 2;
+  bool generate = 3;
 }
 
 message GetValidationScoreResponse {
   core.BaseResponse base = 1;
   optional ValidationScore validation_score = 2;
-  Requirement requirement = 3;
+  Metadata metadata = 3;
 }
 
 message GetTrendAnalysisRequest {
   core.BaseRequest base = 1;
   int32 idea_id = 2;
+  bool generate = 3;
 }
 
-message Requirement {
+message Metadata {
   bool require_login = 1;
   float token_generate_price = 2;
   string product_price_list_id = 3;
+  int32 generated_times = 4;
 }
 
 message GetTrendAnalysisResponse {
   core.BaseResponse base = 1;
   optional TrendAnalysis trend_analysis = 2;
-  Requirement requirement = 3;
+  Metadata metadata = 3;
 }
 
 message GetMarketDataRequest {
   core.BaseRequest base = 1;
   int32 idea_id = 2;
+  bool generate = 3;
 }
 
 message GetMarketDataResponse {
   core.BaseResponse base = 1;
   optional MarketData market_data = 2;
-  Requirement requirement = 3;
+  Metadata metadata = 3;
 }
 
 message GetCommunitySignalsRequest {
   core.BaseRequest base = 1;
   int32 idea_id = 2;
+  bool generate = 3;
 }
 
 message GetCommunitySignalsResponse {
   core.BaseResponse base = 1;
   optional CommunitySignals community_signals = 2;
-  Requirement requirement = 3;
+  Metadata metadata = 3;
 }
 
 message GetCompetitionAnalysisRequest {
   core.BaseRequest base = 1;
   int32 idea_id = 2;
+  bool generate = 3;
 }
 
 message GetCompetitionAnalysisResponse {
   core.BaseResponse base = 1;
   optional CompetitionAnalysis competition_analysis = 2;
-  Requirement requirement = 3;
+  Metadata metadata = 3;
 }
 
 message GetProblemValidationRequest {
   core.BaseRequest base = 1;
   int32 idea_id = 2;
+  bool generate = 3;
 }
 
 message GetProblemValidationResponse {
   core.BaseResponse base = 1;
   optional ProblemValidation problem_validation = 2;
-  Requirement requirement = 3;
+  Metadata metadata = 3;
 }
 
 message GetBootstrapMetricsRequest {
   core.BaseRequest base = 1;
   int32 idea_id = 2;
+  bool generate = 3;
 }
 
 message GetBootstrapMetricsResponse {
   core.BaseResponse base = 1;
   optional BootstrapMetrics bootstrap_metrics = 2;
-  Requirement requirement = 3;
+  Metadata metadata = 3;
 }
 
 message GetRecommendationRequest {
   core.BaseRequest base = 1;
   int32 idea_id = 2;
+  bool generate = 3;
 }
 
 message GetRecommendationResponse {
   core.BaseResponse base = 1;
   optional Recommendation recommendation = 2;
-  Requirement requirement = 3;
+  Metadata metadata = 3;
 }
 
-message GetChartDataRequest {
+message GetTrendChartRequest {
   core.BaseRequest base = 1;
   int32 idea_id = 2;
+  bool generate = 3;
 }
 
-message GetChartDataResponse {
+message GetTrendChartResponse {
   core.BaseResponse base = 1;
-  optional ChartData charts = 2;
-  Requirement requirement = 3;
+  repeated ChartDataPoint chart_data = 2;
+  Metadata metadata = 3;
+}
+
+message GetMarketDemandChartRequest {
+  core.BaseRequest base = 1;
+  int32 idea_id = 2;
+  bool generate = 3;
+}
+
+message GetMarketDemandChartResponse {
+  core.BaseResponse base = 1;
+  repeated ChartDataPoint chart_data = 2;
+  Metadata metadata = 3;
+}
+
+message GetCompetitionChartRequest {
+  core.BaseRequest base = 1;
+  int32 idea_id = 2;
+  bool generate = 3;
+}
+
+message GetCompetitionChartResponse {
+  core.BaseResponse base = 1;
+  repeated ChartDataPoint chart_data = 2;
+  Metadata metadata = 3;
+}
+
+message GetEngagementChartRequest {
+  core.BaseRequest base = 1;
+  int32 idea_id = 2;
+  bool generate = 3;
+}
+
+message GetEngagementChartResponse {
+  core.BaseResponse base = 1;
+  repeated ChartDataPoint chart_data = 2;
+  Metadata metadata = 3;
 }
 
 message GetRedditInsightsRequest {
   core.BaseRequest base = 1;
   int32 idea_id = 2;
+  bool generate = 3;
 }
 
 message GetRedditInsightsResponse {
   core.BaseResponse base = 1;
   optional RedditInsights reddit_insights = 2;
-  Requirement requirement = 3;
+  Metadata metadata = 3;
+}
+
+message GetGithubInsightsRequest {
+  core.BaseRequest base = 1;
+  int32 idea_id = 2;
+  bool generate = 3;
+}
+
+message GetGithubInsightsResponse {
+  core.BaseResponse base = 1;
+  optional GithubInsights github_insights = 2;
+  Metadata metadata = 3;
+}
+
+message GetHackerNewsInsightsRequest {
+  core.BaseRequest base = 1;
+  int32 idea_id = 2;
+  bool generate = 3;
+}
+
+message GetHackerNewsInsightsResponse {
+  core.BaseResponse base = 1;
+  optional HackerNewsInsights hackernews_insights = 2;
+  Metadata metadata = 3;
+}
+
+message GenerateIdeasRequest {
+  core.BaseRequest base = 1;
+  string prompt = 2;
+  bool generate = 3;
+}
+
+message GenerateIdeasResponse {
+  core.BaseResponse base = 1;
+  repeated GeneratedIdea ideas = 2;
+  Metadata metadata = 3;
+}
+
+message GeneratedIdea {
+  string title = 1;
+  string description = 2;
+  repeated string key_features = 3;
+  string market_segment = 4;
+  int32 complexity_score = 5;
+  repeated string target_audience = 6;
+  string optimized_prompt = 7;
 }

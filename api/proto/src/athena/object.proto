@@ -67,3 +67,102 @@ message SolutionRequest {
   repeated string related_posts = 4; // URLs of posts with this request
   repeated string suggested_features = 5; // What users want
 }
+
+// GitHub repository details
+message GithubRepository {
+  string name = 1;
+  string full_name = 2;
+  string description = 3;
+  string url = 4;
+  string language = 5;
+  int32 stars = 6;
+  int32 forks = 7;
+  int32 issues = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+  bool archived = 11;
+  string license = 12;
+  repeated string topics = 13;
+  RepoCategory category = 14; // Type classification
+}
+
+// GitHub insights extracted from repositories  
+message GithubInsights {
+  repeated GithubRepository top_repositories = 1;
+  repeated TechStack tech_stacks = 2;
+  repeated LicenseUsage licenses = 3;
+  int32 total_repositories = 4;
+  int32 total_stars = 5;
+  double avg_stars_per_repo = 6;
+  repeated PopularLanguage languages = 7;
+}
+
+message TechStack {
+  string name = 1;
+  int32 frequency = 2;      // How many repos use it
+  double popularity_score = 3; // 0-10 popularity rating  
+  repeated string related_repos = 4; // URLs of repos using this stack
+  repeated string features = 5; // Common features implemented
+}
+
+message LicenseUsage {
+  string license_name = 1;
+  int32 usage_count = 2;
+  double percentage = 3;
+  repeated string related_repos = 4;
+}
+
+message PopularLanguage {
+  string language = 1;
+  int32 repo_count = 2;
+  int32 total_stars = 3;
+  double avg_stars = 4;
+}
+
+// HackerNews story details
+message HackerNewsStory {
+  string title = 1;
+  string url = 2;
+  string author = 3;
+  int32 points = 4;
+  int32 comments_count = 5;
+  google.protobuf.Timestamp created_at = 6;
+  string snippet = 7;    // First 200 chars of content
+  StoryType story_type = 8;     // Type classification  
+  repeated string discussion_topics = 9;  // Key discussion topics
+  repeated string mentioned_tools = 10; // Tools/platforms mentioned
+}
+
+// HackerNews insights extracted from stories
+message HackerNewsInsights {
+  repeated HackerNewsStory top_stories = 1;
+  repeated DiscussionTopic discussion_topics = 2;
+  repeated MentionedTool mentioned_tools = 3;
+  int32 total_stories = 4;
+  int32 total_points = 5;
+  double avg_points_per_story = 6;
+  repeated PopularAuthor authors = 7;
+}
+
+message DiscussionTopic {
+  string topic = 1;
+  int32 frequency = 2;      // How many stories mention it
+  double interest_score = 3; // 0-10 interest rating
+  repeated string related_stories = 4; // URLs of stories discussing this
+  repeated string key_insights = 5; // Key takeaways from discussions
+}
+
+message MentionedTool {
+  string tool_name = 1;
+  int32 mention_count = 2;
+  double sentiment_score = 3; // -10 to +10 sentiment rating
+  repeated string related_stories = 4; // URLs of stories mentioning this
+  repeated string use_cases = 5; // How the tool is being used
+}
+
+message PopularAuthor {
+  string author = 1;
+  int32 story_count = 2;
+  int32 total_points = 3;
+  double avg_points = 4;
+}

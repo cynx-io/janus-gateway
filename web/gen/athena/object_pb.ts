@@ -4,15 +4,18 @@
 
 import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
+import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import { file_core } from "../core_pb";
+import type { PostType, RepoCategory, StoryType } from "./enum_pb";
+import { file_athena_enum } from "./enum_pb";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file athena/object.proto.
  */
 export const file_athena_object: GenFile = /*@__PURE__*/
-  fileDesc("ChNhdGhlbmEvb2JqZWN0LnByb3RvEgZhdGhlbmEiEgoESWRlYRIKCgJpZBgBIAEoBUISWhBhdGhlbmEvYXBpL3Byb3RvYgZwcm90bzM", [file_google_protobuf_timestamp, file_core]);
+  fileDesc("ChNhdGhlbmEvb2JqZWN0LnByb3RvEgZhdGhlbmEiEgoESWRlYRIKCgJpZBgBIAEoBSLSAQoJQ2hhcnREYXRhEisKC3RyZW5kX2NoYXJ0GAEgAygLMhYuYXRoZW5hLkNoYXJ0RGF0YVBvaW50EjMKE21hcmtldF9kZW1hbmRfY2hhcnQYAiADKAsyFi5hdGhlbmEuQ2hhcnREYXRhUG9pbnQSMQoRY29tcGV0aXRpb25fY2hhcnQYAyADKAsyFi5hdGhlbmEuQ2hhcnREYXRhUG9pbnQSMAoQZW5nYWdlbWVudF9jaGFydBgEIAMoCzIWLmF0aGVuYS5DaGFydERhdGFQb2ludCJdCg5DaGFydERhdGFQb2ludBINCgVsYWJlbBgBIAEoCRINCgV2YWx1ZRgCIAEoARItCgl0aW1lc3RhbXAYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIqICCgpSZWRkaXRQb3N0Eg0KBXRpdGxlGAEgASgJEgsKA3VybBgCIAEoCRIRCglzdWJyZWRkaXQYAyABKAkSDQoFc2NvcmUYBCABKAUSFgoOY29tbWVudHNfY291bnQYBSABKAUSGAoQZW5nYWdlbWVudF9yYXRpbxgGIAEoARIOCgZhdXRob3IYByABKAkSLgoKY3JlYXRlZF9hdBgIIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASDwoHc25pcHBldBgJIAEoCRIjCglwb3N0X3R5cGUYCiABKA4yEC5hdGhlbmEuUG9zdFR5cGUSEwoLcGFpbl9wb2ludHMYCyADKAkSGQoRc29sdXRpb25fcmVxdWVzdHMYDCADKAki0QEKDlJlZGRpdEluc2lnaHRzEiUKCXRvcF9wb3N0cxgBIAMoCzISLmF0aGVuYS5SZWRkaXRQb3N0EiYKC3BhaW5fcG9pbnRzGAIgAygLMhEuYXRoZW5hLlBhaW5Qb2ludBIyChFzb2x1dGlvbl9yZXF1ZXN0cxgDIAMoCzIXLmF0aGVuYS5Tb2x1dGlvblJlcXVlc3QSGwoTdG90YWxfcGFpbl9tZW50aW9ucxgEIAEoBRIfChd0b3RhbF9zb2x1dGlvbl9yZXF1ZXN0cxgFIAEoBSJ0CglQYWluUG9pbnQSEwoLZGVzY3JpcHRpb24YASABKAkSEQoJZnJlcXVlbmN5GAIgASgFEhYKDnNldmVyaXR5X3Njb3JlGAMgASgBEhUKDXJlbGF0ZWRfcG9zdHMYBCADKAkSEAoIa2V5d29yZHMYBSADKAkifwoPU29sdXRpb25SZXF1ZXN0Eg8KB3JlcXVlc3QYASABKAkSEQoJZnJlcXVlbmN5GAIgASgFEhUKDXVyZ2VuY3lfc2NvcmUYAyABKAESFQoNcmVsYXRlZF9wb3N0cxgEIAMoCRIaChJzdWdnZXN0ZWRfZmVhdHVyZXMYBSADKAki0AIKEEdpdGh1YlJlcG9zaXRvcnkSDAoEbmFtZRgBIAEoCRIRCglmdWxsX25hbWUYAiABKAkSEwoLZGVzY3JpcHRpb24YAyABKAkSCwoDdXJsGAQgASgJEhAKCGxhbmd1YWdlGAUgASgJEg0KBXN0YXJzGAYgASgFEg0KBWZvcmtzGAcgASgFEg4KBmlzc3VlcxgIIAEoBRIuCgpjcmVhdGVkX2F0GAkgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAogASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIQCghhcmNoaXZlZBgLIAEoCBIPCgdsaWNlbnNlGAwgASgJEg4KBnRvcGljcxgNIAMoCRImCghjYXRlZ29yeRgOIAEoDjIULmF0aGVuYS5SZXBvQ2F0ZWdvcnkijQIKDkdpdGh1Ykluc2lnaHRzEjIKEHRvcF9yZXBvc2l0b3JpZXMYASADKAsyGC5hdGhlbmEuR2l0aHViUmVwb3NpdG9yeRImCgt0ZWNoX3N0YWNrcxgCIAMoCzIRLmF0aGVuYS5UZWNoU3RhY2sSJgoIbGljZW5zZXMYAyADKAsyFC5hdGhlbmEuTGljZW5zZVVzYWdlEhoKEnRvdGFsX3JlcG9zaXRvcmllcxgEIAEoBRITCgt0b3RhbF9zdGFycxgFIAEoBRIaChJhdmdfc3RhcnNfcGVyX3JlcG8YBiABKAESKgoJbGFuZ3VhZ2VzGAcgAygLMhcuYXRoZW5hLlBvcHVsYXJMYW5ndWFnZSJvCglUZWNoU3RhY2sSDAoEbmFtZRgBIAEoCRIRCglmcmVxdWVuY3kYAiABKAUSGAoQcG9wdWxhcml0eV9zY29yZRgDIAEoARIVCg1yZWxhdGVkX3JlcG9zGAQgAygJEhAKCGZlYXR1cmVzGAUgAygJImQKDExpY2Vuc2VVc2FnZRIUCgxsaWNlbnNlX25hbWUYASABKAkSEwoLdXNhZ2VfY291bnQYAiABKAUSEgoKcGVyY2VudGFnZRgDIAEoARIVCg1yZWxhdGVkX3JlcG9zGAQgAygJIl8KD1BvcHVsYXJMYW5ndWFnZRIQCghsYW5ndWFnZRgBIAEoCRISCgpyZXBvX2NvdW50GAIgASgFEhMKC3RvdGFsX3N0YXJzGAMgASgFEhEKCWF2Z19zdGFycxgEIAEoASKBAgoPSGFja2VyTmV3c1N0b3J5Eg0KBXRpdGxlGAEgASgJEgsKA3VybBgCIAEoCRIOCgZhdXRob3IYAyABKAkSDgoGcG9pbnRzGAQgASgFEhYKDmNvbW1lbnRzX2NvdW50GAUgASgFEi4KCmNyZWF0ZWRfYXQYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEg8KB3NuaXBwZXQYByABKAkSJQoKc3RvcnlfdHlwZRgIIAEoDjIRLmF0aGVuYS5TdG9yeVR5cGUSGQoRZGlzY3Vzc2lvbl90b3BpY3MYCSADKAkSFwoPbWVudGlvbmVkX3Rvb2xzGAogAygJIpkCChJIYWNrZXJOZXdzSW5zaWdodHMSLAoLdG9wX3N0b3JpZXMYASADKAsyFy5hdGhlbmEuSGFja2VyTmV3c1N0b3J5EjIKEWRpc2N1c3Npb25fdG9waWNzGAIgAygLMhcuYXRoZW5hLkRpc2N1c3Npb25Ub3BpYxIuCg9tZW50aW9uZWRfdG9vbHMYAyADKAsyFS5hdGhlbmEuTWVudGlvbmVkVG9vbBIVCg10b3RhbF9zdG9yaWVzGAQgASgFEhQKDHRvdGFsX3BvaW50cxgFIAEoBRIcChRhdmdfcG9pbnRzX3Blcl9zdG9yeRgGIAEoARImCgdhdXRob3JzGAcgAygLMhUuYXRoZW5hLlBvcHVsYXJBdXRob3IiegoPRGlzY3Vzc2lvblRvcGljEg0KBXRvcGljGAEgASgJEhEKCWZyZXF1ZW5jeRgCIAEoBRIWCg5pbnRlcmVzdF9zY29yZRgDIAEoARIXCg9yZWxhdGVkX3N0b3JpZXMYBCADKAkSFAoMa2V5X2luc2lnaHRzGAUgAygJIn4KDU1lbnRpb25lZFRvb2wSEQoJdG9vbF9uYW1lGAEgASgJEhUKDW1lbnRpb25fY291bnQYAiABKAUSFwoPc2VudGltZW50X3Njb3JlGAMgASgBEhcKD3JlbGF0ZWRfc3RvcmllcxgEIAMoCRIRCgl1c2VfY2FzZXMYBSADKAkiXgoNUG9wdWxhckF1dGhvchIOCgZhdXRob3IYASABKAkSEwoLc3RvcnlfY291bnQYAiABKAUSFAoMdG90YWxfcG9pbnRzGAMgASgFEhIKCmF2Z19wb2ludHMYBCABKAFCEloQYXRoZW5hL2FwaS9wcm90b2IGcHJvdG8z", [file_google_protobuf_timestamp, file_core, file_athena_enum]);
 
 /**
  * @generated from message athena.Idea
@@ -30,4 +33,771 @@ export type Idea = Message<"athena.Idea"> & {
  */
 export const IdeaSchema: GenMessage<Idea> = /*@__PURE__*/
   messageDesc(file_athena_object, 0);
+
+/**
+ * Chart data for various metrics
+ *
+ * @generated from message athena.ChartData
+ */
+export type ChartData = Message<"athena.ChartData"> & {
+  /**
+   * @generated from field: repeated athena.ChartDataPoint trend_chart = 1;
+   */
+  trendChart: ChartDataPoint[];
+
+  /**
+   * @generated from field: repeated athena.ChartDataPoint market_demand_chart = 2;
+   */
+  marketDemandChart: ChartDataPoint[];
+
+  /**
+   * @generated from field: repeated athena.ChartDataPoint competition_chart = 3;
+   */
+  competitionChart: ChartDataPoint[];
+
+  /**
+   * @generated from field: repeated athena.ChartDataPoint engagement_chart = 4;
+   */
+  engagementChart: ChartDataPoint[];
+};
+
+/**
+ * Describes the message athena.ChartData.
+ * Use `create(ChartDataSchema)` to create a new message.
+ */
+export const ChartDataSchema: GenMessage<ChartData> = /*@__PURE__*/
+  messageDesc(file_athena_object, 1);
+
+/**
+ * @generated from message athena.ChartDataPoint
+ */
+export type ChartDataPoint = Message<"athena.ChartDataPoint"> & {
+  /**
+   * e.g., "Jan 2024", "Week 1", etc.
+   *
+   * @generated from field: string label = 1;
+   */
+  label: string;
+
+  /**
+   * The data value
+   *
+   * @generated from field: double value = 2;
+   */
+  value: number;
+
+  /**
+   * Optional timestamp
+   *
+   * @generated from field: google.protobuf.Timestamp timestamp = 3;
+   */
+  timestamp?: Timestamp;
+};
+
+/**
+ * Describes the message athena.ChartDataPoint.
+ * Use `create(ChartDataPointSchema)` to create a new message.
+ */
+export const ChartDataPointSchema: GenMessage<ChartDataPoint> = /*@__PURE__*/
+  messageDesc(file_athena_object, 2);
+
+/**
+ * Reddit post details
+ *
+ * @generated from message athena.RedditPost
+ */
+export type RedditPost = Message<"athena.RedditPost"> & {
+  /**
+   * @generated from field: string title = 1;
+   */
+  title: string;
+
+  /**
+   * @generated from field: string url = 2;
+   */
+  url: string;
+
+  /**
+   * @generated from field: string subreddit = 3;
+   */
+  subreddit: string;
+
+  /**
+   * upvotes - downvotes
+   *
+   * @generated from field: int32 score = 4;
+   */
+  score: number;
+
+  /**
+   * @generated from field: int32 comments_count = 5;
+   */
+  commentsCount: number;
+
+  /**
+   * comments/score ratio
+   *
+   * @generated from field: double engagement_ratio = 6;
+   */
+  engagementRatio: number;
+
+  /**
+   * @generated from field: string author = 7;
+   */
+  author: string;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp created_at = 8;
+   */
+  createdAt?: Timestamp;
+
+  /**
+   * First 200 chars of content
+   *
+   * @generated from field: string snippet = 9;
+   */
+  snippet: string;
+
+  /**
+   * Type classification
+   *
+   * @generated from field: athena.PostType post_type = 10;
+   */
+  postType: PostType;
+
+  /**
+   * Extracted pain points
+   *
+   * @generated from field: repeated string pain_points = 11;
+   */
+  painPoints: string[];
+
+  /**
+   * Solution/advice requests
+   *
+   * @generated from field: repeated string solution_requests = 12;
+   */
+  solutionRequests: string[];
+};
+
+/**
+ * Describes the message athena.RedditPost.
+ * Use `create(RedditPostSchema)` to create a new message.
+ */
+export const RedditPostSchema: GenMessage<RedditPost> = /*@__PURE__*/
+  messageDesc(file_athena_object, 3);
+
+/**
+ * Reddit insights extracted from posts
+ *
+ * @generated from message athena.RedditInsights
+ */
+export type RedditInsights = Message<"athena.RedditInsights"> & {
+  /**
+   * @generated from field: repeated athena.RedditPost top_posts = 1;
+   */
+  topPosts: RedditPost[];
+
+  /**
+   * @generated from field: repeated athena.PainPoint pain_points = 2;
+   */
+  painPoints: PainPoint[];
+
+  /**
+   * @generated from field: repeated athena.SolutionRequest solution_requests = 3;
+   */
+  solutionRequests: SolutionRequest[];
+
+  /**
+   * @generated from field: int32 total_pain_mentions = 4;
+   */
+  totalPainMentions: number;
+
+  /**
+   * @generated from field: int32 total_solution_requests = 5;
+   */
+  totalSolutionRequests: number;
+};
+
+/**
+ * Describes the message athena.RedditInsights.
+ * Use `create(RedditInsightsSchema)` to create a new message.
+ */
+export const RedditInsightsSchema: GenMessage<RedditInsights> = /*@__PURE__*/
+  messageDesc(file_athena_object, 4);
+
+/**
+ * @generated from message athena.PainPoint
+ */
+export type PainPoint = Message<"athena.PainPoint"> & {
+  /**
+   * @generated from field: string description = 1;
+   */
+  description: string;
+
+  /**
+   * How many times mentioned
+   *
+   * @generated from field: int32 frequency = 2;
+   */
+  frequency: number;
+
+  /**
+   * 0-10 severity rating
+   *
+   * @generated from field: double severity_score = 3;
+   */
+  severityScore: number;
+
+  /**
+   * URLs of posts mentioning this
+   *
+   * @generated from field: repeated string related_posts = 4;
+   */
+  relatedPosts: string[];
+
+  /**
+   * Key terms related to this pain
+   *
+   * @generated from field: repeated string keywords = 5;
+   */
+  keywords: string[];
+};
+
+/**
+ * Describes the message athena.PainPoint.
+ * Use `create(PainPointSchema)` to create a new message.
+ */
+export const PainPointSchema: GenMessage<PainPoint> = /*@__PURE__*/
+  messageDesc(file_athena_object, 5);
+
+/**
+ * @generated from message athena.SolutionRequest
+ */
+export type SolutionRequest = Message<"athena.SolutionRequest"> & {
+  /**
+   * @generated from field: string request = 1;
+   */
+  request: string;
+
+  /**
+   * How many times requested
+   *
+   * @generated from field: int32 frequency = 2;
+   */
+  frequency: number;
+
+  /**
+   * 0-10 urgency rating
+   *
+   * @generated from field: double urgency_score = 3;
+   */
+  urgencyScore: number;
+
+  /**
+   * URLs of posts with this request
+   *
+   * @generated from field: repeated string related_posts = 4;
+   */
+  relatedPosts: string[];
+
+  /**
+   * What users want
+   *
+   * @generated from field: repeated string suggested_features = 5;
+   */
+  suggestedFeatures: string[];
+};
+
+/**
+ * Describes the message athena.SolutionRequest.
+ * Use `create(SolutionRequestSchema)` to create a new message.
+ */
+export const SolutionRequestSchema: GenMessage<SolutionRequest> = /*@__PURE__*/
+  messageDesc(file_athena_object, 6);
+
+/**
+ * GitHub repository details
+ *
+ * @generated from message athena.GithubRepository
+ */
+export type GithubRepository = Message<"athena.GithubRepository"> & {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name: string;
+
+  /**
+   * @generated from field: string full_name = 2;
+   */
+  fullName: string;
+
+  /**
+   * @generated from field: string description = 3;
+   */
+  description: string;
+
+  /**
+   * @generated from field: string url = 4;
+   */
+  url: string;
+
+  /**
+   * @generated from field: string language = 5;
+   */
+  language: string;
+
+  /**
+   * @generated from field: int32 stars = 6;
+   */
+  stars: number;
+
+  /**
+   * @generated from field: int32 forks = 7;
+   */
+  forks: number;
+
+  /**
+   * @generated from field: int32 issues = 8;
+   */
+  issues: number;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp created_at = 9;
+   */
+  createdAt?: Timestamp;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp updated_at = 10;
+   */
+  updatedAt?: Timestamp;
+
+  /**
+   * @generated from field: bool archived = 11;
+   */
+  archived: boolean;
+
+  /**
+   * @generated from field: string license = 12;
+   */
+  license: string;
+
+  /**
+   * @generated from field: repeated string topics = 13;
+   */
+  topics: string[];
+
+  /**
+   * Type classification
+   *
+   * @generated from field: athena.RepoCategory category = 14;
+   */
+  category: RepoCategory;
+};
+
+/**
+ * Describes the message athena.GithubRepository.
+ * Use `create(GithubRepositorySchema)` to create a new message.
+ */
+export const GithubRepositorySchema: GenMessage<GithubRepository> = /*@__PURE__*/
+  messageDesc(file_athena_object, 7);
+
+/**
+ * GitHub insights extracted from repositories  
+ *
+ * @generated from message athena.GithubInsights
+ */
+export type GithubInsights = Message<"athena.GithubInsights"> & {
+  /**
+   * @generated from field: repeated athena.GithubRepository top_repositories = 1;
+   */
+  topRepositories: GithubRepository[];
+
+  /**
+   * @generated from field: repeated athena.TechStack tech_stacks = 2;
+   */
+  techStacks: TechStack[];
+
+  /**
+   * @generated from field: repeated athena.LicenseUsage licenses = 3;
+   */
+  licenses: LicenseUsage[];
+
+  /**
+   * @generated from field: int32 total_repositories = 4;
+   */
+  totalRepositories: number;
+
+  /**
+   * @generated from field: int32 total_stars = 5;
+   */
+  totalStars: number;
+
+  /**
+   * @generated from field: double avg_stars_per_repo = 6;
+   */
+  avgStarsPerRepo: number;
+
+  /**
+   * @generated from field: repeated athena.PopularLanguage languages = 7;
+   */
+  languages: PopularLanguage[];
+};
+
+/**
+ * Describes the message athena.GithubInsights.
+ * Use `create(GithubInsightsSchema)` to create a new message.
+ */
+export const GithubInsightsSchema: GenMessage<GithubInsights> = /*@__PURE__*/
+  messageDesc(file_athena_object, 8);
+
+/**
+ * @generated from message athena.TechStack
+ */
+export type TechStack = Message<"athena.TechStack"> & {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name: string;
+
+  /**
+   * How many repos use it
+   *
+   * @generated from field: int32 frequency = 2;
+   */
+  frequency: number;
+
+  /**
+   * 0-10 popularity rating  
+   *
+   * @generated from field: double popularity_score = 3;
+   */
+  popularityScore: number;
+
+  /**
+   * URLs of repos using this stack
+   *
+   * @generated from field: repeated string related_repos = 4;
+   */
+  relatedRepos: string[];
+
+  /**
+   * Common features implemented
+   *
+   * @generated from field: repeated string features = 5;
+   */
+  features: string[];
+};
+
+/**
+ * Describes the message athena.TechStack.
+ * Use `create(TechStackSchema)` to create a new message.
+ */
+export const TechStackSchema: GenMessage<TechStack> = /*@__PURE__*/
+  messageDesc(file_athena_object, 9);
+
+/**
+ * @generated from message athena.LicenseUsage
+ */
+export type LicenseUsage = Message<"athena.LicenseUsage"> & {
+  /**
+   * @generated from field: string license_name = 1;
+   */
+  licenseName: string;
+
+  /**
+   * @generated from field: int32 usage_count = 2;
+   */
+  usageCount: number;
+
+  /**
+   * @generated from field: double percentage = 3;
+   */
+  percentage: number;
+
+  /**
+   * @generated from field: repeated string related_repos = 4;
+   */
+  relatedRepos: string[];
+};
+
+/**
+ * Describes the message athena.LicenseUsage.
+ * Use `create(LicenseUsageSchema)` to create a new message.
+ */
+export const LicenseUsageSchema: GenMessage<LicenseUsage> = /*@__PURE__*/
+  messageDesc(file_athena_object, 10);
+
+/**
+ * @generated from message athena.PopularLanguage
+ */
+export type PopularLanguage = Message<"athena.PopularLanguage"> & {
+  /**
+   * @generated from field: string language = 1;
+   */
+  language: string;
+
+  /**
+   * @generated from field: int32 repo_count = 2;
+   */
+  repoCount: number;
+
+  /**
+   * @generated from field: int32 total_stars = 3;
+   */
+  totalStars: number;
+
+  /**
+   * @generated from field: double avg_stars = 4;
+   */
+  avgStars: number;
+};
+
+/**
+ * Describes the message athena.PopularLanguage.
+ * Use `create(PopularLanguageSchema)` to create a new message.
+ */
+export const PopularLanguageSchema: GenMessage<PopularLanguage> = /*@__PURE__*/
+  messageDesc(file_athena_object, 11);
+
+/**
+ * HackerNews story details
+ *
+ * @generated from message athena.HackerNewsStory
+ */
+export type HackerNewsStory = Message<"athena.HackerNewsStory"> & {
+  /**
+   * @generated from field: string title = 1;
+   */
+  title: string;
+
+  /**
+   * @generated from field: string url = 2;
+   */
+  url: string;
+
+  /**
+   * @generated from field: string author = 3;
+   */
+  author: string;
+
+  /**
+   * @generated from field: int32 points = 4;
+   */
+  points: number;
+
+  /**
+   * @generated from field: int32 comments_count = 5;
+   */
+  commentsCount: number;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp created_at = 6;
+   */
+  createdAt?: Timestamp;
+
+  /**
+   * First 200 chars of content
+   *
+   * @generated from field: string snippet = 7;
+   */
+  snippet: string;
+
+  /**
+   * Type classification  
+   *
+   * @generated from field: athena.StoryType story_type = 8;
+   */
+  storyType: StoryType;
+
+  /**
+   * Key discussion topics
+   *
+   * @generated from field: repeated string discussion_topics = 9;
+   */
+  discussionTopics: string[];
+
+  /**
+   * Tools/platforms mentioned
+   *
+   * @generated from field: repeated string mentioned_tools = 10;
+   */
+  mentionedTools: string[];
+};
+
+/**
+ * Describes the message athena.HackerNewsStory.
+ * Use `create(HackerNewsStorySchema)` to create a new message.
+ */
+export const HackerNewsStorySchema: GenMessage<HackerNewsStory> = /*@__PURE__*/
+  messageDesc(file_athena_object, 12);
+
+/**
+ * HackerNews insights extracted from stories
+ *
+ * @generated from message athena.HackerNewsInsights
+ */
+export type HackerNewsInsights = Message<"athena.HackerNewsInsights"> & {
+  /**
+   * @generated from field: repeated athena.HackerNewsStory top_stories = 1;
+   */
+  topStories: HackerNewsStory[];
+
+  /**
+   * @generated from field: repeated athena.DiscussionTopic discussion_topics = 2;
+   */
+  discussionTopics: DiscussionTopic[];
+
+  /**
+   * @generated from field: repeated athena.MentionedTool mentioned_tools = 3;
+   */
+  mentionedTools: MentionedTool[];
+
+  /**
+   * @generated from field: int32 total_stories = 4;
+   */
+  totalStories: number;
+
+  /**
+   * @generated from field: int32 total_points = 5;
+   */
+  totalPoints: number;
+
+  /**
+   * @generated from field: double avg_points_per_story = 6;
+   */
+  avgPointsPerStory: number;
+
+  /**
+   * @generated from field: repeated athena.PopularAuthor authors = 7;
+   */
+  authors: PopularAuthor[];
+};
+
+/**
+ * Describes the message athena.HackerNewsInsights.
+ * Use `create(HackerNewsInsightsSchema)` to create a new message.
+ */
+export const HackerNewsInsightsSchema: GenMessage<HackerNewsInsights> = /*@__PURE__*/
+  messageDesc(file_athena_object, 13);
+
+/**
+ * @generated from message athena.DiscussionTopic
+ */
+export type DiscussionTopic = Message<"athena.DiscussionTopic"> & {
+  /**
+   * @generated from field: string topic = 1;
+   */
+  topic: string;
+
+  /**
+   * How many stories mention it
+   *
+   * @generated from field: int32 frequency = 2;
+   */
+  frequency: number;
+
+  /**
+   * 0-10 interest rating
+   *
+   * @generated from field: double interest_score = 3;
+   */
+  interestScore: number;
+
+  /**
+   * URLs of stories discussing this
+   *
+   * @generated from field: repeated string related_stories = 4;
+   */
+  relatedStories: string[];
+
+  /**
+   * Key takeaways from discussions
+   *
+   * @generated from field: repeated string key_insights = 5;
+   */
+  keyInsights: string[];
+};
+
+/**
+ * Describes the message athena.DiscussionTopic.
+ * Use `create(DiscussionTopicSchema)` to create a new message.
+ */
+export const DiscussionTopicSchema: GenMessage<DiscussionTopic> = /*@__PURE__*/
+  messageDesc(file_athena_object, 14);
+
+/**
+ * @generated from message athena.MentionedTool
+ */
+export type MentionedTool = Message<"athena.MentionedTool"> & {
+  /**
+   * @generated from field: string tool_name = 1;
+   */
+  toolName: string;
+
+  /**
+   * @generated from field: int32 mention_count = 2;
+   */
+  mentionCount: number;
+
+  /**
+   * -10 to +10 sentiment rating
+   *
+   * @generated from field: double sentiment_score = 3;
+   */
+  sentimentScore: number;
+
+  /**
+   * URLs of stories mentioning this
+   *
+   * @generated from field: repeated string related_stories = 4;
+   */
+  relatedStories: string[];
+
+  /**
+   * How the tool is being used
+   *
+   * @generated from field: repeated string use_cases = 5;
+   */
+  useCases: string[];
+};
+
+/**
+ * Describes the message athena.MentionedTool.
+ * Use `create(MentionedToolSchema)` to create a new message.
+ */
+export const MentionedToolSchema: GenMessage<MentionedTool> = /*@__PURE__*/
+  messageDesc(file_athena_object, 15);
+
+/**
+ * @generated from message athena.PopularAuthor
+ */
+export type PopularAuthor = Message<"athena.PopularAuthor"> & {
+  /**
+   * @generated from field: string author = 1;
+   */
+  author: string;
+
+  /**
+   * @generated from field: int32 story_count = 2;
+   */
+  storyCount: number;
+
+  /**
+   * @generated from field: int32 total_points = 3;
+   */
+  totalPoints: number;
+
+  /**
+   * @generated from field: double avg_points = 4;
+   */
+  avgPoints: number;
+};
+
+/**
+ * Describes the message athena.PopularAuthor.
+ * Use `create(PopularAuthorSchema)` to create a new message.
+ */
+export const PopularAuthorSchema: GenMessage<PopularAuthor> = /*@__PURE__*/
+  messageDesc(file_athena_object, 16);
 

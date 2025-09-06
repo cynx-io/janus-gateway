@@ -7,6 +7,7 @@ import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import type { BaseRequest, BaseResponse } from "../core_pb";
 import { file_core } from "../core_pb";
+import type { ChartDataPoint, GithubInsights, HackerNewsInsights, RedditInsights } from "./object_pb";
 import { file_athena_object } from "./object_pb";
 import type { CommercialIntent, CompetitionLevel, Frequency, RiskLevel, SaturationLevel, SearchVolumeTrend, Severity, TrendDirection, Verdict } from "./enum_pb";
 import { file_athena_enum } from "./enum_pb";
@@ -16,90 +17,55 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file athena/idea.proto.
  */
 export const file_athena_idea: GenFile = /*@__PURE__*/
-  fileDesc("ChFhdGhlbmEvaWRlYS5wcm90bxIGYXRoZW5hIkYKE1ZhbGlkYXRlSWRlYVJlcXVlc3QSHwoEYmFzZRgBIAEoCzIRLmNvcmUuQmFzZVJlcXVlc3QSDgoGcHJvbXB0GAIgASgJIvUDChRWYWxpZGF0ZUlkZWFSZXNwb25zZRIgCgRiYXNlGAEgASgLMhIuY29yZS5CYXNlUmVzcG9uc2USJAoFaW5wdXQYBiABKAsyFS5hdGhlbmEuSW5wdXRBbmFseXNpcxIxChB2YWxpZGF0aW9uX3Njb3JlGAcgASgLMhcuYXRoZW5hLlZhbGlkYXRpb25TY29yZRItCg50cmVuZF9hbmFseXNpcxgIIAEoCzIVLmF0aGVuYS5UcmVuZEFuYWx5c2lzEicKC21hcmtldF9kYXRhGAkgASgLMhIuYXRoZW5hLk1hcmtldERhdGESMwoRY29tbXVuaXR5X3NpZ25hbHMYCiABKAsyGC5hdGhlbmEuQ29tbXVuaXR5U2lnbmFscxI5ChRjb21wZXRpdGlvbl9hbmFseXNpcxgLIAEoCzIbLmF0aGVuYS5Db21wZXRpdGlvbkFuYWx5c2lzEjUKEnByb2JsZW1fdmFsaWRhdGlvbhgMIAEoCzIZLmF0aGVuYS5Qcm9ibGVtVmFsaWRhdGlvbhIzChFib290c3RyYXBfbWV0cmljcxgNIAEoCzIYLmF0aGVuYS5Cb290c3RyYXBNZXRyaWNzEi4KDnJlY29tbWVuZGF0aW9uGA4gASgLMhYuYXRoZW5hLlJlY29tbWVuZGF0aW9uIn8KDUlucHV0QW5hbHlzaXMSFQoNb3JpZ2luYWxfaWRlYRgBIAEoCRIaChJwcm9jZXNzZWRfa2V5d29yZHMYAiADKAkSDAoEdGFncxgDIAMoCRITCgttYXJrZXRfdHlwZRgEIAEoCRIYChBjb21wbGV4aXR5X2xldmVsGAUgASgFIo8BCg9WYWxpZGF0aW9uU2NvcmUSFQoNb3ZlcmFsbF9zY29yZRgBIAEoBRIWCg50cmVuZF9tb21lbnR1bRgCIAEoBRIVCg1tYXJrZXRfZGVtYW5kGAMgASgFEhkKEWNvbXBldGl0aW9uX2xldmVsGAQgASgFEhsKE2Jvb3RzdHJhcF92aWFiaWxpdHkYBSABKAUivgEKDVRyZW5kQW5hbHlzaXMSKQoJZGlyZWN0aW9uGAEgASgOMhYuYXRoZW5hLlRyZW5kRGlyZWN0aW9uEhYKDm1vbWVudHVtX3Njb3JlGAIgASgFEhYKDmdyb3d0aF9yYXRlXzZtGAMgASgFEhcKD2dyb3d0aF9yYXRlXzEybRgEIAEoBRIcChRzdXN0YWluYWJpbGl0eV9zY29yZRgFIAEoBRIbChNwZWFrX2ludGVyZXN0X21vbnRoGAYgASgFIoICCgpNYXJrZXREYXRhEh0KFXNlYXJjaF92b2x1bWVfbW9udGhseRgBIAEoBRI2ChNzZWFyY2hfdm9sdW1lX3RyZW5kGAIgASgOMhkuYXRoZW5hLlNlYXJjaFZvbHVtZVRyZW5kEhMKC2NwY19hdmVyYWdlGAMgASgBEjcKFWNvbXBldGl0aW9uX2ludGVuc2l0eRgEIAEoDjIYLmF0aGVuYS5Db21wZXRpdGlvbkxldmVsEhoKEmtleXdvcmRfZGlmZmljdWx0eRgFIAEoBRIzChFjb21tZXJjaWFsX2ludGVudBgGIAEoDjIYLmF0aGVuYS5Db21tZXJjaWFsSW50ZW50ItwBChBDb21tdW5pdHlTaWduYWxzEhsKE2hhY2tlcm5ld3NfbWVudGlvbnMYASABKAUSHAoUaGFja2VybmV3c19zZW50aW1lbnQYAiABKAUSGwoTZ2l0aHViX3JlcG9zaXRvcmllcxgDIAEoBRIaChJnaXRodWJfc3RhcnNfdG90YWwYBCABKAUSHQoVZ2l0aHViX2FjdGl2aXR5X3Njb3JlGAUgASgFEhoKEnJlZGRpdF9kaXNjdXNzaW9ucxgGIAEoBRIZChFyZWRkaXRfZW5nYWdlbWVudBgHIAEoBSLXAQoTQ29tcGV0aXRpb25BbmFseXNpcxIxChBzYXR1cmF0aW9uX2xldmVsGAEgASgOMhcuYXRoZW5hLlNhdHVyYXRpb25MZXZlbBIYChBjb21wZXRpdG9yX2NvdW50GAIgASgFEhYKDm1hcmtldF9sZWFkZXJzGAMgASgFEhwKFGF2Z19kb21haW5fYXV0aG9yaXR5GAQgASgFEhgKEGVudHJ5X2RpZmZpY3VsdHkYBSABKAUSIwobZGlmZmVyZW50aWF0aW9uX29wcG9ydHVuaXR5GAYgASgFItYBChFQcm9ibGVtVmFsaWRhdGlvbhIkCgpwYWluX2xldmVsGAEgASgOMhAuYXRoZW5hLlNldmVyaXR5EiQKCWZyZXF1ZW5jeRgCIAEoDjIRLmF0aGVuYS5GcmVxdWVuY3kSJQodY3VycmVudF9zb2x1dGlvbl9zYXRpc2ZhY3Rpb24YAyABKAUSGgoSd2lsbGluZ25lc3NfdG9fcGF5GAQgASgFEg8KB3VyZ2VuY3kYBSABKAUSIQoZbWFya2V0X2VkdWNhdGlvbl9yZXF1aXJlZBgGIAEoBSK+AQoQQm9vdHN0cmFwTWV0cmljcxIhChl0aW1lX3RvX2ZpcnN0X2RvbGxhcl9kYXlzGAEgASgFEicKH2N1c3RvbWVyX2FjcXVpc2l0aW9uX2RpZmZpY3VsdHkYAiABKAUSIQoZcmV2ZW51ZV9wb3RlbnRpYWxfbW9udGhseRgDIAEoBRIcChRicmVha19ldmVuX2N1c3RvbWVycxgEIAEoBRIdChVib290c3RyYXBfZmVhc2liaWxpdHkYBSABKAUipAEKDlJlY29tbWVuZGF0aW9uEiAKB3ZlcmRpY3QYASABKA4yDy5hdGhlbmEuVmVyZGljdBIYChBjb25maWRlbmNlX2xldmVsGAIgASgFEiUKCnJpc2tfbGV2ZWwYAyABKA4yES5hdGhlbmEuUmlza0xldmVsEhYKDnRpbWVsaW5lX3dlZWtzGAQgASgFEhcKD2J1ZGdldF9yZXF1aXJlZBgFIAEoBTJaCgtJZGVhU2VydmljZRJLCgxWYWxpZGF0ZUlkZWESGy5hdGhlbmEuVmFsaWRhdGVJZGVhUmVxdWVzdBocLmF0aGVuYS5WYWxpZGF0ZUlkZWFSZXNwb25zZSIAQhJaEGF0aGVuYS9hcGkvcHJvdG9iBnByb3RvMw", [file_google_protobuf_timestamp, file_core, file_athena_object, file_athena_enum]);
+  fileDesc("ChFhdGhlbmEvaWRlYS5wcm90bxIGYXRoZW5hIksKF0dldElucHV0QW5hbHlzaXNSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0Eg8KB2lkZWFfaWQYAiABKAUipwEKGEdldElucHV0QW5hbHlzaXNSZXNwb25zZRIgCgRiYXNlGAEgASgLMhIuY29yZS5CYXNlUmVzcG9uc2USMgoOaW5wdXRfYW5hbHlzaXMYAiABKAsyFS5hdGhlbmEuSW5wdXRBbmFseXNpc0gAiAEBEiIKCG1ldGFkYXRhGAMgASgLMhAuYXRoZW5hLk1ldGFkYXRhQhEKD19pbnB1dF9hbmFseXNpcyJ/Cg1JbnB1dEFuYWx5c2lzEhUKDW9yaWdpbmFsX2lkZWEYASABKAkSGgoScHJvY2Vzc2VkX2tleXdvcmRzGAIgAygJEgwKBHRhZ3MYAyADKAkSEwoLbWFya2V0X3R5cGUYBCABKAkSGAoQY29tcGxleGl0eV9sZXZlbBgFIAEoBSKPAQoPVmFsaWRhdGlvblNjb3JlEhUKDW92ZXJhbGxfc2NvcmUYASABKAUSFgoOdHJlbmRfbW9tZW50dW0YAiABKAUSFQoNbWFya2V0X2RlbWFuZBgDIAEoBRIZChFjb21wZXRpdGlvbl9sZXZlbBgEIAEoBRIbChNib290c3RyYXBfdmlhYmlsaXR5GAUgASgFIr4BCg1UcmVuZEFuYWx5c2lzEikKCWRpcmVjdGlvbhgBIAEoDjIWLmF0aGVuYS5UcmVuZERpcmVjdGlvbhIWCg5tb21lbnR1bV9zY29yZRgCIAEoBRIWCg5ncm93dGhfcmF0ZV82bRgDIAEoBRIXCg9ncm93dGhfcmF0ZV8xMm0YBCABKAUSHAoUc3VzdGFpbmFiaWxpdHlfc2NvcmUYBSABKAUSGwoTcGVha19pbnRlcmVzdF9tb250aBgGIAEoBSKCAgoKTWFya2V0RGF0YRIdChVzZWFyY2hfdm9sdW1lX21vbnRobHkYASABKAUSNgoTc2VhcmNoX3ZvbHVtZV90cmVuZBgCIAEoDjIZLmF0aGVuYS5TZWFyY2hWb2x1bWVUcmVuZBITCgtjcGNfYXZlcmFnZRgDIAEoARI3ChVjb21wZXRpdGlvbl9pbnRlbnNpdHkYBCABKA4yGC5hdGhlbmEuQ29tcGV0aXRpb25MZXZlbBIaChJrZXl3b3JkX2RpZmZpY3VsdHkYBSABKAUSMwoRY29tbWVyY2lhbF9pbnRlbnQYBiABKA4yGC5hdGhlbmEuQ29tbWVyY2lhbEludGVudCLcAQoQQ29tbXVuaXR5U2lnbmFscxIbChNoYWNrZXJuZXdzX21lbnRpb25zGAEgASgFEhwKFGhhY2tlcm5ld3Nfc2VudGltZW50GAIgASgFEhsKE2dpdGh1Yl9yZXBvc2l0b3JpZXMYAyABKAUSGgoSZ2l0aHViX3N0YXJzX3RvdGFsGAQgASgFEh0KFWdpdGh1Yl9hY3Rpdml0eV9zY29yZRgFIAEoBRIaChJyZWRkaXRfZGlzY3Vzc2lvbnMYBiABKAUSGQoRcmVkZGl0X2VuZ2FnZW1lbnQYByABKAUi1wEKE0NvbXBldGl0aW9uQW5hbHlzaXMSMQoQc2F0dXJhdGlvbl9sZXZlbBgBIAEoDjIXLmF0aGVuYS5TYXR1cmF0aW9uTGV2ZWwSGAoQY29tcGV0aXRvcl9jb3VudBgCIAEoBRIWCg5tYXJrZXRfbGVhZGVycxgDIAEoBRIcChRhdmdfZG9tYWluX2F1dGhvcml0eRgEIAEoBRIYChBlbnRyeV9kaWZmaWN1bHR5GAUgASgFEiMKG2RpZmZlcmVudGlhdGlvbl9vcHBvcnR1bml0eRgGIAEoBSLWAQoRUHJvYmxlbVZhbGlkYXRpb24SJAoKcGFpbl9sZXZlbBgBIAEoDjIQLmF0aGVuYS5TZXZlcml0eRIkCglmcmVxdWVuY3kYAiABKA4yES5hdGhlbmEuRnJlcXVlbmN5EiUKHWN1cnJlbnRfc29sdXRpb25fc2F0aXNmYWN0aW9uGAMgASgFEhoKEndpbGxpbmduZXNzX3RvX3BheRgEIAEoBRIPCgd1cmdlbmN5GAUgASgFEiEKGW1hcmtldF9lZHVjYXRpb25fcmVxdWlyZWQYBiABKAUivgEKEEJvb3RzdHJhcE1ldHJpY3MSIQoZdGltZV90b19maXJzdF9kb2xsYXJfZGF5cxgBIAEoBRInCh9jdXN0b21lcl9hY3F1aXNpdGlvbl9kaWZmaWN1bHR5GAIgASgFEiEKGXJldmVudWVfcG90ZW50aWFsX21vbnRobHkYAyABKAUSHAoUYnJlYWtfZXZlbl9jdXN0b21lcnMYBCABKAUSHQoVYm9vdHN0cmFwX2ZlYXNpYmlsaXR5GAUgASgFIqQBCg5SZWNvbW1lbmRhdGlvbhIgCgd2ZXJkaWN0GAEgASgOMg8uYXRoZW5hLlZlcmRpY3QSGAoQY29uZmlkZW5jZV9sZXZlbBgCIAEoBRIlCgpyaXNrX2xldmVsGAMgASgOMhEuYXRoZW5hLlJpc2tMZXZlbBIWCg50aW1lbGluZV93ZWVrcxgEIAEoBRIXCg9idWRnZXRfcmVxdWlyZWQYBSABKAUiRgoTSW5pdGlhdGVJZGVhUmVxdWVzdBIfCgRiYXNlGAEgASgLMhEuY29yZS5CYXNlUmVxdWVzdBIOCgZwcm9tcHQYAiABKAkibwoUSW5pdGlhdGVJZGVhUmVzcG9uc2USIAoEYmFzZRgBIAEoCzISLmNvcmUuQmFzZVJlc3BvbnNlEg8KB2lkZWFfaWQYAiABKAUSJAoFaW5wdXQYAyABKAsyFS5hdGhlbmEuSW5wdXRBbmFseXNpcyJfChlHZXRWYWxpZGF0aW9uU2NvcmVSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0Eg8KB2lkZWFfaWQYAiABKAUSEAoIZ2VuZXJhdGUYAyABKAgirwEKGkdldFZhbGlkYXRpb25TY29yZVJlc3BvbnNlEiAKBGJhc2UYASABKAsyEi5jb3JlLkJhc2VSZXNwb25zZRI2ChB2YWxpZGF0aW9uX3Njb3JlGAIgASgLMhcuYXRoZW5hLlZhbGlkYXRpb25TY29yZUgAiAEBEiIKCG1ldGFkYXRhGAMgASgLMhAuYXRoZW5hLk1ldGFkYXRhQhMKEV92YWxpZGF0aW9uX3Njb3JlIl0KF0dldFRyZW5kQW5hbHlzaXNSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0Eg8KB2lkZWFfaWQYAiABKAUSEAoIZ2VuZXJhdGUYAyABKAgidwoITWV0YWRhdGESFQoNcmVxdWlyZV9sb2dpbhgBIAEoCBIcChR0b2tlbl9nZW5lcmF0ZV9wcmljZRgCIAEoAhIdChVwcm9kdWN0X3ByaWNlX2xpc3RfaWQYAyABKAkSFwoPZ2VuZXJhdGVkX3RpbWVzGAQgASgFIqcBChhHZXRUcmVuZEFuYWx5c2lzUmVzcG9uc2USIAoEYmFzZRgBIAEoCzISLmNvcmUuQmFzZVJlc3BvbnNlEjIKDnRyZW5kX2FuYWx5c2lzGAIgASgLMhUuYXRoZW5hLlRyZW5kQW5hbHlzaXNIAIgBARIiCghtZXRhZGF0YRgDIAEoCzIQLmF0aGVuYS5NZXRhZGF0YUIRCg9fdHJlbmRfYW5hbHlzaXMiWgoUR2V0TWFya2V0RGF0YVJlcXVlc3QSHwoEYmFzZRgBIAEoCzIRLmNvcmUuQmFzZVJlcXVlc3QSDwoHaWRlYV9pZBgCIAEoBRIQCghnZW5lcmF0ZRgDIAEoCCKbAQoVR2V0TWFya2V0RGF0YVJlc3BvbnNlEiAKBGJhc2UYASABKAsyEi5jb3JlLkJhc2VSZXNwb25zZRIsCgttYXJrZXRfZGF0YRgCIAEoCzISLmF0aGVuYS5NYXJrZXREYXRhSACIAQESIgoIbWV0YWRhdGEYAyABKAsyEC5hdGhlbmEuTWV0YWRhdGFCDgoMX21hcmtldF9kYXRhImAKGkdldENvbW11bml0eVNpZ25hbHNSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0Eg8KB2lkZWFfaWQYAiABKAUSEAoIZ2VuZXJhdGUYAyABKAgiswEKG0dldENvbW11bml0eVNpZ25hbHNSZXNwb25zZRIgCgRiYXNlGAEgASgLMhIuY29yZS5CYXNlUmVzcG9uc2USOAoRY29tbXVuaXR5X3NpZ25hbHMYAiABKAsyGC5hdGhlbmEuQ29tbXVuaXR5U2lnbmFsc0gAiAEBEiIKCG1ldGFkYXRhGAMgASgLMhAuYXRoZW5hLk1ldGFkYXRhQhQKEl9jb21tdW5pdHlfc2lnbmFscyJjCh1HZXRDb21wZXRpdGlvbkFuYWx5c2lzUmVxdWVzdBIfCgRiYXNlGAEgASgLMhEuY29yZS5CYXNlUmVxdWVzdBIPCgdpZGVhX2lkGAIgASgFEhAKCGdlbmVyYXRlGAMgASgIIr8BCh5HZXRDb21wZXRpdGlvbkFuYWx5c2lzUmVzcG9uc2USIAoEYmFzZRgBIAEoCzISLmNvcmUuQmFzZVJlc3BvbnNlEj4KFGNvbXBldGl0aW9uX2FuYWx5c2lzGAIgASgLMhsuYXRoZW5hLkNvbXBldGl0aW9uQW5hbHlzaXNIAIgBARIiCghtZXRhZGF0YRgDIAEoCzIQLmF0aGVuYS5NZXRhZGF0YUIXChVfY29tcGV0aXRpb25fYW5hbHlzaXMiYQobR2V0UHJvYmxlbVZhbGlkYXRpb25SZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0Eg8KB2lkZWFfaWQYAiABKAUSEAoIZ2VuZXJhdGUYAyABKAgitwEKHEdldFByb2JsZW1WYWxpZGF0aW9uUmVzcG9uc2USIAoEYmFzZRgBIAEoCzISLmNvcmUuQmFzZVJlc3BvbnNlEjoKEnByb2JsZW1fdmFsaWRhdGlvbhgCIAEoCzIZLmF0aGVuYS5Qcm9ibGVtVmFsaWRhdGlvbkgAiAEBEiIKCG1ldGFkYXRhGAMgASgLMhAuYXRoZW5hLk1ldGFkYXRhQhUKE19wcm9ibGVtX3ZhbGlkYXRpb24iYAoaR2V0Qm9vdHN0cmFwTWV0cmljc1JlcXVlc3QSHwoEYmFzZRgBIAEoCzIRLmNvcmUuQmFzZVJlcXVlc3QSDwoHaWRlYV9pZBgCIAEoBRIQCghnZW5lcmF0ZRgDIAEoCCKzAQobR2V0Qm9vdHN0cmFwTWV0cmljc1Jlc3BvbnNlEiAKBGJhc2UYASABKAsyEi5jb3JlLkJhc2VSZXNwb25zZRI4ChFib290c3RyYXBfbWV0cmljcxgCIAEoCzIYLmF0aGVuYS5Cb290c3RyYXBNZXRyaWNzSACIAQESIgoIbWV0YWRhdGEYAyABKAsyEC5hdGhlbmEuTWV0YWRhdGFCFAoSX2Jvb3RzdHJhcF9tZXRyaWNzIl4KGEdldFJlY29tbWVuZGF0aW9uUmVxdWVzdBIfCgRiYXNlGAEgASgLMhEuY29yZS5CYXNlUmVxdWVzdBIPCgdpZGVhX2lkGAIgASgFEhAKCGdlbmVyYXRlGAMgASgIIqkBChlHZXRSZWNvbW1lbmRhdGlvblJlc3BvbnNlEiAKBGJhc2UYASABKAsyEi5jb3JlLkJhc2VSZXNwb25zZRIzCg5yZWNvbW1lbmRhdGlvbhgCIAEoCzIWLmF0aGVuYS5SZWNvbW1lbmRhdGlvbkgAiAEBEiIKCG1ldGFkYXRhGAMgASgLMhAuYXRoZW5hLk1ldGFkYXRhQhEKD19yZWNvbW1lbmRhdGlvbiJaChRHZXRUcmVuZENoYXJ0UmVxdWVzdBIfCgRiYXNlGAEgASgLMhEuY29yZS5CYXNlUmVxdWVzdBIPCgdpZGVhX2lkGAIgASgFEhAKCGdlbmVyYXRlGAMgASgIIokBChVHZXRUcmVuZENoYXJ0UmVzcG9uc2USIAoEYmFzZRgBIAEoCzISLmNvcmUuQmFzZVJlc3BvbnNlEioKCmNoYXJ0X2RhdGEYAiADKAsyFi5hdGhlbmEuQ2hhcnREYXRhUG9pbnQSIgoIbWV0YWRhdGEYAyABKAsyEC5hdGhlbmEuTWV0YWRhdGEiYQobR2V0TWFya2V0RGVtYW5kQ2hhcnRSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0Eg8KB2lkZWFfaWQYAiABKAUSEAoIZ2VuZXJhdGUYAyABKAgikAEKHEdldE1hcmtldERlbWFuZENoYXJ0UmVzcG9uc2USIAoEYmFzZRgBIAEoCzISLmNvcmUuQmFzZVJlc3BvbnNlEioKCmNoYXJ0X2RhdGEYAiADKAsyFi5hdGhlbmEuQ2hhcnREYXRhUG9pbnQSIgoIbWV0YWRhdGEYAyABKAsyEC5hdGhlbmEuTWV0YWRhdGEiYAoaR2V0Q29tcGV0aXRpb25DaGFydFJlcXVlc3QSHwoEYmFzZRgBIAEoCzIRLmNvcmUuQmFzZVJlcXVlc3QSDwoHaWRlYV9pZBgCIAEoBRIQCghnZW5lcmF0ZRgDIAEoCCKPAQobR2V0Q29tcGV0aXRpb25DaGFydFJlc3BvbnNlEiAKBGJhc2UYASABKAsyEi5jb3JlLkJhc2VSZXNwb25zZRIqCgpjaGFydF9kYXRhGAIgAygLMhYuYXRoZW5hLkNoYXJ0RGF0YVBvaW50EiIKCG1ldGFkYXRhGAMgASgLMhAuYXRoZW5hLk1ldGFkYXRhIl8KGUdldEVuZ2FnZW1lbnRDaGFydFJlcXVlc3QSHwoEYmFzZRgBIAEoCzIRLmNvcmUuQmFzZVJlcXVlc3QSDwoHaWRlYV9pZBgCIAEoBRIQCghnZW5lcmF0ZRgDIAEoCCKOAQoaR2V0RW5nYWdlbWVudENoYXJ0UmVzcG9uc2USIAoEYmFzZRgBIAEoCzISLmNvcmUuQmFzZVJlc3BvbnNlEioKCmNoYXJ0X2RhdGEYAiADKAsyFi5hdGhlbmEuQ2hhcnREYXRhUG9pbnQSIgoIbWV0YWRhdGEYAyABKAsyEC5hdGhlbmEuTWV0YWRhdGEiXgoYR2V0UmVkZGl0SW5zaWdodHNSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0Eg8KB2lkZWFfaWQYAiABKAUSEAoIZ2VuZXJhdGUYAyABKAgiqwEKGUdldFJlZGRpdEluc2lnaHRzUmVzcG9uc2USIAoEYmFzZRgBIAEoCzISLmNvcmUuQmFzZVJlc3BvbnNlEjQKD3JlZGRpdF9pbnNpZ2h0cxgCIAEoCzIWLmF0aGVuYS5SZWRkaXRJbnNpZ2h0c0gAiAEBEiIKCG1ldGFkYXRhGAMgASgLMhAuYXRoZW5hLk1ldGFkYXRhQhIKEF9yZWRkaXRfaW5zaWdodHMiXgoYR2V0R2l0aHViSW5zaWdodHNSZXF1ZXN0Eh8KBGJhc2UYASABKAsyES5jb3JlLkJhc2VSZXF1ZXN0Eg8KB2lkZWFfaWQYAiABKAUSEAoIZ2VuZXJhdGUYAyABKAgiqwEKGUdldEdpdGh1Ykluc2lnaHRzUmVzcG9uc2USIAoEYmFzZRgBIAEoCzISLmNvcmUuQmFzZVJlc3BvbnNlEjQKD2dpdGh1Yl9pbnNpZ2h0cxgCIAEoCzIWLmF0aGVuYS5HaXRodWJJbnNpZ2h0c0gAiAEBEiIKCG1ldGFkYXRhGAMgASgLMhAuYXRoZW5hLk1ldGFkYXRhQhIKEF9naXRodWJfaW5zaWdodHMiYgocR2V0SGFja2VyTmV3c0luc2lnaHRzUmVxdWVzdBIfCgRiYXNlGAEgASgLMhEuY29yZS5CYXNlUmVxdWVzdBIPCgdpZGVhX2lkGAIgASgFEhAKCGdlbmVyYXRlGAMgASgIIrsBCh1HZXRIYWNrZXJOZXdzSW5zaWdodHNSZXNwb25zZRIgCgRiYXNlGAEgASgLMhIuY29yZS5CYXNlUmVzcG9uc2USPAoTaGFja2VybmV3c19pbnNpZ2h0cxgCIAEoCzIaLmF0aGVuYS5IYWNrZXJOZXdzSW5zaWdodHNIAIgBARIiCghtZXRhZGF0YRgDIAEoCzIQLmF0aGVuYS5NZXRhZGF0YUIWChRfaGFja2VybmV3c19pbnNpZ2h0cyJZChRHZW5lcmF0ZUlkZWFzUmVxdWVzdBIfCgRiYXNlGAEgASgLMhEuY29yZS5CYXNlUmVxdWVzdBIOCgZwcm9tcHQYAiABKAkSEAoIZ2VuZXJhdGUYAyABKAgigwEKFUdlbmVyYXRlSWRlYXNSZXNwb25zZRIgCgRiYXNlGAEgASgLMhIuY29yZS5CYXNlUmVzcG9uc2USJAoFaWRlYXMYAiADKAsyFS5hdGhlbmEuR2VuZXJhdGVkSWRlYRIiCghtZXRhZGF0YRgDIAEoCzIQLmF0aGVuYS5NZXRhZGF0YSKuAQoNR2VuZXJhdGVkSWRlYRINCgV0aXRsZRgBIAEoCRITCgtkZXNjcmlwdGlvbhgCIAEoCRIUCgxrZXlfZmVhdHVyZXMYAyADKAkSFgoObWFya2V0X3NlZ21lbnQYBCABKAkSGAoQY29tcGxleGl0eV9zY29yZRgFIAEoBRIXCg90YXJnZXRfYXVkaWVuY2UYBiADKAkSGAoQb3B0aW1pemVkX3Byb21wdBgHIAEoCTKRDQoLSWRlYVNlcnZpY2USSwoMSW5pdGlhdGVJZGVhEhsuYXRoZW5hLkluaXRpYXRlSWRlYVJlcXVlc3QaHC5hdGhlbmEuSW5pdGlhdGVJZGVhUmVzcG9uc2UiABJOCg1HZW5lcmF0ZUlkZWFzEhwuYXRoZW5hLkdlbmVyYXRlSWRlYXNSZXF1ZXN0Gh0uYXRoZW5hLkdlbmVyYXRlSWRlYXNSZXNwb25zZSIAEl0KEkdldFZhbGlkYXRpb25TY29yZRIhLmF0aGVuYS5HZXRWYWxpZGF0aW9uU2NvcmVSZXF1ZXN0GiIuYXRoZW5hLkdldFZhbGlkYXRpb25TY29yZVJlc3BvbnNlIgASVwoQR2V0VHJlbmRBbmFseXNpcxIfLmF0aGVuYS5HZXRUcmVuZEFuYWx5c2lzUmVxdWVzdBogLmF0aGVuYS5HZXRUcmVuZEFuYWx5c2lzUmVzcG9uc2UiABJOCg1HZXRNYXJrZXREYXRhEhwuYXRoZW5hLkdldE1hcmtldERhdGFSZXF1ZXN0Gh0uYXRoZW5hLkdldE1hcmtldERhdGFSZXNwb25zZSIAEmAKE0dldENvbW11bml0eVNpZ25hbHMSIi5hdGhlbmEuR2V0Q29tbXVuaXR5U2lnbmFsc1JlcXVlc3QaIy5hdGhlbmEuR2V0Q29tbXVuaXR5U2lnbmFsc1Jlc3BvbnNlIgASaQoWR2V0Q29tcGV0aXRpb25BbmFseXNpcxIlLmF0aGVuYS5HZXRDb21wZXRpdGlvbkFuYWx5c2lzUmVxdWVzdBomLmF0aGVuYS5HZXRDb21wZXRpdGlvbkFuYWx5c2lzUmVzcG9uc2UiABJjChRHZXRQcm9ibGVtVmFsaWRhdGlvbhIjLmF0aGVuYS5HZXRQcm9ibGVtVmFsaWRhdGlvblJlcXVlc3QaJC5hdGhlbmEuR2V0UHJvYmxlbVZhbGlkYXRpb25SZXNwb25zZSIAEmAKE0dldEJvb3RzdHJhcE1ldHJpY3MSIi5hdGhlbmEuR2V0Qm9vdHN0cmFwTWV0cmljc1JlcXVlc3QaIy5hdGhlbmEuR2V0Qm9vdHN0cmFwTWV0cmljc1Jlc3BvbnNlIgASWgoRR2V0UmVjb21tZW5kYXRpb24SIC5hdGhlbmEuR2V0UmVjb21tZW5kYXRpb25SZXF1ZXN0GiEuYXRoZW5hLkdldFJlY29tbWVuZGF0aW9uUmVzcG9uc2UiABJOCg1HZXRUcmVuZENoYXJ0EhwuYXRoZW5hLkdldFRyZW5kQ2hhcnRSZXF1ZXN0Gh0uYXRoZW5hLkdldFRyZW5kQ2hhcnRSZXNwb25zZSIAEmMKFEdldE1hcmtldERlbWFuZENoYXJ0EiMuYXRoZW5hLkdldE1hcmtldERlbWFuZENoYXJ0UmVxdWVzdBokLmF0aGVuYS5HZXRNYXJrZXREZW1hbmRDaGFydFJlc3BvbnNlIgASYAoTR2V0Q29tcGV0aXRpb25DaGFydBIiLmF0aGVuYS5HZXRDb21wZXRpdGlvbkNoYXJ0UmVxdWVzdBojLmF0aGVuYS5HZXRDb21wZXRpdGlvbkNoYXJ0UmVzcG9uc2UiABJdChJHZXRFbmdhZ2VtZW50Q2hhcnQSIS5hdGhlbmEuR2V0RW5nYWdlbWVudENoYXJ0UmVxdWVzdBoiLmF0aGVuYS5HZXRFbmdhZ2VtZW50Q2hhcnRSZXNwb25zZSIAEloKEUdldFJlZGRpdEluc2lnaHRzEiAuYXRoZW5hLkdldFJlZGRpdEluc2lnaHRzUmVxdWVzdBohLmF0aGVuYS5HZXRSZWRkaXRJbnNpZ2h0c1Jlc3BvbnNlIgASWgoRR2V0R2l0aHViSW5zaWdodHMSIC5hdGhlbmEuR2V0R2l0aHViSW5zaWdodHNSZXF1ZXN0GiEuYXRoZW5hLkdldEdpdGh1Ykluc2lnaHRzUmVzcG9uc2UiABJmChVHZXRIYWNrZXJOZXdzSW5zaWdodHMSJC5hdGhlbmEuR2V0SGFja2VyTmV3c0luc2lnaHRzUmVxdWVzdBolLmF0aGVuYS5HZXRIYWNrZXJOZXdzSW5zaWdodHNSZXNwb25zZSIAElcKEEdldElucHV0QW5hbHlzaXMSHy5hdGhlbmEuR2V0SW5wdXRBbmFseXNpc1JlcXVlc3QaIC5hdGhlbmEuR2V0SW5wdXRBbmFseXNpc1Jlc3BvbnNlIgBCEloQYXRoZW5hL2FwaS9wcm90b2IGcHJvdG8z", [file_google_protobuf_timestamp, file_core, file_athena_object, file_athena_enum]);
 
 /**
- * @generated from message athena.ValidateIdeaRequest
+ * @generated from message athena.GetInputAnalysisRequest
  */
-export type ValidateIdeaRequest = Message<"athena.ValidateIdeaRequest"> & {
+export type GetInputAnalysisRequest = Message<"athena.GetInputAnalysisRequest"> & {
   /**
    * @generated from field: core.BaseRequest base = 1;
    */
   base?: BaseRequest;
 
   /**
-   * @generated from field: string prompt = 2;
+   * @generated from field: int32 idea_id = 2;
    */
-  prompt: string;
+  ideaId: number;
 };
 
 /**
- * Describes the message athena.ValidateIdeaRequest.
- * Use `create(ValidateIdeaRequestSchema)` to create a new message.
+ * Describes the message athena.GetInputAnalysisRequest.
+ * Use `create(GetInputAnalysisRequestSchema)` to create a new message.
  */
-export const ValidateIdeaRequestSchema: GenMessage<ValidateIdeaRequest> = /*@__PURE__*/
+export const GetInputAnalysisRequestSchema: GenMessage<GetInputAnalysisRequest> = /*@__PURE__*/
   messageDesc(file_athena_idea, 0);
 
 /**
- * @generated from message athena.ValidateIdeaResponse
+ * @generated from message athena.GetInputAnalysisResponse
  */
-export type ValidateIdeaResponse = Message<"athena.ValidateIdeaResponse"> & {
+export type GetInputAnalysisResponse = Message<"athena.GetInputAnalysisResponse"> & {
   /**
    * @generated from field: core.BaseResponse base = 1;
    */
   base?: BaseResponse;
 
   /**
-   * @generated from field: athena.InputAnalysis input = 6;
+   * @generated from field: optional athena.InputAnalysis input_analysis = 2;
    */
-  input?: InputAnalysis;
+  inputAnalysis?: InputAnalysis;
 
   /**
-   * @generated from field: athena.ValidationScore validation_score = 7;
+   * @generated from field: athena.Metadata metadata = 3;
    */
-  validationScore?: ValidationScore;
-
-  /**
-   * @generated from field: athena.TrendAnalysis trend_analysis = 8;
-   */
-  trendAnalysis?: TrendAnalysis;
-
-  /**
-   * @generated from field: athena.MarketData market_data = 9;
-   */
-  marketData?: MarketData;
-
-  /**
-   * @generated from field: athena.CommunitySignals community_signals = 10;
-   */
-  communitySignals?: CommunitySignals;
-
-  /**
-   * @generated from field: athena.CompetitionAnalysis competition_analysis = 11;
-   */
-  competitionAnalysis?: CompetitionAnalysis;
-
-  /**
-   * @generated from field: athena.ProblemValidation problem_validation = 12;
-   */
-  problemValidation?: ProblemValidation;
-
-  /**
-   * @generated from field: athena.BootstrapMetrics bootstrap_metrics = 13;
-   */
-  bootstrapMetrics?: BootstrapMetrics;
-
-  /**
-   * @generated from field: athena.Recommendation recommendation = 14;
-   */
-  recommendation?: Recommendation;
+  metadata?: Metadata;
 };
 
 /**
- * Describes the message athena.ValidateIdeaResponse.
- * Use `create(ValidateIdeaResponseSchema)` to create a new message.
+ * Describes the message athena.GetInputAnalysisResponse.
+ * Use `create(GetInputAnalysisResponseSchema)` to create a new message.
  */
-export const ValidateIdeaResponseSchema: GenMessage<ValidateIdeaResponse> = /*@__PURE__*/
+export const GetInputAnalysisResponseSchema: GenMessage<GetInputAnalysisResponse> = /*@__PURE__*/
   messageDesc(file_athena_idea, 1);
 
 /**
@@ -470,16 +436,1148 @@ export const RecommendationSchema: GenMessage<Recommendation> = /*@__PURE__*/
   messageDesc(file_athena_idea, 10);
 
 /**
+ * InitiateIdea endpoint - performs steps 1 & 2 and saves to database
+ *
+ * @generated from message athena.InitiateIdeaRequest
+ */
+export type InitiateIdeaRequest = Message<"athena.InitiateIdeaRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: string prompt = 2;
+   */
+  prompt: string;
+};
+
+/**
+ * Describes the message athena.InitiateIdeaRequest.
+ * Use `create(InitiateIdeaRequestSchema)` to create a new message.
+ */
+export const InitiateIdeaRequestSchema: GenMessage<InitiateIdeaRequest> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 11);
+
+/**
+ * @generated from message athena.InitiateIdeaResponse
+ */
+export type InitiateIdeaResponse = Message<"athena.InitiateIdeaResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: int32 idea_id = 2;
+   */
+  ideaId: number;
+
+  /**
+   * @generated from field: athena.InputAnalysis input = 3;
+   */
+  input?: InputAnalysis;
+};
+
+/**
+ * Describes the message athena.InitiateIdeaResponse.
+ * Use `create(InitiateIdeaResponseSchema)` to create a new message.
+ */
+export const InitiateIdeaResponseSchema: GenMessage<InitiateIdeaResponse> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 12);
+
+/**
+ * Step 3 individual endpoints
+ *
+ * @generated from message athena.GetValidationScoreRequest
+ */
+export type GetValidationScoreRequest = Message<"athena.GetValidationScoreRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 idea_id = 2;
+   */
+  ideaId: number;
+
+  /**
+   * @generated from field: bool generate = 3;
+   */
+  generate: boolean;
+};
+
+/**
+ * Describes the message athena.GetValidationScoreRequest.
+ * Use `create(GetValidationScoreRequestSchema)` to create a new message.
+ */
+export const GetValidationScoreRequestSchema: GenMessage<GetValidationScoreRequest> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 13);
+
+/**
+ * @generated from message athena.GetValidationScoreResponse
+ */
+export type GetValidationScoreResponse = Message<"athena.GetValidationScoreResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: optional athena.ValidationScore validation_score = 2;
+   */
+  validationScore?: ValidationScore;
+
+  /**
+   * @generated from field: athena.Metadata metadata = 3;
+   */
+  metadata?: Metadata;
+};
+
+/**
+ * Describes the message athena.GetValidationScoreResponse.
+ * Use `create(GetValidationScoreResponseSchema)` to create a new message.
+ */
+export const GetValidationScoreResponseSchema: GenMessage<GetValidationScoreResponse> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 14);
+
+/**
+ * @generated from message athena.GetTrendAnalysisRequest
+ */
+export type GetTrendAnalysisRequest = Message<"athena.GetTrendAnalysisRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 idea_id = 2;
+   */
+  ideaId: number;
+
+  /**
+   * @generated from field: bool generate = 3;
+   */
+  generate: boolean;
+};
+
+/**
+ * Describes the message athena.GetTrendAnalysisRequest.
+ * Use `create(GetTrendAnalysisRequestSchema)` to create a new message.
+ */
+export const GetTrendAnalysisRequestSchema: GenMessage<GetTrendAnalysisRequest> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 15);
+
+/**
+ * @generated from message athena.Metadata
+ */
+export type Metadata = Message<"athena.Metadata"> & {
+  /**
+   * @generated from field: bool require_login = 1;
+   */
+  requireLogin: boolean;
+
+  /**
+   * @generated from field: float token_generate_price = 2;
+   */
+  tokenGeneratePrice: number;
+
+  /**
+   * @generated from field: string product_price_list_id = 3;
+   */
+  productPriceListId: string;
+
+  /**
+   * @generated from field: int32 generated_times = 4;
+   */
+  generatedTimes: number;
+};
+
+/**
+ * Describes the message athena.Metadata.
+ * Use `create(MetadataSchema)` to create a new message.
+ */
+export const MetadataSchema: GenMessage<Metadata> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 16);
+
+/**
+ * @generated from message athena.GetTrendAnalysisResponse
+ */
+export type GetTrendAnalysisResponse = Message<"athena.GetTrendAnalysisResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: optional athena.TrendAnalysis trend_analysis = 2;
+   */
+  trendAnalysis?: TrendAnalysis;
+
+  /**
+   * @generated from field: athena.Metadata metadata = 3;
+   */
+  metadata?: Metadata;
+};
+
+/**
+ * Describes the message athena.GetTrendAnalysisResponse.
+ * Use `create(GetTrendAnalysisResponseSchema)` to create a new message.
+ */
+export const GetTrendAnalysisResponseSchema: GenMessage<GetTrendAnalysisResponse> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 17);
+
+/**
+ * @generated from message athena.GetMarketDataRequest
+ */
+export type GetMarketDataRequest = Message<"athena.GetMarketDataRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 idea_id = 2;
+   */
+  ideaId: number;
+
+  /**
+   * @generated from field: bool generate = 3;
+   */
+  generate: boolean;
+};
+
+/**
+ * Describes the message athena.GetMarketDataRequest.
+ * Use `create(GetMarketDataRequestSchema)` to create a new message.
+ */
+export const GetMarketDataRequestSchema: GenMessage<GetMarketDataRequest> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 18);
+
+/**
+ * @generated from message athena.GetMarketDataResponse
+ */
+export type GetMarketDataResponse = Message<"athena.GetMarketDataResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: optional athena.MarketData market_data = 2;
+   */
+  marketData?: MarketData;
+
+  /**
+   * @generated from field: athena.Metadata metadata = 3;
+   */
+  metadata?: Metadata;
+};
+
+/**
+ * Describes the message athena.GetMarketDataResponse.
+ * Use `create(GetMarketDataResponseSchema)` to create a new message.
+ */
+export const GetMarketDataResponseSchema: GenMessage<GetMarketDataResponse> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 19);
+
+/**
+ * @generated from message athena.GetCommunitySignalsRequest
+ */
+export type GetCommunitySignalsRequest = Message<"athena.GetCommunitySignalsRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 idea_id = 2;
+   */
+  ideaId: number;
+
+  /**
+   * @generated from field: bool generate = 3;
+   */
+  generate: boolean;
+};
+
+/**
+ * Describes the message athena.GetCommunitySignalsRequest.
+ * Use `create(GetCommunitySignalsRequestSchema)` to create a new message.
+ */
+export const GetCommunitySignalsRequestSchema: GenMessage<GetCommunitySignalsRequest> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 20);
+
+/**
+ * @generated from message athena.GetCommunitySignalsResponse
+ */
+export type GetCommunitySignalsResponse = Message<"athena.GetCommunitySignalsResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: optional athena.CommunitySignals community_signals = 2;
+   */
+  communitySignals?: CommunitySignals;
+
+  /**
+   * @generated from field: athena.Metadata metadata = 3;
+   */
+  metadata?: Metadata;
+};
+
+/**
+ * Describes the message athena.GetCommunitySignalsResponse.
+ * Use `create(GetCommunitySignalsResponseSchema)` to create a new message.
+ */
+export const GetCommunitySignalsResponseSchema: GenMessage<GetCommunitySignalsResponse> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 21);
+
+/**
+ * @generated from message athena.GetCompetitionAnalysisRequest
+ */
+export type GetCompetitionAnalysisRequest = Message<"athena.GetCompetitionAnalysisRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 idea_id = 2;
+   */
+  ideaId: number;
+
+  /**
+   * @generated from field: bool generate = 3;
+   */
+  generate: boolean;
+};
+
+/**
+ * Describes the message athena.GetCompetitionAnalysisRequest.
+ * Use `create(GetCompetitionAnalysisRequestSchema)` to create a new message.
+ */
+export const GetCompetitionAnalysisRequestSchema: GenMessage<GetCompetitionAnalysisRequest> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 22);
+
+/**
+ * @generated from message athena.GetCompetitionAnalysisResponse
+ */
+export type GetCompetitionAnalysisResponse = Message<"athena.GetCompetitionAnalysisResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: optional athena.CompetitionAnalysis competition_analysis = 2;
+   */
+  competitionAnalysis?: CompetitionAnalysis;
+
+  /**
+   * @generated from field: athena.Metadata metadata = 3;
+   */
+  metadata?: Metadata;
+};
+
+/**
+ * Describes the message athena.GetCompetitionAnalysisResponse.
+ * Use `create(GetCompetitionAnalysisResponseSchema)` to create a new message.
+ */
+export const GetCompetitionAnalysisResponseSchema: GenMessage<GetCompetitionAnalysisResponse> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 23);
+
+/**
+ * @generated from message athena.GetProblemValidationRequest
+ */
+export type GetProblemValidationRequest = Message<"athena.GetProblemValidationRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 idea_id = 2;
+   */
+  ideaId: number;
+
+  /**
+   * @generated from field: bool generate = 3;
+   */
+  generate: boolean;
+};
+
+/**
+ * Describes the message athena.GetProblemValidationRequest.
+ * Use `create(GetProblemValidationRequestSchema)` to create a new message.
+ */
+export const GetProblemValidationRequestSchema: GenMessage<GetProblemValidationRequest> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 24);
+
+/**
+ * @generated from message athena.GetProblemValidationResponse
+ */
+export type GetProblemValidationResponse = Message<"athena.GetProblemValidationResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: optional athena.ProblemValidation problem_validation = 2;
+   */
+  problemValidation?: ProblemValidation;
+
+  /**
+   * @generated from field: athena.Metadata metadata = 3;
+   */
+  metadata?: Metadata;
+};
+
+/**
+ * Describes the message athena.GetProblemValidationResponse.
+ * Use `create(GetProblemValidationResponseSchema)` to create a new message.
+ */
+export const GetProblemValidationResponseSchema: GenMessage<GetProblemValidationResponse> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 25);
+
+/**
+ * @generated from message athena.GetBootstrapMetricsRequest
+ */
+export type GetBootstrapMetricsRequest = Message<"athena.GetBootstrapMetricsRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 idea_id = 2;
+   */
+  ideaId: number;
+
+  /**
+   * @generated from field: bool generate = 3;
+   */
+  generate: boolean;
+};
+
+/**
+ * Describes the message athena.GetBootstrapMetricsRequest.
+ * Use `create(GetBootstrapMetricsRequestSchema)` to create a new message.
+ */
+export const GetBootstrapMetricsRequestSchema: GenMessage<GetBootstrapMetricsRequest> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 26);
+
+/**
+ * @generated from message athena.GetBootstrapMetricsResponse
+ */
+export type GetBootstrapMetricsResponse = Message<"athena.GetBootstrapMetricsResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: optional athena.BootstrapMetrics bootstrap_metrics = 2;
+   */
+  bootstrapMetrics?: BootstrapMetrics;
+
+  /**
+   * @generated from field: athena.Metadata metadata = 3;
+   */
+  metadata?: Metadata;
+};
+
+/**
+ * Describes the message athena.GetBootstrapMetricsResponse.
+ * Use `create(GetBootstrapMetricsResponseSchema)` to create a new message.
+ */
+export const GetBootstrapMetricsResponseSchema: GenMessage<GetBootstrapMetricsResponse> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 27);
+
+/**
+ * @generated from message athena.GetRecommendationRequest
+ */
+export type GetRecommendationRequest = Message<"athena.GetRecommendationRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 idea_id = 2;
+   */
+  ideaId: number;
+
+  /**
+   * @generated from field: bool generate = 3;
+   */
+  generate: boolean;
+};
+
+/**
+ * Describes the message athena.GetRecommendationRequest.
+ * Use `create(GetRecommendationRequestSchema)` to create a new message.
+ */
+export const GetRecommendationRequestSchema: GenMessage<GetRecommendationRequest> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 28);
+
+/**
+ * @generated from message athena.GetRecommendationResponse
+ */
+export type GetRecommendationResponse = Message<"athena.GetRecommendationResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: optional athena.Recommendation recommendation = 2;
+   */
+  recommendation?: Recommendation;
+
+  /**
+   * @generated from field: athena.Metadata metadata = 3;
+   */
+  metadata?: Metadata;
+};
+
+/**
+ * Describes the message athena.GetRecommendationResponse.
+ * Use `create(GetRecommendationResponseSchema)` to create a new message.
+ */
+export const GetRecommendationResponseSchema: GenMessage<GetRecommendationResponse> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 29);
+
+/**
+ * @generated from message athena.GetTrendChartRequest
+ */
+export type GetTrendChartRequest = Message<"athena.GetTrendChartRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 idea_id = 2;
+   */
+  ideaId: number;
+
+  /**
+   * @generated from field: bool generate = 3;
+   */
+  generate: boolean;
+};
+
+/**
+ * Describes the message athena.GetTrendChartRequest.
+ * Use `create(GetTrendChartRequestSchema)` to create a new message.
+ */
+export const GetTrendChartRequestSchema: GenMessage<GetTrendChartRequest> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 30);
+
+/**
+ * @generated from message athena.GetTrendChartResponse
+ */
+export type GetTrendChartResponse = Message<"athena.GetTrendChartResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: repeated athena.ChartDataPoint chart_data = 2;
+   */
+  chartData: ChartDataPoint[];
+
+  /**
+   * @generated from field: athena.Metadata metadata = 3;
+   */
+  metadata?: Metadata;
+};
+
+/**
+ * Describes the message athena.GetTrendChartResponse.
+ * Use `create(GetTrendChartResponseSchema)` to create a new message.
+ */
+export const GetTrendChartResponseSchema: GenMessage<GetTrendChartResponse> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 31);
+
+/**
+ * @generated from message athena.GetMarketDemandChartRequest
+ */
+export type GetMarketDemandChartRequest = Message<"athena.GetMarketDemandChartRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 idea_id = 2;
+   */
+  ideaId: number;
+
+  /**
+   * @generated from field: bool generate = 3;
+   */
+  generate: boolean;
+};
+
+/**
+ * Describes the message athena.GetMarketDemandChartRequest.
+ * Use `create(GetMarketDemandChartRequestSchema)` to create a new message.
+ */
+export const GetMarketDemandChartRequestSchema: GenMessage<GetMarketDemandChartRequest> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 32);
+
+/**
+ * @generated from message athena.GetMarketDemandChartResponse
+ */
+export type GetMarketDemandChartResponse = Message<"athena.GetMarketDemandChartResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: repeated athena.ChartDataPoint chart_data = 2;
+   */
+  chartData: ChartDataPoint[];
+
+  /**
+   * @generated from field: athena.Metadata metadata = 3;
+   */
+  metadata?: Metadata;
+};
+
+/**
+ * Describes the message athena.GetMarketDemandChartResponse.
+ * Use `create(GetMarketDemandChartResponseSchema)` to create a new message.
+ */
+export const GetMarketDemandChartResponseSchema: GenMessage<GetMarketDemandChartResponse> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 33);
+
+/**
+ * @generated from message athena.GetCompetitionChartRequest
+ */
+export type GetCompetitionChartRequest = Message<"athena.GetCompetitionChartRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 idea_id = 2;
+   */
+  ideaId: number;
+
+  /**
+   * @generated from field: bool generate = 3;
+   */
+  generate: boolean;
+};
+
+/**
+ * Describes the message athena.GetCompetitionChartRequest.
+ * Use `create(GetCompetitionChartRequestSchema)` to create a new message.
+ */
+export const GetCompetitionChartRequestSchema: GenMessage<GetCompetitionChartRequest> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 34);
+
+/**
+ * @generated from message athena.GetCompetitionChartResponse
+ */
+export type GetCompetitionChartResponse = Message<"athena.GetCompetitionChartResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: repeated athena.ChartDataPoint chart_data = 2;
+   */
+  chartData: ChartDataPoint[];
+
+  /**
+   * @generated from field: athena.Metadata metadata = 3;
+   */
+  metadata?: Metadata;
+};
+
+/**
+ * Describes the message athena.GetCompetitionChartResponse.
+ * Use `create(GetCompetitionChartResponseSchema)` to create a new message.
+ */
+export const GetCompetitionChartResponseSchema: GenMessage<GetCompetitionChartResponse> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 35);
+
+/**
+ * @generated from message athena.GetEngagementChartRequest
+ */
+export type GetEngagementChartRequest = Message<"athena.GetEngagementChartRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 idea_id = 2;
+   */
+  ideaId: number;
+
+  /**
+   * @generated from field: bool generate = 3;
+   */
+  generate: boolean;
+};
+
+/**
+ * Describes the message athena.GetEngagementChartRequest.
+ * Use `create(GetEngagementChartRequestSchema)` to create a new message.
+ */
+export const GetEngagementChartRequestSchema: GenMessage<GetEngagementChartRequest> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 36);
+
+/**
+ * @generated from message athena.GetEngagementChartResponse
+ */
+export type GetEngagementChartResponse = Message<"athena.GetEngagementChartResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: repeated athena.ChartDataPoint chart_data = 2;
+   */
+  chartData: ChartDataPoint[];
+
+  /**
+   * @generated from field: athena.Metadata metadata = 3;
+   */
+  metadata?: Metadata;
+};
+
+/**
+ * Describes the message athena.GetEngagementChartResponse.
+ * Use `create(GetEngagementChartResponseSchema)` to create a new message.
+ */
+export const GetEngagementChartResponseSchema: GenMessage<GetEngagementChartResponse> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 37);
+
+/**
+ * @generated from message athena.GetRedditInsightsRequest
+ */
+export type GetRedditInsightsRequest = Message<"athena.GetRedditInsightsRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 idea_id = 2;
+   */
+  ideaId: number;
+
+  /**
+   * @generated from field: bool generate = 3;
+   */
+  generate: boolean;
+};
+
+/**
+ * Describes the message athena.GetRedditInsightsRequest.
+ * Use `create(GetRedditInsightsRequestSchema)` to create a new message.
+ */
+export const GetRedditInsightsRequestSchema: GenMessage<GetRedditInsightsRequest> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 38);
+
+/**
+ * @generated from message athena.GetRedditInsightsResponse
+ */
+export type GetRedditInsightsResponse = Message<"athena.GetRedditInsightsResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: optional athena.RedditInsights reddit_insights = 2;
+   */
+  redditInsights?: RedditInsights;
+
+  /**
+   * @generated from field: athena.Metadata metadata = 3;
+   */
+  metadata?: Metadata;
+};
+
+/**
+ * Describes the message athena.GetRedditInsightsResponse.
+ * Use `create(GetRedditInsightsResponseSchema)` to create a new message.
+ */
+export const GetRedditInsightsResponseSchema: GenMessage<GetRedditInsightsResponse> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 39);
+
+/**
+ * @generated from message athena.GetGithubInsightsRequest
+ */
+export type GetGithubInsightsRequest = Message<"athena.GetGithubInsightsRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 idea_id = 2;
+   */
+  ideaId: number;
+
+  /**
+   * @generated from field: bool generate = 3;
+   */
+  generate: boolean;
+};
+
+/**
+ * Describes the message athena.GetGithubInsightsRequest.
+ * Use `create(GetGithubInsightsRequestSchema)` to create a new message.
+ */
+export const GetGithubInsightsRequestSchema: GenMessage<GetGithubInsightsRequest> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 40);
+
+/**
+ * @generated from message athena.GetGithubInsightsResponse
+ */
+export type GetGithubInsightsResponse = Message<"athena.GetGithubInsightsResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: optional athena.GithubInsights github_insights = 2;
+   */
+  githubInsights?: GithubInsights;
+
+  /**
+   * @generated from field: athena.Metadata metadata = 3;
+   */
+  metadata?: Metadata;
+};
+
+/**
+ * Describes the message athena.GetGithubInsightsResponse.
+ * Use `create(GetGithubInsightsResponseSchema)` to create a new message.
+ */
+export const GetGithubInsightsResponseSchema: GenMessage<GetGithubInsightsResponse> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 41);
+
+/**
+ * @generated from message athena.GetHackerNewsInsightsRequest
+ */
+export type GetHackerNewsInsightsRequest = Message<"athena.GetHackerNewsInsightsRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: int32 idea_id = 2;
+   */
+  ideaId: number;
+
+  /**
+   * @generated from field: bool generate = 3;
+   */
+  generate: boolean;
+};
+
+/**
+ * Describes the message athena.GetHackerNewsInsightsRequest.
+ * Use `create(GetHackerNewsInsightsRequestSchema)` to create a new message.
+ */
+export const GetHackerNewsInsightsRequestSchema: GenMessage<GetHackerNewsInsightsRequest> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 42);
+
+/**
+ * @generated from message athena.GetHackerNewsInsightsResponse
+ */
+export type GetHackerNewsInsightsResponse = Message<"athena.GetHackerNewsInsightsResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: optional athena.HackerNewsInsights hackernews_insights = 2;
+   */
+  hackernewsInsights?: HackerNewsInsights;
+
+  /**
+   * @generated from field: athena.Metadata metadata = 3;
+   */
+  metadata?: Metadata;
+};
+
+/**
+ * Describes the message athena.GetHackerNewsInsightsResponse.
+ * Use `create(GetHackerNewsInsightsResponseSchema)` to create a new message.
+ */
+export const GetHackerNewsInsightsResponseSchema: GenMessage<GetHackerNewsInsightsResponse> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 43);
+
+/**
+ * @generated from message athena.GenerateIdeasRequest
+ */
+export type GenerateIdeasRequest = Message<"athena.GenerateIdeasRequest"> & {
+  /**
+   * @generated from field: core.BaseRequest base = 1;
+   */
+  base?: BaseRequest;
+
+  /**
+   * @generated from field: string prompt = 2;
+   */
+  prompt: string;
+
+  /**
+   * @generated from field: bool generate = 3;
+   */
+  generate: boolean;
+};
+
+/**
+ * Describes the message athena.GenerateIdeasRequest.
+ * Use `create(GenerateIdeasRequestSchema)` to create a new message.
+ */
+export const GenerateIdeasRequestSchema: GenMessage<GenerateIdeasRequest> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 44);
+
+/**
+ * @generated from message athena.GenerateIdeasResponse
+ */
+export type GenerateIdeasResponse = Message<"athena.GenerateIdeasResponse"> & {
+  /**
+   * @generated from field: core.BaseResponse base = 1;
+   */
+  base?: BaseResponse;
+
+  /**
+   * @generated from field: repeated athena.GeneratedIdea ideas = 2;
+   */
+  ideas: GeneratedIdea[];
+
+  /**
+   * @generated from field: athena.Metadata metadata = 3;
+   */
+  metadata?: Metadata;
+};
+
+/**
+ * Describes the message athena.GenerateIdeasResponse.
+ * Use `create(GenerateIdeasResponseSchema)` to create a new message.
+ */
+export const GenerateIdeasResponseSchema: GenMessage<GenerateIdeasResponse> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 45);
+
+/**
+ * @generated from message athena.GeneratedIdea
+ */
+export type GeneratedIdea = Message<"athena.GeneratedIdea"> & {
+  /**
+   * @generated from field: string title = 1;
+   */
+  title: string;
+
+  /**
+   * @generated from field: string description = 2;
+   */
+  description: string;
+
+  /**
+   * @generated from field: repeated string key_features = 3;
+   */
+  keyFeatures: string[];
+
+  /**
+   * @generated from field: string market_segment = 4;
+   */
+  marketSegment: string;
+
+  /**
+   * @generated from field: int32 complexity_score = 5;
+   */
+  complexityScore: number;
+
+  /**
+   * @generated from field: repeated string target_audience = 6;
+   */
+  targetAudience: string[];
+
+  /**
+   * @generated from field: string optimized_prompt = 7;
+   */
+  optimizedPrompt: string;
+};
+
+/**
+ * Describes the message athena.GeneratedIdea.
+ * Use `create(GeneratedIdeaSchema)` to create a new message.
+ */
+export const GeneratedIdeaSchema: GenMessage<GeneratedIdea> = /*@__PURE__*/
+  messageDesc(file_athena_idea, 46);
+
+/**
  * @generated from service athena.IdeaService
  */
 export const IdeaService: GenService<{
   /**
-   * @generated from rpc athena.IdeaService.ValidateIdea
+   * @generated from rpc athena.IdeaService.InitiateIdea
    */
-  validateIdea: {
+  initiateIdea: {
     methodKind: "unary";
-    input: typeof ValidateIdeaRequestSchema;
-    output: typeof ValidateIdeaResponseSchema;
+    input: typeof InitiateIdeaRequestSchema;
+    output: typeof InitiateIdeaResponseSchema;
+  },
+  /**
+   * @generated from rpc athena.IdeaService.GenerateIdeas
+   */
+  generateIdeas: {
+    methodKind: "unary";
+    input: typeof GenerateIdeasRequestSchema;
+    output: typeof GenerateIdeasResponseSchema;
+  },
+  /**
+   * @generated from rpc athena.IdeaService.GetValidationScore
+   */
+  getValidationScore: {
+    methodKind: "unary";
+    input: typeof GetValidationScoreRequestSchema;
+    output: typeof GetValidationScoreResponseSchema;
+  },
+  /**
+   * @generated from rpc athena.IdeaService.GetTrendAnalysis
+   */
+  getTrendAnalysis: {
+    methodKind: "unary";
+    input: typeof GetTrendAnalysisRequestSchema;
+    output: typeof GetTrendAnalysisResponseSchema;
+  },
+  /**
+   * @generated from rpc athena.IdeaService.GetMarketData
+   */
+  getMarketData: {
+    methodKind: "unary";
+    input: typeof GetMarketDataRequestSchema;
+    output: typeof GetMarketDataResponseSchema;
+  },
+  /**
+   * @generated from rpc athena.IdeaService.GetCommunitySignals
+   */
+  getCommunitySignals: {
+    methodKind: "unary";
+    input: typeof GetCommunitySignalsRequestSchema;
+    output: typeof GetCommunitySignalsResponseSchema;
+  },
+  /**
+   * @generated from rpc athena.IdeaService.GetCompetitionAnalysis
+   */
+  getCompetitionAnalysis: {
+    methodKind: "unary";
+    input: typeof GetCompetitionAnalysisRequestSchema;
+    output: typeof GetCompetitionAnalysisResponseSchema;
+  },
+  /**
+   * @generated from rpc athena.IdeaService.GetProblemValidation
+   */
+  getProblemValidation: {
+    methodKind: "unary";
+    input: typeof GetProblemValidationRequestSchema;
+    output: typeof GetProblemValidationResponseSchema;
+  },
+  /**
+   * @generated from rpc athena.IdeaService.GetBootstrapMetrics
+   */
+  getBootstrapMetrics: {
+    methodKind: "unary";
+    input: typeof GetBootstrapMetricsRequestSchema;
+    output: typeof GetBootstrapMetricsResponseSchema;
+  },
+  /**
+   * @generated from rpc athena.IdeaService.GetRecommendation
+   */
+  getRecommendation: {
+    methodKind: "unary";
+    input: typeof GetRecommendationRequestSchema;
+    output: typeof GetRecommendationResponseSchema;
+  },
+  /**
+   * @generated from rpc athena.IdeaService.GetTrendChart
+   */
+  getTrendChart: {
+    methodKind: "unary";
+    input: typeof GetTrendChartRequestSchema;
+    output: typeof GetTrendChartResponseSchema;
+  },
+  /**
+   * @generated from rpc athena.IdeaService.GetMarketDemandChart
+   */
+  getMarketDemandChart: {
+    methodKind: "unary";
+    input: typeof GetMarketDemandChartRequestSchema;
+    output: typeof GetMarketDemandChartResponseSchema;
+  },
+  /**
+   * @generated from rpc athena.IdeaService.GetCompetitionChart
+   */
+  getCompetitionChart: {
+    methodKind: "unary";
+    input: typeof GetCompetitionChartRequestSchema;
+    output: typeof GetCompetitionChartResponseSchema;
+  },
+  /**
+   * @generated from rpc athena.IdeaService.GetEngagementChart
+   */
+  getEngagementChart: {
+    methodKind: "unary";
+    input: typeof GetEngagementChartRequestSchema;
+    output: typeof GetEngagementChartResponseSchema;
+  },
+  /**
+   * @generated from rpc athena.IdeaService.GetRedditInsights
+   */
+  getRedditInsights: {
+    methodKind: "unary";
+    input: typeof GetRedditInsightsRequestSchema;
+    output: typeof GetRedditInsightsResponseSchema;
+  },
+  /**
+   * @generated from rpc athena.IdeaService.GetGithubInsights
+   */
+  getGithubInsights: {
+    methodKind: "unary";
+    input: typeof GetGithubInsightsRequestSchema;
+    output: typeof GetGithubInsightsResponseSchema;
+  },
+  /**
+   * @generated from rpc athena.IdeaService.GetHackerNewsInsights
+   */
+  getHackerNewsInsights: {
+    methodKind: "unary";
+    input: typeof GetHackerNewsInsightsRequestSchema;
+    output: typeof GetHackerNewsInsightsResponseSchema;
+  },
+  /**
+   * @generated from rpc athena.IdeaService.GetInputAnalysis
+   */
+  getInputAnalysis: {
+    methodKind: "unary";
+    input: typeof GetInputAnalysisRequestSchema;
+    output: typeof GetInputAnalysisResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_athena_idea, 0);
