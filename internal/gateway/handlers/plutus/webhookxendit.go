@@ -20,26 +20,26 @@ type WebhookXenditHandler struct {
 
 // XenditPaymentInvoice represents the JSON structure from Xendit webhook
 type XenditPaymentInvoice struct {
-	ID                     string `json:"id"`
+	PaidAt                 string `json:"paid_at"`
 	ExternalID             string `json:"external_id"`
 	UserID                 string `json:"user_id"`
-	IsHigh                 bool   `json:"is_high"`
+	PaymentDestination     string `json:"payment_destination"`
 	PaymentMethod          string `json:"payment_method"`
 	Status                 string `json:"status"`
 	MerchantName           string `json:"merchant_name"`
-	Amount                 int32  `json:"amount"`
-	PaidAmount             int32  `json:"paid_amount"`
-	BankCode               string `json:"bank_code"`
-	PaidAt                 string `json:"paid_at"`
-	PayerEmail             string `json:"payer_email"`
-	Description            string `json:"description"`
-	AdjustedReceivedAmount int32  `json:"adjusted_received_amount"`
-	FeesPaidAmount         int32  `json:"fees_paid_amount"`
-	Updated                string `json:"updated"`
-	Created                string `json:"created"`
-	Currency               string `json:"currency"`
 	PaymentChannel         string `json:"payment_channel"`
-	PaymentDestination     string `json:"payment_destination"`
+	BankCode               string `json:"bank_code"`
+	Currency               string `json:"currency"`
+	Description            string `json:"description"`
+	PayerEmail             string `json:"payer_email"`
+	ID                     string `json:"id"`
+	Created                string `json:"created"`
+	Updated                string `json:"updated"`
+	FeesPaidAmount         int32  `json:"fees_paid_amount"`
+	AdjustedReceivedAmount int32  `json:"adjusted_received_amount"`
+	PaidAmount             int32  `json:"paid_amount"`
+	Amount                 int32  `json:"amount"`
+	IsHigh                 bool   `json:"is_high"`
 }
 
 // parseXenditTimestamp parses Xendit timestamp string to timestamppb.Timestamp

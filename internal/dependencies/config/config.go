@@ -25,6 +25,9 @@ type AppConfig struct {
 	Philyra struct {
 		Url string `mapstructure:"url"`
 	} `mapstructure:"philyra"`
+	Pheme struct {
+		Url string `mapstructure:"url"`
+	} `mapstructure:"pheme"`
 	Plutus struct {
 		Url string `mapstructure:"url"`
 	} `mapstructure:"plutus"`
@@ -58,6 +61,9 @@ type AppConfig struct {
 	CORS struct {
 		Enabled bool `mapstructure:"enabled"`
 	} `mapstructure:"cors"`
+	Bypass struct {
+		Auth bool `mapstructure:"auth"`
+	} `mapstructure:"bypass"`
 }
 
 type SitesConfig struct {

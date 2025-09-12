@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package pheme;
+
+option go_package = "pheme/api/proto";
+
+import "google/protobuf/timestamp.proto";
+import "core.proto";
+
+enum MediaContentType{
+  // Image
+  IMAGE_JPEG = 0;
+  IMAGE_PNG = 1;
+  IMAGE_GIF = 2;
+  IMAGE_WEBP = 3;
+  IMAGE_SVG = 4;
+
+  // Videos
+  VIDEO_MP4 = 10;
+  VIDEO_WEBM = 11;
+  VIDEO_MOV = 12;
+}

@@ -27,6 +27,9 @@
   "athena": {
     "url": "devspace:31508"
   },
+  "pheme": {
+    "url": "localhost:5009"
+  },
   "elastic": {
     "url": "http://elasticsearch.cynx.buzz/",
     "level": "debug"
@@ -61,5 +64,8 @@
       "api_url": "https://api.perintis.app",
       "domain": ".perintis.app"
     }
+  },
+  "bypass": {
+    "auth": true
   }
 }

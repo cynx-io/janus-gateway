@@ -2,15 +2,18 @@ package middleware
 
 import (
 	"context"
+	"fmt"
 	contextcore "github.com/cynx-io/cynx-core/src/context"
 	"github.com/cynx-io/cynx-core/src/logger"
 	"github.com/cynx-io/cynx-core/src/types/usertype"
 	"github.com/cynx-io/janus-gateway/internal/dependencies/auth0"
+	"github.com/cynx-io/janus-gateway/internal/dependencies/config"
 	"github.com/cynx-io/janus-gateway/internal/helper"
 	"github.com/cynx-io/janus-gateway/internal/session"
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/oauth2"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -82,6 +85,12 @@ func PrivateAuthMiddleware(next http.Handler) http.Handler {
 		ctx := r.Context()
 		logger.Debug(ctx, "[PRIVATE AUTH] Processing request")
 
+		if r.Header.Get("X-Bypass-Auth") == "true" {
+			ctx = bypassAuth(ctx, w, r)
+			next.ServeHTTP(w, r.WithContext(ctx))
+			return
+		}
+
 		userSession, err := session.GetSession(r)
 		if err != nil || !userSession.Authenticated {
 			logger.Error(ctx, "[PRIVATE AUTH] No valid session")
@@ -104,9 +113,58 @@ func PrivateAuthMiddleware(next http.Handler) http.Handler {
 		// Add user details to ctx (convert string UserID to int32)
 		ctx = contextcore.SetKey(ctx, contextcore.KeyUsername, userSession.Name)
 		ctx = contextcore.SetUserId(ctx, userSession.UserID)
-		ctx = contextcore.SetUserType(ctx, 1) // Default user type
+		ctx = contextcore.SetUserType(ctx, 1)
 
 		logger.Debug(ctx, "[PRIVATE AUTH] Success set for: "+userSession.Name+" (UserID: "+string(userSession.UserID)+")")
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
+}
+
+func bypassAuth(ctx context.Context, w http.ResponseWriter, r *http.Request) context.Context {
+
+	if !config.Config.Bypass.Auth {
+		logger.Error(ctx, "[PRIVATE AUTH] Bypass auth is disabled in config")
+		http.Error(w, "Bypass auth is disabled", http.StatusForbidden)
+		return ctx
+	}
+
+	// Get user details from headers
+	userIDStr := r.Header.Get("X-Bypass-UserID")
+	username := r.Header.Get("X-Bypass-Username")
+	userTypeStr := r.Header.Get("X-Bypass-UserType")
+
+	// Parse and validate UserID
+	userID := int32(1) // default
+	if userIDStr != "" {
+		if id, err := strconv.ParseInt(userIDStr, 10, 32); err == nil {
+			userID = int32(id)
+		} else {
+			logger.Error(ctx, "[PRIVATE AUTH] Invalid UserID format")
+			http.Error(w, "Invalid UserID format", http.StatusBadRequest)
+			return ctx
+		}
+	}
+
+	// Set default username if not provided
+	if username == "" {
+		username = "Bypass User " + strconv.FormatInt(int64(userID), 10)
+	}
+
+	// Parse UserType
+	userType := int32(1) // default
+	if userTypeStr != "" {
+		if ut, err := strconv.ParseInt(userTypeStr, 10, 32); err == nil {
+			userType = int32(ut)
+		}
+	}
+
+	// Set context values
+	ctx = contextcore.SetKey(ctx, contextcore.KeyUsername, username)
+	ctx = contextcore.SetUserId(ctx, userID)
+	ctx = contextcore.SetUserType(ctx, userType)
+
+	logger.Debug(ctx, fmt.Sprintf("[PRIVATE AUTH] Bypass success - User: %s, ID: %d, Type: %d",
+		username, userID, userType))
+
+	return ctx
 }

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package pheme;
+
+option go_package = "pheme/api/proto";
+
+import "core.proto";
+
+message Blog {
+  int32 id = 1;
+  int32 user_id = 2;
+  BlogContentType content_type = 3;
+  string title = 4;
+  string content = 5;
+  google.protobuf.Timestamp created_at = 6;
+  string group = 7;
+  string user_name = 8;
+}
+
+enum BlogContentType {
+  MARKDOWN = 0;
+}

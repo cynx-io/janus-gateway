@@ -10,6 +10,7 @@ import (
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/athena"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/janus"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/mercury"
+	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/pheme"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/philyra"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/plato"
 	"github.com/cynx-io/janus-gateway/internal/gateway/handlers/plutus"
@@ -59,6 +60,8 @@ func main() {
 
 	athenaIdeaHandler := athena.NewIdeaHandler()
 
+	phemeBlogHandler := pheme.NewBlogHandler()
+
 	// Create router
 	root := mux.NewRouter()
 	janusHandler.InjectRoutes(root)
@@ -96,6 +99,7 @@ func main() {
 	anankeWaitlistHandler.InjectRoutes(publicRouter, privateRouter)
 	athenaIdeaHandler.InjectRoutes(publicRouter, privateRouter)
 	plutusPaymentHandler.InjectRoutes(publicRouter, privateRouter)
+	phemeBlogHandler.InjectRoutes(publicRouter, privateRouter)
 
 	address := ":" + strconv.Itoa(config.Config.App.Port)
 
